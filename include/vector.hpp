@@ -12,11 +12,11 @@ struct Vector
 {
     double x_, y_, z_;
 
-    Vector (double x = 0.0, double y = 0.0, double z = 0.0) : x_{x}, y_{y}, z_{z} {}
+    Vector (const double x = 0.0, const double y = 0.0, const double z = 0.0) : x_{x}, y_{y}, z_{z} {}
 
-    Vector (Point &pt) : x_{pt.x_}, y_{pt.y_}, z_{pt.z_} {}
+    Vector (const Point &pt) : x_{pt.x_}, y_{pt.y_}, z_{pt.z_} {}
 
-    Vector (Point &first, Point &second)
+    Vector (const Point &first, const Point &second)
            : x_{cmp::are_equal (first.x_, second.x_) ? 0.0 : second.x_ - first.x_},
              y_{cmp::are_equal (first.y_, second.y_) ? 0.0 : second.y_ - first.y_},
              z_{cmp::are_equal (first.z_, second.z_) ? 0.0 : second.z_ - first.z_} {}

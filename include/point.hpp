@@ -13,7 +13,8 @@ struct Point
 {
     double x_, y_, z_;
 
-    Point (double x = 0.0, double y = 0.0, double z = 0.0) : x_{x}, y_{y}, z_{z} {}
+    Point (const double x = 0.0, const double y = 0.0, const double z = 0.0)
+          : x_{x}, y_{y}, z_{z} {}
 
     bool operator== (const Point &other) const
     {
