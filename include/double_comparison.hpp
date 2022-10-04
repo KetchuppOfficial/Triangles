@@ -1,6 +1,9 @@
 #ifndef INCLUDE_DOUBLE_COMPARISON_HPP
 #define INCLUDE_DOUBLE_COMPARISON_HPP
 
+#include <cmath>
+#include <algorithm>
+
 namespace cmp
 {
 
