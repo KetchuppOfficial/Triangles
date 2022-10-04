@@ -4,6 +4,7 @@
 #include <cmath> // for std::sqrt
 
 #include "point.hpp"
+#include "double_comparison.hpp"
 
 namespace Geom_Objects
 {
