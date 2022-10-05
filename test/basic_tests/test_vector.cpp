@@ -163,10 +163,14 @@ TEST (Vectors, Scalar_Product)
     Vector vec_9 {0.0000007862, -0.0000094781, 21.7532};
     EXPECT_TRUE (cmp::are_equal (scalar_product (vec_8, vec_9), 1'580'445));
 
-    // Edge case: two vectors are collinear
+    // Edge cases: two vectors are orthogonal
     Vector vec_10 {8583.23098, 14712.30};
     Vector vec_11 {22500.0 * 14712.30, -8583.23098 * 22500.0};
     EXPECT_TRUE (cmp::are_equal (scalar_product (vec_10, vec_11), 0.0));
+
+    Vector vec_12 {12840854.3457, 78648714912.235};
+    Vector vec_13 {78648714912.235 * 0.000006, -12840854.3457 * 0.000006};
+    EXPECT_TRUE (cmp::are_equal (scalar_product (vec_12, vec_13), 0.0));
 }
 
 TEST (Vectors, Vector_Product)
@@ -178,10 +182,36 @@ TEST (Vectors, Vector_Product)
     EXPECT_TRUE (vector_product (e_1, e_3) == -e_2);
     EXPECT_TRUE (vector_product (e_2, e_3) == e_1);
 
-    // Edge case: two vectors are orthogonal
+    // Edge cases: two vectors are collinear
     Vector vec_1 {125390.241, 398124.14, 0.14122};
-    auto product = vector_product (vec_1, vec_1 * 22500.0);
-    EXPECT_TRUE (product.is_zero ());
+    EXPECT_TRUE (vector_product (vec_1, vec_1 * 22500.0).is_zero ());
+
+    Vector vec_2 {77147807365.8579, 0.000000000135423515, 15937489.65824};
+    EXPECT_TRUE (vector_product (vec_2, vec_2 * -0.000000872364).is_zero ());
+}
+
+TEST (Vectors, Triple_Product)
+{
+    Vector e_1 {1.0, 0.0, 0.0};
+    Vector e_2 {0.0, 1.0, 0.0};
+    Vector e_3 {0.0, 0.0, 1.0};
+    EXPECT_TRUE (cmp::are_equal (triple_product (e_1, e_2, e_3), 1.0));
+    EXPECT_TRUE (cmp::are_equal (triple_product (e_2, e_1, e_3), -1.0));
+    EXPECT_TRUE (cmp::are_equal (triple_product (e_1, e_3, e_2), -1.0));
+    EXPECT_TRUE (cmp::are_equal (triple_product (e_3, e_2, e_1), -1.0));
+    EXPECT_TRUE (cmp::are_equal (triple_product (e_2, e_3, e_1), 1.0));
+    EXPECT_TRUE (cmp::are_equal (triple_product (e_3, e_1, e_2), 1.0));
+
+    Vector vec_1 {2891.928755, 892735.18, -0.000000315492};
+    Vector vec_2 {10934.0182, -37813.34781, 12637893.2364};
+    Vector vec_3 {0.00000038741, 0.000000002414135, 0.000357175};
+    EXPECT_TRUE (cmp::are_equal (triple_product (vec_1, vec_2, vec_3), 845275.7));
+
+    Vector vec_4 {76124.87529, 0.000082749, 1263582.59};
+    Vector vec_5 {-937491.419, -0.0000007264, 0.00011214};
+    Vector vec_6 {64783191.971, -0.000021412, 3.1415926535};
+    std::cout << "triple product = " << std::setprecision (10) << triple_product (vec_4, vec_5, vec_6) << std::endl;
+    EXPECT_TRUE (cmp::are_equal (triple_product (vec_4, vec_5, vec_6), 84827167.6));
 }
 
 TEST (Vectors, Ctor_From_Points)
