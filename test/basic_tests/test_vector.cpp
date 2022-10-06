@@ -210,7 +210,6 @@ TEST (Vectors, Triple_Product)
     Vector vec_4 {76124.87529, 0.000082749, 1263582.59};
     Vector vec_5 {-937491.419, -0.0000007264, 0.00011214};
     Vector vec_6 {64783191.971, -0.000021412, 3.1415926535};
-    std::cout << "triple product = " << std::setprecision (10) << triple_product (vec_4, vec_5, vec_6) << std::endl;
     EXPECT_TRUE (cmp::are_equal (triple_product (vec_4, vec_5, vec_6), 84827167.6));
 }
 
