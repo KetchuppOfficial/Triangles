@@ -1,64 +1,39 @@
 #include <gtest/gtest.h>
-#include <cmath> // for NAN and INFINITY
 
 #include "double_comparison.hpp"
 
 using namespace cmp;
 
-TEST(Comp_With_Zero, Normalized)
+TEST(Double_Comparison, Normalized)
 {
-    EXPECT_EQ (are_equal (0.0,  0.0), true);
-    EXPECT_EQ (are_equal (0.0, -0.0), true);
-    
-    EXPECT_EQ (are_equal (1.0,   0.0), false);
-    EXPECT_EQ (are_equal (1.0,  -0.0), false);
-    EXPECT_EQ (are_equal (-1.0,  0.0), false);
-    EXPECT_EQ (are_equal (-1.0, -0.0), false);
+    EXPECT_TRUE (are_equal (0.0,  0.0));
+    EXPECT_TRUE (are_equal (0.0, -0.0));
+     
+    EXPECT_FALSE (are_equal (1.0,   0.0));
+    EXPECT_FALSE (are_equal (1.0,  -0.0));
+    EXPECT_FALSE (are_equal (-1.0,  0.0));
+    EXPECT_FALSE (are_equal (-1.0, -0.0));
 
-    EXPECT_EQ (are_equal (83745.2,   0.0), false);
-    EXPECT_EQ (are_equal (83745.2,  -0.0), false);
-    EXPECT_EQ (are_equal (-83745.2,  0.0), false);
-    EXPECT_EQ (are_equal (-83745.2, -0.0), false);
+    EXPECT_FALSE (are_equal (83745.2,   0.0));
+    EXPECT_FALSE (are_equal (83745.2,  -0.0));
+    EXPECT_FALSE (are_equal (-83745.2,  0.0));
+    EXPECT_FALSE (are_equal (-83745.2, -0.0));
 }
 
-TEST(Comp_With_Zero, Subnormal)
+TEST(Double_Comparison, Subnormal)
 {
-    EXPECT_EQ (are_equal (epsilon / 2.0,   0.0), true);
-    EXPECT_EQ (are_equal (epsilon / 2.0,  -0.0), true);
-    EXPECT_EQ (are_equal (-epsilon / 2.0,  0.0), true);
-    EXPECT_EQ (are_equal (-epsilon / 2.0, -0.0), true);
+    EXPECT_TRUE (are_equal (epsilon / 2.0,   0.0));
+    EXPECT_TRUE (are_equal (epsilon / 2.0,  -0.0));
+    EXPECT_TRUE (are_equal (-epsilon / 2.0,  0.0));
+    EXPECT_TRUE (are_equal (-epsilon / 2.0, -0.0));
 
-    EXPECT_EQ (are_equal (1e-10,   0.0), true);
-    EXPECT_EQ (are_equal (1e-10,  -0.0), true);
-    EXPECT_EQ (are_equal (-1e-10,  0.0), true);
-    EXPECT_EQ (are_equal (-1e-10, -0.0), true);
+    EXPECT_TRUE (are_equal (1e-10,   0.0));
+    EXPECT_TRUE (are_equal (1e-10,  -0.0));
+    EXPECT_TRUE (are_equal (-1e-10,  0.0));
+    EXPECT_TRUE (are_equal (-1e-10, -0.0));
 
-    EXPECT_EQ (are_equal (0.00005,   0.0), false);
-    EXPECT_EQ (are_equal (0.00005,  -0.0), false);
-    EXPECT_EQ (are_equal (-0.00005,  0.0), false);
-    EXPECT_EQ (are_equal (-0.00005, -0.0), false);
+    EXPECT_FALSE (are_equal (0.00005,   0.0));
+    EXPECT_FALSE (are_equal (0.00005,  -0.0));
+    EXPECT_FALSE (are_equal (-0.00005,  0.0));
+    EXPECT_FALSE (are_equal (-0.00005, -0.0));
 }
-
-TEST(Comp_With_Zero, INF_NAN)
-{
-    EXPECT_EQ (are_equal (0.0,   NAN), false);
-    EXPECT_EQ (are_equal (0.0,  -NAN), false);
-    EXPECT_EQ (are_equal (-0.0,  NAN), false);
-    EXPECT_EQ (are_equal (-0.0, -NAN), false);
-
-    EXPECT_EQ (are_equal (0.0,   INFINITY), false);
-    EXPECT_EQ (are_equal (0.0,  -INFINITY), false);
-    EXPECT_EQ (are_equal (-0.0,  INFINITY), false);
-    EXPECT_EQ (are_equal (-0.0, -INFINITY), false);
-}
-
-#if 0 // This doesn't work and probably doesn't have to. Didn't figure out yet.
-TEST(Exotic, INF_NAN)
-{
-    EXPECT_EQ (are_equal (NAN,  NAN), false);
-    EXPECT_EQ (are_equal (NAN, -NAN), false);
-
-    EXPECT_EQ (are_equal (INFINITY,  INFINITY), true);
-    EXPECT_EQ (are_equal (INFINITY, -INFINITY), false);
-}
-#endif
