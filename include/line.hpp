@@ -3,8 +3,8 @@
 #include "point.hpp"
 #include "vector.hpp"
 
-namespace Geom_Objects
-{
+
+namespace Geom_Objects {
 
 class Line
 {
@@ -22,15 +22,21 @@ public:
 #endif
     }
 
-    Line (const Point &p, const Vector &vec) : point_ {p}, drc_vec_ {vec}
-    {
-#ifndef RELEASE
-        if (vec.is_zero ())
-            throw std::invalid_argument {"In constructor of Line(Point, Vector): null vector"};
-#endif
-    }
-
-    const Vector &drc_vec () const { return drc_vec_; }
+        const Vector& drc_vec(const Vector& new_vec)
+        {
+            #ifndef RELEASE
+            if (new_vec.is_zero())
+                throw std::invalid_argument{"In method of change drc_vec(): null vector"};
+            #endif
+            drc_vec_ = new_vec;
+            return drc_vec_;
+        }
+        bool operator== (const Line& other) const
+        {
+            if (point_ == other.point_)
+                return are_collinear(drc_vec_, other.drc_vec_);
+            return are_collinear(Vector{point_, other.point_}, drc_vec_);
+        }
 
     const Vector &drc_vec (const Vector &new_vec)
     {
@@ -97,4 +103,4 @@ bool in_plane (const Line &line1, const Line &line2)
 }
 bool is_belong (const Line &line, const Point &pt) { return is_belong (pt, line); }
 
-} // namespace Geom_Objects
+}
