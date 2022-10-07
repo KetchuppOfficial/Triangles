@@ -1,10 +1,10 @@
 #ifndef INCLUDE_POINT_HPP
 #define INCLUDE_POINT_HPP
 
-#include <iostream>
-#include <cmath> // for std::sqrt
-
 #include "double_comparison.hpp"
+
+#include <cmath> // for std::sqrt
+#include <iostream>
 
 namespace Geom_Objects
 {
@@ -14,12 +14,12 @@ struct Point
     double x_, y_, z_;
 
     Point (const double x = 0.0, const double y = 0.0, const double z = 0.0)
-          : x_{x}, y_{y}, z_{z} {}
+        : x_ {x}, y_ {y}, z_ {z}
+    {}
 
     bool operator== (const Point &other) const
     {
-        return (cmp::are_equal (x_, other.x_) &&
-                cmp::are_equal (y_, other.y_) &&
+        return (cmp::are_equal (x_, other.x_) && cmp::are_equal (y_, other.y_) &&
                 cmp::are_equal (z_, other.z_));
     }
 
@@ -40,7 +40,7 @@ inline double distance (const Point &first, const Point &second)
         auto y_diff = first.y_ - second.y_;
         auto z_diff = first.z_ - second.z_;
 
-        return std::sqrt(x_diff * x_diff + y_diff * y_diff + z_diff * z_diff);
+        return std::sqrt (x_diff * x_diff + y_diff * y_diff + z_diff * z_diff);
     }
 }
 
