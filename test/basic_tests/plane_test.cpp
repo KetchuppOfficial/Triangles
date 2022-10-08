@@ -16,7 +16,6 @@ TEST (PlaneTest, Constructors)
     Vector norm_3 {0.0, 0.0, 1.0};
 
     //  Test for bad constructors
-    EXPECT_THROW ({ Plane {}; }, std::invalid_argument);
     EXPECT_THROW ({ Plane (orig, norm_bad); }, std::invalid_argument);
     EXPECT_THROW ({ Plane (0.0, 0.0, 0.0, 42.0); }, std::invalid_argument);
 
