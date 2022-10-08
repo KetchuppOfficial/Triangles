@@ -58,12 +58,9 @@ public:
     bool operator!= (const Line &other) const { return !(*this == other); }
 };
 
-bool are_parallel (const Line &line1, const Line &line2)
-{
-    return are_collinear (line1.drc_vec (), line2.drc_vec ());
-}
+inline bool are_parallel(const Line& line1, const Line& line2) {return are_collinear(line1.drc_vec(), line2.drc_vec());}
 
-double distance (const Line &line, const Point &pt)
+inline double distance(const Line& line, const Point& pt)
 {
     Vector dot_vec {pt, line.point_};
     double coef = scalar_product (dot_vec, line.drc_vec ()) /
@@ -71,9 +68,9 @@ double distance (const Line &line, const Point &pt)
     return (dot_vec - coef * line.drc_vec ()).module ();
 }
 
-double distance (const Point &pt, const Line &line) { return distance (line, pt); }
+inline double distance(const Point& pt, const Line& line) {return distance(line, pt);}
 
-double distance (const Line &line1, const Line &line2)
+inline double distance(const Line& line1, const Line& line2)
 {
     if (are_parallel (line1, line2))
         return vector_product ({line1.point_, line2.point_}, line1.drc_vec ()).module () /
@@ -84,7 +81,12 @@ double distance (const Line &line1, const Line &line2)
            vector_product (line1.drc_vec (), line2.drc_vec ()).module ();
 }
 
-bool are_intersect (const Line &line1, const Line &line2)
+inline bool are_intersect(const Line& line1, const Line& line2) {return Comparison::are_equal(distance(line1, line2), 0);}
+
+inline bool is_belong(const Point& pt, const Line& line) {return Comparison::are_equal(distance(pt, line), 0);}
+inline bool is_belong(const Line& line, const Point& pt) {return is_belong(pt, line);}
+
+inline bool in_plane(const Line& line1, const Line& line2)
 {
     return Comparison::are_equal (distance (line1, line2), 0);
 }
