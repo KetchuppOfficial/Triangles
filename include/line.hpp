@@ -1,5 +1,5 @@
 #pragma once
-#include "double_cmp.hpp"
+#include "double_comparison.hpp"
 #include "point.hpp"
 #include "vector.hpp"
 
