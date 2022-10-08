@@ -58,8 +58,8 @@ TEST (PlaneTest, PlaneLine)
     Line line_con {p1, p3};
     Line line_par {p5, p4};
 
-    EXPECT_TRUE (is_intersect (line_inter, pl));
-    EXPECT_FALSE (is_intersect (line_par, pl));
+    EXPECT_TRUE (are_intersect (line_inter, pl));
+    EXPECT_FALSE (are_intersect (line_par, pl));
 
     EXPECT_TRUE (are_parallel (line_con, pl));
     EXPECT_TRUE (are_parallel (pl, line_con));
@@ -71,7 +71,7 @@ TEST (PlaneTest, PlaneLine)
 
     EXPECT_TRUE (cmp::are_equal (distance (line_par, pl), 5.0));
     EXPECT_TRUE (cmp::are_equal (distance (line_con, pl), 0.0));
-    EXPECT_THROW ({ distance (line_inter, pl); }, std::invalid_argument);
+    EXPECT_THROW ({ distance (line_inter, pl); }, std::logic_error);
 }
 
 TEST (PlaneTest, PlanePlane)
@@ -91,5 +91,5 @@ TEST (PlaneTest, PlanePlane)
 
     EXPECT_TRUE (cmp::are_equal (distance (pl_back, pl_front), 2.0));
     EXPECT_TRUE (cmp::are_equal (distance (pl_inter, pl_inter_2), 0.0));
-    EXPECT_THROW ({ distance (pl_back, pl_inter); }, std::invalid_argument);
+    EXPECT_THROW ({ distance (pl_back, pl_inter); }, std::logic_error);
 }

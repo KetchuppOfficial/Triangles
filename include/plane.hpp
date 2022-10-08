@@ -67,12 +67,13 @@ inline bool is_belong (const Point &p, const Plane &pl)
 }
 
 //  block with Plane and Line
-inline bool is_intersect (const Line &line, const Plane &pl)
+inline bool are_intersect (const Line &line, const Plane &pl)
 {
-    return !cmp::are_equal (scalar_product (pl.norm_vec (), line.drc_vec ()), 0.0);
+    return !are_orthogonal (line.drc_vec (), pl.norm_vec ());
 }
+inline bool are_intersect (const Plane &pl, const Line &line) { return are_intersect (line, pl); };
 
-inline bool are_parallel (const Plane &pl, const Line &line) { return !is_intersect (line, pl); }
+inline bool are_parallel (const Plane &pl, const Line &line) { return !are_intersect (line, pl); }
 inline bool are_parallel (const Line &line, const Plane &pl) { return are_parallel (pl, line); }
 
 inline bool is_belong (const Line &line, const Plane &pl)
@@ -82,8 +83,8 @@ inline bool is_belong (const Line &line, const Plane &pl)
 
 inline double distance (const Plane &pl, const Line &line)
 {
-    if (is_intersect (line, pl))
-        throw std::invalid_argument {"No distance between plane and line intersected it\n"};
+    if (are_intersect (line, pl))
+        throw std::logic_error {"Distance is undefined\n"};
     if (is_belong (line, pl))
         return 0.0;
     Vector diff {pl.origin (), line.point_};
@@ -105,7 +106,7 @@ inline bool are_equal (const Plane &pl1, const Plane &pl2)
 inline double distance (const Plane &pl1, const Plane &pl2)
 {
     if (!are_parallel (pl1, pl2))
-        throw std::invalid_argument {"No distance between intersected planes\n"};
+        throw std::logic_error {"Distance is undefined\n"};
     if (are_equal (pl1, pl2))
         return 0.0;
     Vector diff {pl1.origin (), pl2.origin ()};
