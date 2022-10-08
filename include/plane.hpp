@@ -55,9 +55,7 @@ inline double distance (const Point &p, const Plane &pl)
 {
     Point origin = pl.origin ();
     Vector diff  = {p.x_ - origin.x_, p.y_ - origin.y_, p.z_ - origin.z_};
-    double coef  = scalar_product (diff, pl.norm_vec ());
-    diff         = coef * pl.norm_vec ();
-    return diff.module ();
+    return std::abs (scalar_product (diff, pl.norm_vec ()));
 }
 inline double distance (const Plane &pl, const Point &p) { return (distance (p, pl)); };
 
