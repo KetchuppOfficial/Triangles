@@ -55,22 +55,18 @@ inline bool are_parallel(const Line& line1, const Line& line2) {return are_colli
 inline double distance(const Line& line, const Point& pt)
 {
     Vector dot_vec {pt, line.point_};
-    double coef = scalar_product(dot_vec, line.drc_vec()) /
-                  scalar_product(line.drc_vec(), line.drc_vec());
+    double coef = scalar_product(dot_vec, line.drc_vec())/scalar_product(line.drc_vec(), line.drc_vec());
     return (dot_vec - coef * line.drc_vec()).module();
 }
-
 inline double distance(const Point& pt, const Line& line) {return distance(line, pt);}
 
 inline double distance(const Line& line1, const Line& line2)
 {
     if (are_parallel(line1, line2))
-        return vector_product({line1.point_, line2.point_}, line1.drc_vec()).module() /
-               line1.drc_vec().module();
+        return distance(line1.point_, line2);
 
     Vector dots_vec {line1.point_, line2.point_};
-    return triple_product(dots_vec, line1.drc_vec(), line2.drc_vec().module()) /
-           vector_product(line1.drc_vec(), line2.drc_vec()).module();
+    return triple_product(dots_vec, line1.drc_vec(), line2.drc_vec())/vector_product(line1.drc_vec(), line2.drc_vec()).module();
 }
 
 inline bool are_intersect(const Line& line1, const Line& line2) {return cmp::are_equal(distance(line1, line2), 0);}
