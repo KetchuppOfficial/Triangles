@@ -30,7 +30,4 @@ TEST (Double_Comparison, Subnormal)
     EXPECT_TRUE (are_equal (1e-10, -0.0));
     EXPECT_TRUE (are_equal (-1e-10, 0.0));
     EXPECT_TRUE (are_equal (-1e-10, -0.0));
-
-    EXPECT_EQ (are_equal (INFINITY, INFINITY), true);
-    EXPECT_EQ (are_equal (INFINITY, -INFINITY), false);
 }
