@@ -1,8 +1,8 @@
-#include "point.hpp"
 #include "double_comparison.hpp"
+#include "point.hpp"
 
-#include <gtest/gtest.h>
 #include <cmath> // for NAN
+#include <gtest/gtest.h>
 
 using namespace Geom_Objects;
 
@@ -46,7 +46,7 @@ TEST (Points, Distance)
     Point D {-646302456.76891, 873927.1216, 0.000000001324241};
     EXPECT_TRUE (cmp::are_equal (distance (C, D), 646312234.85));
 
-    Point E {0.0000000376418, 0.000003512,  0.00008487};
+    Point E {0.0000000376418, 0.000003512, 0.00008487};
     Point F {0.0000000141879, 0.000001824, -0.00009831};
     EXPECT_TRUE (cmp::are_equal (distance (E, F), 0.000183187778779));
 }
@@ -56,16 +56,16 @@ TEST (Points, Validity)
     EXPECT_FALSE ((Point {NAN, NAN, NAN}.is_valid ()));
 
     EXPECT_FALSE ((Point {NAN, NAN, 0.0}.is_valid ()));
-    
+
     EXPECT_FALSE ((Point {NAN, 0.0, NAN}.is_valid ()));
-    
+
     EXPECT_FALSE ((Point {0.0, NAN, NAN}.is_valid ()));
-    
+
     EXPECT_FALSE ((Point {NAN, 0.0, 0.0}.is_valid ()));
-    
+
     EXPECT_FALSE ((Point {0.0, NAN, 0.0}.is_valid ()));
-    
+
     EXPECT_FALSE ((Point {0.0, 0.0, NAN}.is_valid ()));
-    
+
     EXPECT_TRUE (Point {}.is_valid ());
 }
