@@ -80,7 +80,9 @@ struct Vector
 
     Vector operator- () const { return Vector {-x_, -y_, -z_}; }
 
-    double module () const { return std::sqrt (x_ * x_ + y_ * y_ + z_ * z_); }
+    double norm () const { return x_ * x_ + y_ * y_ + z_ * z_; }
+
+    double module () const { return std::sqrt (norm ()); }
 
     bool is_zero () const
     {
