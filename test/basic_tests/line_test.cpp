@@ -49,3 +49,9 @@ TEST(Lines, _are_parallel)
     Line line7 {pt2, vec2};
     EXPECT_FALSE(are_parallel(line3, line7));
 }
+
+TEST(Lines, _distance)
+{
+    Point pt1 {0, 0, 0};
+    Point pt2 {0, 0, 1};
+}
