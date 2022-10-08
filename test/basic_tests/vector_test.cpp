@@ -52,9 +52,9 @@ TEST (Vectors, Addition)
     /* Edge case: two vectors are approximately opposite *
      *            but their sum doesn't belong to        *
      *            epsilon-neighborhood of 0.0            */
-    Vector big_ass_vec_1 = Vector {100000000.0};
-    Vector big_ass_vec_2 = Vector {-100000001.0};
-    EXPECT_TRUE (big_ass_vec_1 + big_ass_vec_2 == null);
+    Vector long_long_vec_1 = Vector {100000000.0};
+    Vector long_long_vec_2 = Vector {-100000001.0};
+    EXPECT_TRUE (long_long_vec_1 + long_long_vec_2 == null);
 }
 
 TEST (Vectors, Subtraction)
@@ -71,9 +71,9 @@ TEST (Vectors, Subtraction)
     /* Edge case: two vectors are approximately equal *
      *            but their difference doesn't belong *
      *            to epsilon-neighborhood of 0.0      */
-    Vector big_ass_vec_1 = Vector {100000000.0};
-    Vector big_ass_vec_2 = Vector {100000001.0};
-    EXPECT_TRUE (big_ass_vec_1 - big_ass_vec_2 == null);
+    Vector long_long_vec_1 = Vector {100000000.0};
+    Vector long_long_vec_2 = Vector {100000001.0};
+    EXPECT_TRUE (long_long_vec_1 - long_long_vec_2 == null);
 }
 
 TEST (Vectors, Multiplication)
@@ -118,9 +118,9 @@ TEST (Vectors, Module)
     Vector vec_2 {1.0, 1.0, 1.0};
     EXPECT_TRUE (cmp::are_equal (vec_2.module (), 1.73205081));
 
-    double big_ass_number = 1563413432.2;
-    Vector vec_3 {1.0, 1.0, big_ass_number};
-    EXPECT_TRUE (cmp::are_equal (vec_3.module (), big_ass_number));
+    double really_big_number = 1563413432.2;
+    Vector vec_3 {1.0, 1.0, really_big_number};
+    EXPECT_TRUE (cmp::are_equal (vec_3.module (), really_big_number));
 
     Vector vec_4 {-2.0, -3.0, 6.0};
     EXPECT_TRUE (cmp::are_equal (vec_4.module (), 7.0));
@@ -191,9 +191,9 @@ TEST (Vectors, Vector_Product)
 TEST (Vectors, Ctor_From_Points)
 {
     // Edge case: constructing vector from 2 approximately matching points
-    Point big_ass_pt_1 {100000001};
-    Point big_ass_pt_2 {100000000};
-    Vector vec {big_ass_pt_1, big_ass_pt_2};
+    Point remote_pt_1 {100000001};
+    Point remote_pt_2 {100000000};
+    Vector vec {remote_pt_1, remote_pt_2};
     Vector null {};
     EXPECT_TRUE (vec == null);
 }
