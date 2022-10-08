@@ -1,5 +1,5 @@
 #pragma once
-#include "double_comparison.hpp"
+#include "double_cmp.hpp"
 #include "point.hpp"
 #include "vector.hpp"
 
@@ -81,9 +81,9 @@ inline double distance(const Line& line1, const Line& line2)
            vector_product (line1.drc_vec (), line2.drc_vec ()).module ();
 }
 
-inline bool are_intersect(const Line& line1, const Line& line2) {return Comparison::are_equal(distance(line1, line2), 0);}
+inline bool are_intersect(const Line& line1, const Line& line2) {return cmp::are_equal(distance(line1, line2), 0);}
 
-inline bool is_belong(const Point& pt, const Line& line) {return Comparison::are_equal(distance(pt, line), 0);}
+inline bool is_belong(const Point& pt, const Line& line) {return cmp::are_equal(distance(pt, line), 0);}
 inline bool is_belong(const Line& line, const Point& pt) {return is_belong(pt, line);}
 
 inline bool in_plane(const Line& line1, const Line& line2)

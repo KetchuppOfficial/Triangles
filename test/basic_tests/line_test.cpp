@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "line.hpp"
+#include "double_comparison.hpp"
 
 using namespace Geom_Objects;
 
@@ -50,8 +51,19 @@ TEST(Lines, _are_parallel)
     EXPECT_FALSE(are_parallel(line3, line7));
 }
 
-TEST(Lines, _distance)
+TEST(Lines, distance_btw_line_n_pt)
 {
     Point pt1 {0, 0, 0};
-    Point pt2 {0, 0, 1};
+    Point pt2 {1, 0, 0};
+    Point pt3 {0, 1, 0};
+
+    Vector vec1 {0, 0, 1};
+
+    Line line {pt1, vec1};
+
+    EXPECT_TRUE(cmp::are_equal(distance(line, pt1), 0));
+    EXPECT_TRUE(cmp::are_equal(distance(line, pt2), 1));
+    EXPECT_TRUE(cmp::are_equal(distance(line, pt3), 1));
 }
+
+
