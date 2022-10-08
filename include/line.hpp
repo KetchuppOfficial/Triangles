@@ -3,7 +3,6 @@
 #include "point.hpp"
 #include "vector.hpp"
 
-
 namespace Geom_Objects {
 
 class Line
