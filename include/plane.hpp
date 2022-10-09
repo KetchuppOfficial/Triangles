@@ -30,7 +30,6 @@ public:
     Plane (double A, double B, double C, double D)
     {
         normal_ = {A, B, C};
-        //  Three comparisons to not create unnecessery evict as vector
         if (normal_.is_zero ())
             throw std::invalid_argument {"Zero vector was given to constructor of Plane\n"};
         if (cmp::are_equal (A, 0.0))
@@ -53,8 +52,8 @@ public:
 //  block with Plane and Point
 inline double distance (const Point &p, const Plane &pl)
 {
-    Point origin = pl.origin ();
-    Vector diff  = {p.x_ - origin.x_, p.y_ - origin.y_, p.z_ - origin.z_};
+    const Point &origin = pl.origin ();
+    Vector diff         = {p.x_ - origin.x_, p.y_ - origin.y_, p.z_ - origin.z_};
     return std::abs (scalar_product (diff, pl.norm_vec ()));
 }
 inline double distance (const Plane &pl, const Point &p) { return (distance (p, pl)); };
@@ -76,7 +75,7 @@ inline bool are_parallel (const Line &line, const Plane &pl) { return are_parall
 
 inline bool is_belong (const Line &line, const Plane &pl)
 {
-    return is_belong (line.point_, pl) && are_parallel (line, pl);
+    return are_parallel (line, pl) && is_belong (line.point_, pl);
 }
 
 inline double distance (const Plane &pl, const Line &line)
@@ -95,7 +94,9 @@ inline bool are_parallel (const Plane &pl1, const Plane &pl2)
 {
     return are_collinear (pl1.norm_vec (), pl2.norm_vec ());
 }
+
 inline bool are_intersect (const Plane &pl1, const Plane &pl2) { return !are_parallel (pl1, pl2); }
+
 inline bool are_equal (const Plane &pl1, const Plane &pl2)
 {
     return are_parallel (pl1, pl2) && is_belong (pl1.origin (), pl2);
