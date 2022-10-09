@@ -1,0 +1,3 @@
+Plan
+1) For planes call function of equality as coincited
+2)
