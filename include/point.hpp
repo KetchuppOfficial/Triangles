@@ -44,6 +44,44 @@ inline double distance (const Point &first, const Point &second)
     }
 }
 
+enum class Loc_3D
+{
+    Below = -1,
+    On    = 0,
+    Above = 1
+};
+
+/*
+ * Let P, Q, R (in this very order) and M be points in R^3.
+ *
+ * Then magic_product(P, Q, R, M) is prcisely the sign of
+ * triple product (v_PM, v_QM, v_RM), where v_PM is a vector
+ * with initial point P and terminal point M, v_QM - vector
+ * with initial point Q and terminal point M, v_RM - vector
+ * with initial point R and terminal point M.
+ */
+inline Loc_3D magic_product (const Point &P, const Point &Q, const Point &R, const Point &M)
+{
+    auto elem_21 = M.x_ - Q.x_;
+    auto elem_22 = M.y_ - Q.y_;
+    auto elem_23 = M.z_ - Q.z_;
+
+    auto elem_31 = M.x_ - R.x_;
+    auto elem_32 = M.y_ - R.y_;
+    auto elem_33 = M.z_ - R.z_;
+
+    auto product = (M.x_ - P.x_) * (elem_22 * elem_33 - elem_23 * elem_32) -
+                   (M.y_ - P.y_) * (elem_21 * elem_33 - elem_23 * elem_31) +
+                   (M.z_ - P.z_) * (elem_21 * elem_32 - elem_22 * elem_31);
+
+    if (cmp::are_equal (product, 0.0))
+        return Loc_3D::On;
+    else if (product > 0)
+        return Loc_3D::Above;
+    else
+        return Loc_3D::Below;
+}
+
 } // namespace Geom_Objects
 
 #endif // INCLUDE_POINT_HPP

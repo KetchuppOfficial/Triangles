@@ -65,13 +65,6 @@ EmptyLineBeforeAccessModifier: Always
 ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
 IncludeBlocks: Regroup
-IncludeCategories:
-  - Regex:           '^(<|"(gtest|gmock|isl|json)/)'
-    Priority:        2
-    SortPriority:    2
-  - Regex:           '.*'
-    Priority:        1
-    SortPriority:    1
 IndentAccessModifiers: false
 IndentCaseBlocks: false
 IndentCaseLabels: true
@@ -95,7 +88,7 @@ ReflowComments:  false
 RemoveBracesLLVM: false
 SeparateDefinitionBlocks: Leave
 ShortNamespaceLines: 0
-SortIncludes:    CaseSensitive
+SortIncludes:    Never
 SortUsingDeclarations: true
 SpaceAfterCStyleCast: false
 SpaceAfterLogicalNot: false
