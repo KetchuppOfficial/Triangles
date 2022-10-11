@@ -61,9 +61,12 @@ void transform_triangle (Triangle &tr, const Loc_3D P_loc, const Loc_3D Q_loc, c
     }
 }
 
-bool intersection_in_3d (Triangle &tr_1, Triangle &tr_2, const Loc_3D P1_loc, const Loc_3D Q1_loc,
-                         const Loc_3D R1_loc)
+bool intersection_in_3D (const Triangle &tr_1_, const Triangle &tr_2_, const Loc_3D P1_loc,
+                         const Loc_3D Q1_loc, const Loc_3D R1_loc)
 {
+    Triangle tr_1 = tr_1_;
+    Triangle tr_2 = tr_2_;
+    
     auto P2_loc = magic_product (tr_1.P_, tr_1.Q_, tr_1.R_, tr_2.P_);
     auto Q2_loc = magic_product (tr_1.P_, tr_1.Q_, tr_1.R_, tr_2.Q_);
     auto R2_loc = magic_product (tr_1.P_, tr_1.Q_, tr_1.R_, tr_2.R_);
@@ -86,10 +89,7 @@ bool intersection_in_3d (Triangle &tr_1, Triangle &tr_2, const Loc_3D P1_loc, co
             auto KJ_mut_pos = magic_product (tr_1.P_, tr_1.Q_, tr_2.P_, tr_2.Q_);
             auto LI_mut_pos = magic_product (tr_1.P_, tr_1.R_, tr_2.P_, tr_2.R_);
 
-            if (LI_mut_pos != Loc_3D::Below && KJ_mut_pos != Loc_3D::Above)
-                return true;
-            else
-                return false;
+            return (LI_mut_pos != Loc_3D::Below && KJ_mut_pos != Loc_3D::Above);
         }
     }
 }
@@ -108,7 +108,7 @@ bool are_intersecting (Triangle &tr_1, Triangle &tr_2)
     else if (P1_loc == Loc_3D::On && Q1_loc == Loc_3D::On && R1_loc == Loc_3D::On)
         return intersection_in_2d (tr_1, tr_2);
     else
-        return intersection_in_3d (tr_1, tr_2, P1_loc, Q1_loc, R1_loc);
+        return intersection_in_3D (tr_1, tr_2, P1_loc, Q1_loc, R1_loc);
 }
 
 } // namespace Geom_Objects
