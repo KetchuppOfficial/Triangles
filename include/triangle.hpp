@@ -2,7 +2,7 @@
 #define INCLUDE_TRIANGLE_HPP
 
 #include "point.hpp"
-#include "double_comparison.hpp"
+#include "vector.hpp"
 
 #include <algorithm> // for std::swap
 
@@ -27,6 +27,16 @@ struct Triangle
     {
         std::swap (P_, Q_);
         std::swap (R_, Q_);
+    }
+
+    bool is_point () const { return (P_ == Q_ && Q_ == R_); }
+
+    bool is_segment () const
+    {
+        Vector PQ {P_, Q_};
+        Vector PR {P_, R_};
+        
+        return are_collinear (PQ, PR);
     }
 };
 
