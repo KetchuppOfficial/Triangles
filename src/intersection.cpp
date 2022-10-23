@@ -71,8 +71,7 @@ bool intersection_in_3D (const Triangle &tr_1_, const Triangle &tr_2_, const Loc
     auto Q2_loc = magic_product (tr_1.P_, tr_1.Q_, tr_1.R_, tr_2.Q_);
     auto R2_loc = magic_product (tr_1.P_, tr_1.Q_, tr_1.R_, tr_2.R_);
 
-    if ((P2_loc == Loc_3D::Above && Q2_loc == Loc_3D::Above && R2_loc == Loc_3D::Above) ||
-        (P2_loc == Loc_3D::Below && Q2_loc == Loc_3D::Below && R2_loc == Loc_3D::Below))
+    if (P2_loc != Loc_3D::On && P2_loc == Q2_loc && Q2_loc == R2_loc)
         return false;
     else
     {
@@ -102,8 +101,7 @@ bool are_intersecting (Triangle &tr_1, Triangle &tr_2)
     auto Q1_loc = magic_product (tr_2.P_, tr_2.Q_, tr_2.R_, tr_1.Q_);
     auto R1_loc = magic_product (tr_2.P_, tr_2.Q_, tr_2.R_, tr_1.R_);
 
-    if ((P1_loc == Loc_3D::Above && Q1_loc == Loc_3D::Above && R1_loc == Loc_3D::Above) ||
-        (P1_loc == Loc_3D::Below && Q1_loc == Loc_3D::Below && R1_loc == Loc_3D::Below))
+    if (P1_loc != Loc_3D::On && P1_loc == Q1_loc && Q1_loc == R1_loc)
         return false;
     else if (P1_loc == Loc_3D::On && Q1_loc == Loc_3D::On && R1_loc == Loc_3D::On)
         return intersection_in_2d (tr_1, tr_2);
