@@ -72,17 +72,18 @@ struct Vector
         return *this;
     }
 
-    Vector operator* (const double coeff) const
-    {
-        Vector product = *this;
-        return (product *= coeff);
-    }
-
     Vector operator- () const { return Vector {-x_, -y_, -z_}; }
 
     double norm () const { return x_ * x_ + y_ * y_ + z_ * z_; }
 
     double module () const { return std::sqrt (norm ()); }
+
+    Vector &normalize ()
+    {
+        operator*= (1 / module ());
+
+        return *this;
+    }
 
     bool is_zero () const
     {
@@ -91,6 +92,12 @@ struct Vector
 
     void print () const { std::cout << "(" << x_ << ", " << y_ << ", " << z_ << ")" << std::endl; }
 };
+
+inline Vector operator* (const Vector &vec, const double coeff)
+{
+    Vector product = vec;
+    return (product *= coeff);
+}
 
 inline Vector operator* (const double coeff, const Vector &vec) { return vec * coeff; }
 
