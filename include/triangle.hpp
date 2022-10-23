@@ -15,6 +15,11 @@ struct Triangle
 
     Triangle (const Point &P, const Point &Q, const Point &R) : P_ {P}, Q_ {Q}, R_ {R} {}
 
+    bool operator== (const Triangle &rhs) const
+    {
+        return (P_ == rhs.P_ && Q_ == rhs.Q_ && R_ == rhs.R_);
+    }
+
     void swap_QR () { std::swap (Q_, R_); }
 
     void swap_clockwise ()
