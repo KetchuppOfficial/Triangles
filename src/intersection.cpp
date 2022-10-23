@@ -1,11 +1,15 @@
 #include "intersection.hpp"
 #include "point.hpp"
 
+#define ALGORITHM_TESTING
+
 namespace Geom_Objects
 {
 
+#ifndef ALGORITHM_TESTING
 namespace
 {
+#endif // ALGORITHM_TESTING
 
 bool intersection_in_2d (const Triangle &tr_1, const Triangle &tr_2)
 {
@@ -92,7 +96,9 @@ bool intersection_in_3D (const Triangle &tr_1_, const Triangle &tr_2_, const Loc
     }
 }
 
+#ifndef ALGORITHM_TESTING
 } // anonymous namespace
+#endif // ALGORITHM_TESTING
 
 bool are_intersecting (const Triangle &tr_1, const Triangle &tr_2)
 {
