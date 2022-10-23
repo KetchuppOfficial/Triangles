@@ -86,7 +86,7 @@ void point_transformation (Point &point, const Point &origin, const Vector &x_ax
 {
     auto diff_x = point.x_ - origin.x_;
     auto diff_y = point.y_ - origin.y_;
-    auto diff_z = point.z_ - origin.z_;
+    auto diff_z = point.z_ - origin.z_;  
 
     point.x_ = x_axis.x_ * diff_x + x_axis.y_ * diff_y + x_axis.z_ * diff_z;
     point.y_ = y_axis.x_ * diff_x + y_axis.y_ * diff_y + y_axis.z_ * diff_z;
@@ -101,12 +101,11 @@ void space_transformation (Triangle &tr_1, Triangle &tr_2)
     Vector normal = vector_product (Vector {tr_1.P_, tr_1.Q_}, Vector {tr_1.P_, tr_1.R_});
     normal *= (1 / normal.module ());
 
-    Vector y_axis = vector_product (x_axis, normal);
-    y_axis *= (1 / y_axis.module ());
+    Vector y_axis = vector_product (normal, x_axis);
 
     Point origin = tr_1.P_;
 
-    tr_1.P_ = {0.0, 0.0}; //  this is origin
+    tr_1.P_ = {0.0, 0.0, 0.0}; //  this is origin
     point_transformation (tr_1.Q_, origin, x_axis, y_axis);
     point_transformation (tr_1.R_, origin, x_axis, y_axis);
 
