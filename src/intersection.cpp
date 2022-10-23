@@ -13,51 +13,50 @@ bool intersection_in_2d (const Triangle &tr_1, const Triangle &tr_2)
     return false;
 }
 
-void transform_triangle (Triangle &tr, const Loc_3D P_loc, const Loc_3D Q_loc, const Loc_3D R_loc,
-                         Triangle &other_tr)
+void transform_triangle (Triangle &tr_1, const Loc_3D P1_loc, const Loc_3D Q1_loc, const Loc_3D R1_loc, Triangle &tr_2)
 {
-    if (P_loc == Loc_3D::Above)
+    if (P1_loc == Loc_3D::Above)
     {
-        if (Q_loc == Loc_3D::Above && R_loc != Loc_3D::Above)
+        if (Q1_loc == Loc_3D::Above && R1_loc != Loc_3D::Above)
         {
-            tr.swap_clockwise ();
-            other_tr.swap_QR ();
+            tr_1.swap_clockwise ();
+            tr_2.swap_QR ();
         }
-        else if (Q_loc != Loc_3D::Above && R_loc == Loc_3D::Above)
+        else if (Q1_loc != Loc_3D::Above && R1_loc == Loc_3D::Above)
         {
-            tr.swap_counterclockwise ();
-            other_tr.swap_QR ();
+            tr_1.swap_counterclockwise ();
+            tr_2.swap_QR ();
         }
     }
-    else if (P_loc == Loc_3D::On)
+    else if (P1_loc == Loc_3D::On)
     {
-        if (Q_loc == Loc_3D::Above && R_loc == Loc_3D::Above)
-            other_tr.swap_QR ();
-        else if (Q_loc == Loc_3D::Above && R_loc != Loc_3D::Above)
-            tr.swap_counterclockwise ();
-        else if (Q_loc != Loc_3D::Above && R_loc == Loc_3D::Above)
-            tr.swap_clockwise ();
-        else if (Q_loc == Loc_3D::On && R_loc == Loc_3D::Below)
+        if (Q1_loc == Loc_3D::Above && R1_loc == Loc_3D::Above)
+            tr_2.swap_QR ();
+        else if (Q1_loc == Loc_3D::Above && R1_loc != Loc_3D::Above)
+            tr_1.swap_counterclockwise ();
+        else if (Q1_loc != Loc_3D::Above && R1_loc == Loc_3D::Above)
+            tr_1.swap_clockwise ();
+        else if (Q1_loc == Loc_3D::On && R1_loc == Loc_3D::Below)
         {
-            tr.swap_clockwise ();
-            other_tr.swap_QR ();
+            tr_1.swap_clockwise ();
+            tr_2.swap_QR ();
         }
-        else if (Q_loc == Loc_3D::Below && R_loc == Loc_3D::On)
+        else if (Q1_loc == Loc_3D::Below && R1_loc == Loc_3D::On)
         {
-            tr.swap_counterclockwise ();
-            other_tr.swap_QR ();
+            tr_1.swap_counterclockwise ();
+            tr_2.swap_QR ();
         }
     }
     else
     {
-        if (Q_loc == R_loc)
-            other_tr.swap_QR ();
-        else if (Q_loc == Loc_3D::Below && R_loc != Loc_3D::Below)
-            tr.swap_clockwise ();
-        else if (Q_loc != Loc_3D::Below && R_loc == Loc_3D::Below)
-            tr.swap_counterclockwise ();
+        if (Q1_loc == R1_loc)
+            tr_2.swap_QR ();
+        else if (Q1_loc == Loc_3D::Below && R1_loc != Loc_3D::Below)
+            tr_1.swap_clockwise ();
+        else if (Q1_loc != Loc_3D::Below && R1_loc == Loc_3D::Below)
+            tr_1.swap_counterclockwise ();
         else
-            other_tr.swap_QR ();
+            tr_2.swap_QR ();
     }
 }
 
@@ -95,7 +94,7 @@ bool intersection_in_3D (const Triangle &tr_1_, const Triangle &tr_2_, const Loc
 
 } // anonymous namespace
 
-bool are_intersecting (Triangle &tr_1, Triangle &tr_2)
+bool are_intersecting (const Triangle &tr_1, const Triangle &tr_2)
 {
     auto P1_loc = magic_product (tr_2.P_, tr_2.Q_, tr_2.R_, tr_1.P_);
     auto Q1_loc = magic_product (tr_2.P_, tr_2.Q_, tr_2.R_, tr_1.Q_);
