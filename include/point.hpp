@@ -51,6 +51,13 @@ enum class Loc_3D
     Above = 1
 };
 
+enum Loc_2D
+{
+    Positive = 1,
+    Neutral  = 0,
+    Negative = -1
+};
+
 /*
  * Let P, Q, R (in this very order) and M be points in R^3.
  *
@@ -80,6 +87,18 @@ inline Loc_3D magic_product (const Point &P, const Point &Q, const Point &R, con
         return Loc_3D::Above;
     else
         return Loc_3D::Below;
+}
+
+inline Loc_2D magic_product (const Point &P, const Point &Q, const Point &M)
+{
+    auto product = (P.y_ - M.y_) * (Q.x_ - M.x_) - (P.x_ - M.x_) * (Q.y_ - M.y_);
+    //  Positive product is considered when points locate in counterclockwise ordering
+    if (cmp::are_equal (product, 0.0))
+        return Loc_2D::Neutral;
+    else if (product > 0)
+        return Loc_2D::Negative;
+    else
+        return Loc_2D::Positive;
 }
 
 } // namespace Geom_Objects

@@ -2,6 +2,8 @@
 #define INCLUDE_INTERSECTION_HPP
 
 #include "triangle.hpp"
+#include "point.hpp"
+#include "vector.hpp"
 
 namespace Geom_Objects
 {
