@@ -41,15 +41,13 @@ void space_transformation (Triangle &tr_1, Triangle &tr_2)
 
     Vector y_axis = vector_product (normal, x_axis);
 
-    Point origin = tr_1.P_;
+    point_transformation (tr_1.Q_, tr_1.P_, x_axis, y_axis);
+    point_transformation (tr_1.R_, tr_1.P_, x_axis, y_axis);
 
+    point_transformation (tr_2.P_, tr_1.P_, x_axis, y_axis);
+    point_transformation (tr_2.Q_, tr_1.P_, x_axis, y_axis);
+    point_transformation (tr_2.R_, tr_1.P_, x_axis, y_axis);
     tr_1.P_ = {0.0, 0.0, 0.0}; //  this is origin
-    point_transformation (tr_1.Q_, origin, x_axis, y_axis);
-    point_transformation (tr_1.R_, origin, x_axis, y_axis);
-
-    point_transformation (tr_2.P_, origin, x_axis, y_axis);
-    point_transformation (tr_2.Q_, origin, x_axis, y_axis);
-    point_transformation (tr_2.R_, origin, x_axis, y_axis);
 }
 
 bool test_intersection_R1 (const Triangle &tr_1, const Triangle &tr_2)
@@ -112,26 +110,26 @@ bool test_intersection_R2 (const Triangle &tr_1, const Triangle &tr_2)
     }
 }
 
-bool intersection_in_2D (const Triangle &tr_1, const Triangle &tr_2)
+bool intersection_in_2D (const Triangle &tr_1_, const Triangle &tr_2_)
 {
-    Triangle tr_1_new = tr_1;
-    Triangle tr_2_new = tr_2;
-    space_transformation (tr_1_new, tr_2_new);
+    Triangle tr_1 = tr_1_;
+    Triangle tr_2 = tr_2_;
+    space_transformation (tr_1, tr_2);
 
-    //  if swap tr_2_new.Q_ and tr_2_new.R_
-    if (magic_product (tr_2_new.P_, tr_2_new.Q_, tr_2_new.R_) == Loc_2D::Negative)
-        tr_2_new.swap_QR ();
+    //  if swap tr_2.Q_ and tr_2.R_
+    if (magic_product (tr_2.P_, tr_2.Q_, tr_2.R_) == Loc_2D::Negative)
+        tr_2.swap_QR ();
 
-    auto P2_loc = magic_product (tr_1_new.P_, tr_1_new.Q_, tr_2_new.P_) *
-                  magic_product (tr_1_new.Q_, tr_1_new.R_, tr_2_new.P_) *
-                  magic_product (tr_1_new.R_, tr_1_new.P_, tr_2_new.P_);
+    auto P2_loc = magic_product (tr_1.P_, tr_1.Q_, tr_2.P_) *
+                  magic_product (tr_1.Q_, tr_1.R_, tr_2.P_) *
+                  magic_product (tr_1.R_, tr_1.P_, tr_2.P_);
 
     if (P2_loc == Loc_2D::Neutral)
         return true;
     else if (P2_loc == Loc_2D::Negative)
-        return test_intersection_R1 (tr_1_new, tr_2_new);
+        return test_intersection_R1 (tr_1, tr_2);
     else
-        return test_intersection_R2 (tr_1_new, tr_2_new);
+        return test_intersection_R2 (tr_1, tr_2);
 }
 
 void transform_triangle (Triangle &tr_1, const Loc_3D P1_loc, const Loc_3D Q1_loc, const Loc_3D R1_loc, Triangle &tr_2)
