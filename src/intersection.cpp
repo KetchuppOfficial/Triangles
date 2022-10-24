@@ -12,13 +12,6 @@ namespace
 {
 #endif // ALGORITHM_TESTING
 
-/* 
- * Block with test of intersection in 2D
- *
- * Function with space_transformation
- * All coordinates of each point are transformed to 
- * coordinates in the mutual plane
- */
 void point_transformation (Point &point, const Point &origin, const Vector &x_axis,
                            const Vector &y_axis)
 {
@@ -52,20 +45,20 @@ void space_transformation (Triangle &tr_1, Triangle &tr_2)
 
 bool test_intersection_R1 (const Triangle &tr_1, const Triangle &tr_2)
 {
-    if (magic_product (tr_1.R_, tr_1.P_, tr_2.Q_) == Loc_2D::Negative)
+    if (magic_product (tr_2.R_, tr_2.P_, tr_1.Q_) == Loc_2D::Negative)
     {
-        return !(magic_product (tr_1.R_, tr_1.P_, tr_2.R_) == Loc_2D::Negative ||
-                 magic_product (tr_2.Q_, tr_2.R_, tr_1.R_) == Loc_2D::Negative ||
-                 magic_product (tr_2.P_, tr_1.P_, tr_2.R_) == Loc_2D::Positive);
+        return !(magic_product (tr_2.R_, tr_2.P_, tr_1.R_) == Loc_2D::Negative ||
+                 magic_product (tr_1.Q_, tr_1.R_, tr_2.R_) == Loc_2D::Negative ||
+                 magic_product (tr_1.P_, tr_2.P_, tr_1.R_) == Loc_2D::Negative);
     }
-    else
+    else 
     {
-        if (magic_product (tr_1.R_, tr_2.P_, tr_2.Q_) == Loc_2D::Negative)
+        if (magic_product (tr_2.R_, tr_1.P_, tr_1.Q_) == Loc_2D::Negative)
             return false;
-        else if (magic_product (tr_2.P_, tr_1.P_, tr_2.Q_) != Loc_2D::Negative)
+        else if (magic_product (tr_1.P_, tr_2.P_, tr_1.Q_) != Loc_2D::Negative)
             return true;
-        else if (magic_product (tr_2.P_, tr_1.P_, tr_2.R_) == Loc_2D::Negative ||
-                 magic_product (tr_2.R_, tr_2.R_, tr_1.P_) == Loc_2D::Negative)
+        else if (magic_product (tr_1.P_, tr_2.P_, tr_1.R_) == Loc_2D::Negative ||
+                 magic_product (tr_1.Q_, tr_1.R_, tr_2.P_) == Loc_2D::Negative)
             return false;
         else
             return true;
@@ -74,38 +67,35 @@ bool test_intersection_R1 (const Triangle &tr_1, const Triangle &tr_2)
 
 bool test_intersection_R2 (const Triangle &tr_1, const Triangle &tr_2)
 {
-    if (magic_product (tr_1.R_, tr_1.P_, tr_2.Q_) == Loc_2D::Negative)
+    if (magic_product (tr_2.R_, tr_2.P_, tr_1.Q_) == Loc_2D::Negative)
     {
-        if (magic_product (tr_1.R_, tr_1.P_, tr_2.R_) == Loc_2D::Negative)
+        if (magic_product (tr_2.R_, tr_2.P_, tr_1.R_) == Loc_2D::Negative)
             return false;
-        else if (magic_product (tr_2.Q_, tr_2.R_, tr_1.R_) == Loc_2D::Negative)
+        else if (magic_product (tr_1.Q_, tr_1.R_, tr_2.R_) == Loc_2D::Negative)
         {
-            return !(magic_product (tr_2.Q_, tr_2.R_, tr_1.Q_) == Loc_2D::Negative ||
-                     magic_product (tr_1.Q_, tr_1.R_, tr_2.R_) == Loc_2D::Negative);
+            return !(magic_product (tr_1.Q_, tr_1.R_, tr_2.Q_) == Loc_2D::Negative ||
+                     magic_product (tr_2.Q_, tr_2.R_, tr_1.R_) == Loc_2D::Negative);
         }
         else
-            return !(magic_product (tr_2.R_, tr_2.P_, tr_1.P_) == Loc_2D::Negative);
+            return !(magic_product (tr_1.R_, tr_1.P_, tr_2.P_) == Loc_2D::Negative);
     }
     else
     {
-        if (magic_product (tr_1.Q_, tr_1.R_, tr_2.Q_) == Loc_2D::Negative)
+        if (magic_product (tr_2.Q_, tr_2.R_, tr_1.Q_) == Loc_2D::Negative)
         {
-            return !(magic_product (tr_2.P_, tr_1.Q_, tr_2.Q_) == Loc_2D::Positive ||
-                     magic_product (tr_1.Q_, tr_1.R_, tr_2.R_) == Loc_2D::Negative ||
-                     magic_product (tr_2.Q_, tr_2.R_, tr_1.Q_) == Loc_2D::Negative);
+            return !(magic_product (tr_1.P_, tr_2.Q_, tr_1.Q_) == Loc_2D::Positive ||
+                     magic_product (tr_2.Q_, tr_2.R_, tr_1.R_) == Loc_2D::Negative ||
+                     magic_product (tr_1.Q_, tr_1.R_, tr_2.Q_) == Loc_2D::Negative);
         }
         else
         {
-            if (magic_product (tr_2.P_, tr_1.P_, tr_2.Q_) == Loc_2D::Negative)
+            if (magic_product (tr_1.P_, tr_2.P_, tr_1.Q_) == Loc_2D::Negative)
             {
-                return !(magic_product (tr_2.P_, tr_1.Q_, tr_2.Q_) == Loc_2D::Positive ||
-                         magic_product (tr_1.Q_, tr_1.R_, tr_2.R_) == Loc_2D::Negative ||
-                         magic_product (tr_2.Q_, tr_2.R_, tr_1.Q_) == Loc_2D::Negative);
+                return !(magic_product (tr_1.P_, tr_2.P_, tr_1.R_) == Loc_2D::Negative ||
+                         magic_product (tr_2.R_, tr_2.P_, tr_1.R_) == Loc_2D::Negative);
             }
-            else if (magic_product (tr_2.P_, tr_1.Q_, tr_2.Q_) == Loc_2D::Positive)
-                return false;
-            else
-                return true;
+            else 
+                return !(magic_product (tr_1.P_, tr_2.Q_, tr_1.Q_) == Loc_2D::Positive);
         }
     }
 }
