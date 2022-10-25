@@ -31,9 +31,9 @@ public:
 #endif
     }
 
-    const Vector &drc_vec () const { return drc_vec_; }
+    const Vector &drc_vec () & const { return drc_vec_; }
 
-    const Vector &drc_vec (const Vector &new_vec)
+    const Vector &drc_vec(const Vector &new_vec) &
     {
 #ifndef RELEASE
         if (new_vec.is_zero ())
@@ -41,6 +41,11 @@ public:
 #endif
 
         drc_vec_ = new_vec;
+        return drc_vec_;
+    }
+
+    Vector drc_vec() && const 
+    {
         return drc_vec_;
     }
 
