@@ -91,14 +91,14 @@ inline Loc_3D magic_product (const Point &P, const Point &Q, const Point &R, con
 
 inline Loc_2D magic_product (const Point &P, const Point &Q, const Point &M)
 {
-    auto product = (P.y_ - M.y_) * (Q.x_ - M.x_) - (P.x_ - M.x_) * (Q.y_ - M.y_);
+    auto product = (P.x_ - M.x_) * (Q.y_ - M.y_) - (P.y_ - M.y_) * (Q.x_ - M.x_);
     //  Positive product is considered when points locate in counterclockwise ordering
     if (cmp::are_equal (product, 0.0))
         return Loc_2D::Neutral;
     else if (product > 0)
-        return Loc_2D::Negative;
-    else
         return Loc_2D::Positive;
+    else
+        return Loc_2D::Negative;
 }
 
 } // namespace Geom_Objects
