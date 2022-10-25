@@ -30,7 +30,7 @@ enum TR_TYPE {
     POINT,
 };
 
-TR_TYPE check_on_degenerate(const Triangle& tr)
+TR_TYPE triangle_type(const Triangle& tr)
 {
     Vector tr_vec_PQ {tr1.P_, tr2.Q_};
     Vector tr_vec_PR {tr1.P_, tr1.R_};
