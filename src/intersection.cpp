@@ -24,6 +24,38 @@ void point_transformation (Point &point, const Point &origin, const Vector &x_ax
     point.z_ = 0.0;
 }
 
+enum TR_TYPE {
+    TRIANGLE,
+    SEGMENT,
+    POINT,
+};
+
+TR_TYPE check_on_degenerate(const Triangle& tr)
+{
+    Vector tr_vec_PQ {tr1.P_, tr2.Q_};
+    Vector tr_vec_PR {tr1.P_, tr1.R_};
+
+    bool tr_vec_PQ_is_zero = tr1_vec_PQ.is_zero();
+    bool tr_vec_PR_is_zero = tr1_vec_PR.is_zero();
+
+    if (tr_vec_PQ_is_zero && tr_vec_PR_is_zero)
+        return TR_TYPE::POINT;
+    else if (tr_vec_PQ_is_zero || tr_vec_PR_is_zero)
+        return TR_TYPE::SEGMENT;
+    else
+    {
+        if (are_collinear(tr_vec_PQ, tr_vec_PR))
+            return TR_TYPE::SEGMENT;
+        else
+            return TR_TYPE::TRIANGLE;
+    }
+}
+
+void dgenerate_cases(const Triangle& tr1, const Triangle& tr2)
+{
+
+}
+
 void space_transformation (Triangle &tr_1, Triangle &tr_2)
 {
     Vector x_axis {tr_1.P_, tr_1.Q_};
