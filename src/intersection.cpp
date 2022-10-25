@@ -57,8 +57,8 @@ bool test_intersection_R1 (const Triangle &tr_1, const Triangle &tr_2)
             return false;
         else if (magic_product (tr_1.P_, tr_2.P_, tr_1.Q_) != Loc_2D::Negative)
             return true;
-        else if (magic_product (tr_1.P_, tr_2.P_, tr_1.R_) == Loc_2D::Negative ||
-                 magic_product (tr_1.Q_, tr_1.R_, tr_2.P_) == Loc_2D::Negative)
+        else if ((magic_product (tr_1.P_, tr_2.P_, tr_1.R_) == Loc_2D::Negative) ||
+                 (magic_product (tr_1.Q_, tr_1.R_, tr_2.P_) == Loc_2D::Negative))
             return false;
         else
             return true;
@@ -110,15 +110,29 @@ bool intersection_in_2D (const Triangle &tr_1_, const Triangle &tr_2_)
     if (magic_product (tr_2.P_, tr_2.Q_, tr_2.R_) == Loc_2D::Negative)
         tr_2.swap_QR ();
 
-    auto P2_loc = magic_product (tr_1.P_, tr_1.Q_, tr_2.P_) *
-                  magic_product (tr_1.Q_, tr_1.R_, tr_2.P_) *
-                  magic_product (tr_1.R_, tr_1.P_, tr_2.P_);
+    auto P1_P2_Q2 = magic_product (tr_2.P_, tr_2.Q_, tr_1.P_);
+    auto P1_Q2_R2 = magic_product (tr_2.Q_, tr_2.R_, tr_1.P_);
+    auto P1_R2_P2 = magic_product (tr_2.R_, tr_2.P_, tr_1.P_);
+    auto P1_loc   = P1_P2_Q2 * P1_Q2_R2 * P1_R2_P2;
 
-    if (P2_loc == Loc_2D::Neutral)
+    //  interior of tr_2
+    if (P1_P2_Q2 == Loc_2D::Positive &&
+        P1_Q2_R2 == Loc_2D::Positive && 
+        P1_R2_P2 == Loc_2D::Positive)
         return true;
-    else if (P2_loc == Loc_2D::Negative)
+    //  in vertice of tr_2
+    else if ((P1_loc == Loc_2D::Neutral) &&
+             (P1_P2_Q2 + P1_Q2_R2 + P1_R2_P2 == 1))
+        return true;
+    //  on side of tr_2
+    else if ((P1_loc == Loc_2D::Neutral) &&
+             (P1_P2_Q2 + P1_Q2_R2 + P1_R2_P2 == 2))
+        return true;
+    else if ((P1_loc == Loc_2D::Negative) ||
+             ((P1_loc == Loc_2D::Neutral) &&
+              (P1_P2_Q2 + P1_Q2_R2 + P1_R2_P2 == 0)))
         return test_intersection_R1 (tr_1, tr_2);
-    else
+    else if (P1_loc == Loc_2D::Positive)
         return test_intersection_R2 (tr_1, tr_2);
 }
 
