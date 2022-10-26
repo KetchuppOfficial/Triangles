@@ -9,6 +9,13 @@
 namespace Geom_Objects
 {
 
+enum TR_TYPE {
+    TRIANGLE,
+    SEGMENT,
+    POINT,
+};
+
+
 struct Triangle
 {
     Point P_, Q_, R_;
@@ -43,7 +50,27 @@ struct Triangle
         
         return are_collinear (PQ, PR);
     }
+
+    TR_TYPE type() const
+    {
+        if (is_point())
+            return TR_TYPE::POINT;
+        else if (is_segment())
+            return TR_TYPE::SEGMENT;
+        else
+            return TR_TYPE::TRIANGLE;
+    }
+
 };
+
+inline bool point_belong_triangle(const Point& point_A, const Triangle& tr)
+{
+    Vector PA {tr.P_, point_A};
+    if (!cmp::are_equal(triple_product(PA, Vector {tr.P_, tr.R_}, Vector {tr.P_, tr.Q_}), 0.0))
+        return false;
+    
+    
+}
 
 } // namespace Geom_Objects
 

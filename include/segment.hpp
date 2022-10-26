@@ -16,6 +16,7 @@ struct Segment {
     {
         Vector PQ {tr.P_, tr.Q_};
         Vector RQ {tr.R_, tr.Q_};
+        
         if (directionals(PQ, RQ) == DRC::OPPOSITE_DRC)
         {
             F = tr.P_;
