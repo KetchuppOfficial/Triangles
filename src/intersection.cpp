@@ -114,25 +114,20 @@ bool intersection_in_2D (const Triangle &tr_1_, const Triangle &tr_2_)
     auto P1_Q2_R2 = magic_product (tr_2.Q_, tr_2.R_, tr_1.P_);
     auto P1_R2_P2 = magic_product (tr_2.R_, tr_2.P_, tr_1.P_);
     auto P1_loc   = P1_P2_Q2 * P1_Q2_R2 * P1_R2_P2;
+    auto sum_locs = P1_P2_Q2 + P1_Q2_R2 + P1_R2_P2;
 
     //  interior of tr_2
     if (P1_P2_Q2 == Loc_2D::Positive &&
         P1_Q2_R2 == Loc_2D::Positive && 
         P1_R2_P2 == Loc_2D::Positive)
         return true;
-    //  in vertice of tr_2
-    else if ((P1_loc == Loc_2D::Neutral) &&
-             (P1_P2_Q2 + P1_Q2_R2 + P1_R2_P2 == 1))
+    else if (P1_loc == Loc_2D::Neutral &&
+            (sum_locs == Loc_2D::Is_vertice || sum_locs == Loc_2D::On_side))
         return true;
-    //  on side of tr_2
-    else if ((P1_loc == Loc_2D::Neutral) &&
-             (P1_P2_Q2 + P1_Q2_R2 + P1_R2_P2 == 2))
-        return true;
-    else if ((P1_loc == Loc_2D::Negative) ||
-             ((P1_loc == Loc_2D::Neutral) &&
-              (P1_P2_Q2 + P1_Q2_R2 + P1_R2_P2 == 0)))
+    else if (P1_loc == Loc_2D::Negative ||
+            ((P1_loc == Loc_2D::Neutral) && (sum_locs == Loc_2D::Neutral)))
         return test_intersection_R1 (tr_1, tr_2);
-    else if (P1_loc == Loc_2D::Positive)
+    else
         return test_intersection_R2 (tr_1, tr_2);
 }
 
