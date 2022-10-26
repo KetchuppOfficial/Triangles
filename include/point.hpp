@@ -53,9 +53,11 @@ enum class Loc_3D
 
 enum Loc_2D
 {
-    Positive = 1,
+    Negative = -1,
     Neutral  = 0,
-    Negative = -1
+    Positive = 1,
+    Is_vertice = 1,
+    On_side = 2
 };
 
 /*
