@@ -83,7 +83,7 @@ inline double distance (const Line &line1, const Line &line2)
            vector_product (line1.drc_vec (), line2.drc_vec ()).module ();
 }
 
-inline bool are_intersect (const Line &line1, const Line &line2)
+inline bool are_intersecting (const Line &line1, const Line &line2)
 {
     return cmp::are_equal (distance (line1, line2), 0);
 }

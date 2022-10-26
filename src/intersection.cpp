@@ -1,6 +1,7 @@
 #include "intersection.hpp"
 #include "point.hpp"
 #include "vector.hpp"
+#include "segment.hpp"
 
 #define ALGORITHM_TESTING
 
@@ -51,9 +52,35 @@ TR_TYPE triangle_type(const Triangle& tr)
     }
 }
 
-void dgenerate_cases(const Triangle& tr1, const Triangle& tr2)
-{
 
+bool intersection_of_degenerate_cases_3D(const Triangle& tr1, TR_TYPE tr_type1, const Triangle& tr2, TR_TYPE tr_type2)
+{
+    if (tr_type1 == TR_TYPE::POINT)
+        if (tr_type2 == TR_TYPE::POINT)
+            return tr1.P_ == tr2.P_;
+        else if (tr_type2 == TR_TYPE::SEGMENT)
+            return point_belong_segment(tr1.P_, Segment {tr2});
+        else
+            return point_belong_triangle(tr1.P_, tr2);
+    else if (tr_type1 == TR_TYPE::SEGMENT)
+    {
+        if (tr_type2 == TR_TYPE::POINT)
+            return point_belong_segment(tr2.P_, Segment {tr1});
+        else if (tr_type2 == TR_TYPE::SEGMENT)
+            return are_intersecting(Segment {tr1}, Segment {tr2});
+        else
+            return segmnet_intersect_triangle(tr1, tr2);
+    }
+    else //tr_type1 == TR_TYPE::TRIANGLE
+    {
+        if (tr_type2 = TR_TYPE::POINT)
+            return point_belong_triangle(tr2.P_, tr1);
+        else if (tr_type2 == TR_TYPE::SEGMENT)
+            return segment_intersect_triangle(tr2, tr1);
+        else
+            throw std::logic_error{"in intersection od degenerate cases types of triangles is triangles"};
+            return false;
+    }
 }
 
 void space_transformation (Triangle &tr_1, Triangle &tr_2)

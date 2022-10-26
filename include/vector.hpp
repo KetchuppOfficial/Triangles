@@ -150,6 +150,22 @@ inline bool are_orthogonal (const Vector &first, const Vector &second)
     return cmp::are_equal (scalar_product (first, second), 0.0);
 }
 
+enum DRC {
+    CO_DRC,
+    OPPOSITE_DRC, //if one of vectors is null they has opposites directionals
+    NO_COLLINEAR
+};
+
+inline DRC directionals(const Vector& first, const Vector& second)
+{
+    if (!are_collinear(first, second))
+        return DRC::NO_COLLINEAR;
+    else if (scalar_product(first, second) > 0)
+        return DRC::CO_DRC;
+    else
+        return DRC::OPPOSITE_DRC;
+}
+
 } // namespace Geom_Objects
 
 #endif // INCLUDE_VECTOR_HPP
