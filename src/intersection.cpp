@@ -27,10 +27,10 @@ void point_transformation (Point &point, const Point &origin, const Vector &x_ax
 void space_transformation (Triangle &tr_1, Triangle &tr_2)
 {
     Vector x_axis {tr_1.P_, tr_1.Q_};
-    x_axis *= (1 / x_axis.module ());
+    x_axis.normalize();
 
     Vector normal = vector_product (Vector {tr_1.P_, tr_1.Q_}, Vector {tr_1.P_, tr_1.R_});
-    normal *= (1 / normal.module ());
+    normal.normalize();
 
     Vector y_axis = vector_product (normal, x_axis);
 
