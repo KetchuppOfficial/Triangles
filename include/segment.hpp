@@ -89,7 +89,7 @@ inline bool are_intersecting(const Segment& seg1, const Segment& seg2)
 
         const Point& A1 = seg1.F();
         const Point& B1 = seg1.S();
-        if (scalar_product(seg1.FS(), seg2_cpy.FS()) < 0)
+        if (scalar_product(seg1.FS(), seg2_cpy.FS()) < 0.0)
             seg2_cpy.swap_points();
         const Point& A2 = seg2_cpy.F();
         const Point& B2 = seg2_cpy.S();

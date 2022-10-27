@@ -95,3 +95,35 @@ TEST (Triangles, Is_Segment)
     Triangle tr_4 {pt_41, pt_42, pt_43};
     EXPECT_FALSE (tr_4.is_segment ());
 }
+
+TEST(Triangles, point_belong_triangle_)
+{
+    Point A1 {0.0, 0.0}, B1 {3.0, 0.0}, C1 {0.0, 3.0};
+    Triangle tr1 {A1, B1, C1};
+
+    Point A2 {1.0, 0.0}, B2 {-1.0, -1.0} , C2 {4.0, -1.0};
+    Triangle tr2 {A2, B2, C2};
+
+    Point D1 {1.5, 1.5}, D2 {2.5, 0.5}, D3 {1.0, 1.0}, D4 {2.0, 2.0}, D5 {-0.5, 4};
+    Point D6 {0.0, -0.5}, D7 {1.0, -1.0}, D8 {-2.5, -1.5}, D9 {1.0, -0.5}, D10 {2.5001, -0.5};
+
+    EXPECT_TRUE(point_belong_triangle(A1, tr1));
+    EXPECT_TRUE(point_belong_triangle(B1, tr1));
+    EXPECT_TRUE(point_belong_triangle(C1, tr1));
+
+    EXPECT_TRUE(point_belong_triangle(D1, tr1));
+    EXPECT_TRUE(point_belong_triangle(D2, tr1));
+    EXPECT_TRUE(point_belong_triangle(D3, tr1));
+    EXPECT_FALSE(point_belong_triangle(D4, tr1));
+    EXPECT_FALSE(point_belong_triangle(D5, tr1));
+
+    EXPECT_TRUE(point_belong_triangle(A2, tr2));
+    EXPECT_TRUE(point_belong_triangle(B2, tr2));
+    EXPECT_TRUE(point_belong_triangle(C2, tr2));
+
+    EXPECT_TRUE(point_belong_triangle(D6, tr2));
+    EXPECT_TRUE(point_belong_triangle(D7, tr2));
+    EXPECT_FALSE(point_belong_triangle(D8, tr2));
+    EXPECT_TRUE(point_belong_triangle(D9, tr2));
+    EXPECT_FALSE(point_belong_triangle(D10, tr2));
+}

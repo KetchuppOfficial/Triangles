@@ -63,28 +63,23 @@ struct Triangle
 
 };
 
-inline bool check_half_of_plane(const Vector side_normal, const Vector& vec_to_A, const Vector& vec_to_other)
-{
-    if (scalar_product(side_normal, vec_to_A) * scalar_product(side_normal, vec_to_other) >= 0.0)
-        return true;
-    return false;
-}
-
 inline bool point_belong_triangle(const Point& point_A, const Triangle& tr)
 {
     Vector PA {tr.P_, point_A};
+
     Vector PR {tr.P_, tr.R_};
     Vector PQ {tr.P_, tr.Q_};
-    if (!cmp::are_equal(triple_product(PA, PR, PQ), 0.0))
+    Vector QR {tr.Q_, tr.R_};
+    if (!are_coplanar(PA, PR, PQ))
         return false;
     
     Vector plane_normal {vector_product(PR, PQ)};
-    Vector QR {tr.R_, tr.Q};
+    
+    Vector side_PQ_normal {vector_product(plane_normal, PQ)};
+    Vector side_PR_normal {vector_product(PR, plane_normal)};
+    Vector side_QR_normal {vector_product(plane_normal, QR)};
 
-    if (check_half_of_plane(vector_product(plane_normal, PR), PA, PQ) &&
-        check_half_of_plane(vector_product(plane_normal, PQ), PA, QR) &&
-        check_half_of_plane(vector_product(plane_normal, QR), Vector {point_A, tr.Q_}, PQ))
-        return true;
+    
     
     return false;
 }
