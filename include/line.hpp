@@ -31,7 +31,7 @@ public:
 #endif
     }
 
-    const Vector &drc_vec () & const { return drc_vec_; }
+    const Vector &drc_vec () const & { return drc_vec_; }
 
     const Vector &drc_vec(const Vector &new_vec) &
     {
@@ -44,7 +44,7 @@ public:
         return drc_vec_;
     }
 
-    Vector drc_vec() && const 
+    Vector drc_vec() const && 
     {
         return drc_vec_;
     }
@@ -96,7 +96,7 @@ inline bool is_belong (const Line &line, const Point &pt) { return is_belong (pt
 
 inline bool in_plane (const Line &line1, const Line &line2)
 {
-    return are_parallel (line1, line2) || are_intersect (line1, line2);
+    return are_parallel (line1, line2) || are_intersecting (line1, line2);
 }
 
 } //namespace Geom_Objects

@@ -27,8 +27,13 @@ struct Point
 
     bool is_valid () const { return (x_ == x_ && y_ == y_ && z_ == z_); }
 
-    void print () const { std::cout << "(" << x_ << ", " << y_ << ", " << z_ << ")" << std::endl; }
+    std::ostream& print (std::ostream& out) const { return out << "(" << x_ << ", " << y_ << ", " << z_ << ")"; }
 };
+
+inline std::ostream& operator<<(std::ostream& out, const Point& p)
+{
+    return p.print(out);
+}
 
 inline double distance (const Point &first, const Point &second)
 {

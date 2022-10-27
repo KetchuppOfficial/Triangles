@@ -69,7 +69,7 @@ inline bool point_belong_triangle(const Point& point_A, const Triangle& tr)
     if (!cmp::are_equal(triple_product(PA, Vector {tr.P_, tr.R_}, Vector {tr.P_, tr.Q_}), 0.0))
         return false;
     
-    
+    return true;
 }
 
 } // namespace Geom_Objects

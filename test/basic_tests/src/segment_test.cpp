@@ -18,27 +18,57 @@ TEST(Segment_, ctor_by_triangle)
     Segment seg2 {tr2};
     Segment seg3 {tr3};
 
-    EXPECT_TRUE(seg1.F() == B1 || seg1.S() == C1);
+    EXPECT_TRUE(seg1.F() == B1 || seg1.F() == C1);
     EXPECT_TRUE(seg1.F() != seg1.S());
     EXPECT_TRUE(seg1.S() == B1 || seg1.S() == C1);
 
-    EXPECT_TRUE(seg2.F() == A2 || seg2.S() == B2);
+    EXPECT_TRUE(seg2.F() == A2 || seg2.F() == B2);
     EXPECT_TRUE(seg2.F() != seg2.S());
     EXPECT_TRUE(seg2.S() == A2 || seg2.S() == B2);
 
-    EXPECT_TRUE(seg3.F() == B3 || seg3.S() == C3);
+    EXPECT_TRUE(seg3.F() == B3 || seg3.F() == C3);
     EXPECT_TRUE(seg3.F() != seg3.S());
     EXPECT_TRUE(seg3.S() == B3 || seg3.S() == C3);
 }
 
-TEST(Segment_, point_belong_triangle)
+TEST(Segment_, point_belong_triangle_)
 {
-    Segment F1S1 {Point {3.2}, Point {-5.7}};
+    Segment seg1 {Point {3.2}, Point {-5.7}};
     Point A1 {0.0}, B1 {3.7}, C1 {1.0, 0.2};
 
-    Segment F2S2 {Point {-8.0, -8.0}, Point {3.0, 3.0}};
+    Segment seg2 {Point {-8.0, -8.0}, Point {3.0, 3.0}};
     Point A2 {11.0, 2.0}, B2 {-3.6, -3.6}, C2 {-9.0, -9.0};
 
+    Segment seg3 {Point {-9.0, -10.0}, Point {3.5, 2.5}};
+    Point A3 {3.5, 2.5}, B3 {0.0, 0.0}, C3 {1.0, 0.0};
 
+    EXPECT_TRUE(point_belong_segment(A1, seg1));
+    EXPECT_FALSE(point_belong_segment(B1, seg1));
+    EXPECT_FALSE(point_belong_segment(C1, seg1));
 
+    EXPECT_FALSE(point_belong_segment(A2, seg2));
+    EXPECT_TRUE(point_belong_segment(B2, seg2));
+    EXPECT_FALSE(point_belong_segment(C2, seg2));
+
+    EXPECT_TRUE(point_belong_segment(A3, seg3));
+    EXPECT_FALSE(point_belong_segment(B3, seg3));
+    EXPECT_TRUE(point_belong_segment(C3, seg3));
+}
+
+TEST(Segment_, are_intersecting_in_)
+{
+    Segment seg1 {Point {0.0, 0.0}, Point {8.0, 8.0}};
+    Segment seg2 {Point {1.0, 0.0}, Point {0.0, 1.0}};
+    Segment seg3 {Point {0.0, 0.0, 1.0}, Point {2.0, 2.0, -4.0}};
+    Segment seg4 {Point {7.0, 7.0}, Point {2.3, 3.4, 6.7}};
+    Segment seg5 {Point {7.0, 7.0}, Point {11.0, 11.0}};
+    Segment seg6 {Point {1.0, 0.0}, {9.0, 8.0}};
+
+    EXPECT_TRUE(are_intersecting(seg1, seg2));
+    EXPECT_TRUE(are_intersecting(seg2, seg1));
+    EXPECT_TRUE(are_intersecting(seg1, seg3));
+    EXPECT_FALSE(are_intersecting(seg2, seg3));
+    EXPECT_TRUE(are_intersecting(seg1, seg4));
+    EXPECT_TRUE(are_intersecting(seg1, seg5));
+    EXPECT_FALSE(are_intersecting(seg1, seg6));
 }

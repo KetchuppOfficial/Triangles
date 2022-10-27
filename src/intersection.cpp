@@ -25,7 +25,7 @@ void point_transformation (Point &point, const Point &origin, const Vector &x_ax
     point.z_ = 0.0;
 }
 
-bool intersection_of_degenerate_cases_3D(const Triangle& tr1, TR_TYPE tr_type1, const Triangle& tr2, TR_TYPE tr_type2)
+/*bool intersection_of_degenerate_cases_3D(const Triangle& tr1, TR_TYPE tr_type1, const Triangle& tr2, TR_TYPE tr_type2)
 {
     if (tr_type1 == TR_TYPE::POINT)
         if (tr_type2 == TR_TYPE::POINT)
@@ -53,7 +53,7 @@ bool intersection_of_degenerate_cases_3D(const Triangle& tr1, TR_TYPE tr_type1, 
             throw std::logic_error{"in intersection od degenerate cases types of triangles is triangles"};
             return false;
     }
-}
+}*/
 
 void space_transformation (Triangle &tr_1, Triangle &tr_2)
 {
