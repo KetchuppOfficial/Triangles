@@ -63,13 +63,30 @@ struct Triangle
 
 };
 
+inline bool check_half_of_plane(const Vector side_normal, const Vector& vec_to_A, const Vector& vec_to_other)
+{
+    if (scalar_product(side_normal, vec_to_A) * scalar_product(side_normal, vec_to_other) >= 0.0)
+        return true;
+    return false;
+}
+
 inline bool point_belong_triangle(const Point& point_A, const Triangle& tr)
 {
     Vector PA {tr.P_, point_A};
-    if (!cmp::are_equal(triple_product(PA, Vector {tr.P_, tr.R_}, Vector {tr.P_, tr.Q_}), 0.0))
+    Vector PR {tr.P_, tr.R_};
+    Vector PQ {tr.P_, tr.Q_};
+    if (!cmp::are_equal(triple_product(PA, PR, PQ), 0.0))
         return false;
     
-    return true;
+    Vector plane_normal {vector_product(PR, PQ)};
+    Vector QR {tr.R_, tr.Q};
+
+    if (check_half_of_plane(vector_product(plane_normal, PR), PA, PQ) &&
+        check_half_of_plane(vector_product(plane_normal, PQ), PA, QR) &&
+        check_half_of_plane(vector_product(plane_normal, QR), Vector {point_A, tr.Q_}, PQ))
+        return true;
+    
+    return false;
 }
 
 } // namespace Geom_Objects

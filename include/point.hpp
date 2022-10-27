@@ -27,7 +27,7 @@ struct Point
 
     bool is_valid () const { return (x_ == x_ && y_ == y_ && z_ == z_); }
 
-    std::ostream& print (std::ostream& out) const { return out << "(" << x_ << ", " << y_ << ", " << z_ << ")"; }
+    std::ostream& print (std::ostream& out = std::cout) const { return out << "(" << x_ << ", " << y_ << ", " << z_ << ")"; }
 };
 
 inline std::ostream& operator<<(std::ostream& out, const Point& p)
