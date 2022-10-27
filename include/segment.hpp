@@ -3,20 +3,22 @@
 #include "point.hpp"
 #include "vector.hpp"
 #include "line.hpp"
+#include "plane.hpp"
 #include "triangle.hpp"
 
 namespace Geom_Objects{
 
-struct Segment {
-    Point F;
-    Point S;
+class Segment {
+    Point F, S;
     Vector FS;
+
+    public:
     Segment(const Point& f, const Point& s): F {f}, S {s}, FS {Vector {F, S}} {}
     Segment(const Triangle& tr)
     {
         Vector PQ {tr.P_, tr.Q_};
         Vector RQ {tr.R_, tr.Q_};
-        
+
         if (directionals(PQ, RQ) == DRC::OPPOSITE_DRC)
         {
             F = tr.P_;
@@ -33,29 +35,73 @@ struct Segment {
 
         FS = Vector {F, S};
     }
+
+    const Point& F() const noexcept {return F;}
+    const Point& S() const noexcept {return S;}
+    const Vector& FS() const noexcept {return FS;}
+
+    void swap_points() noexcept
+    {
+        std::swap(F, S);
+        FS = -FS;
+    }
 };
 
 inline bool point_belong_segment(const Point& point, const Segment& segment)
 {
-    if (directionals(Vector {point, segment.F}, Vector {point, segment.S}) == DRC::OPPOSITE_DRC)
+    Vector PF {point, segment.F()};
+    Vector PS {point, segment.S()};
+
+    if (!are_collinear(PF, PS))
+        return false;
+    else if (scalar_product(PF, segment.FS()) * scalar_product(PS, segment.FS()) <= 0.0)
         return true;
-    return false;
+    else
+        return false;
 }
 
-inline bool are_intersecting(const Segment& seg1, const Segment seg2)
+inline bool are_intersecting(const Segment& seg1, const Segment& seg2)
 {
-    if (!are_intersecting(Line {seg1.F, seg1.S}, Line {seg2.F, seg2.S}))
+    Line line1 {seg1.F(), seg1.FS()}, line2 {seg2.F(), seg2.FS()};
+    if (!are_intersecting(line1, line2))
+        return false;
+
+    if (line1 == line2)
+    {
+        Line& line = line1;
+
+        Point& A1 = seg1.F();
+        Point& B1 = seg1.S();
+        if (scalar_product(seg1.FS(), seg2.FS()))
+            seg2.swap_points();
+        Point& A2 = seg2.F();
+        Point& B2 = seg2.S();
+
+        Vector B1A2 {B1, A2};
+        Vector B2A1 {B2, A1};
+
+        if (scalar_product(B1A2, line.drc_vec()) > 0.0 || scalar_product(B2A1, line.drc_vec()) > 0.0)
+            return false;
+        return true;  
+    }
+    
+    Vector plane_normal {vector_product(seg1.FS(), seg2.FS())};
+
+    Vector line1_normal {vector_product(plane_normal, seg1.FS())};
+    Vector F1F2 {seg1.F(), seg2.F()};
+    Vector F1S2 {seg1.F(), seg2.S()};
+
+    if (scalar_product(F1F2, line1_normal) * scalar_product(F1S2, line1_normal) > 0.0)
         return false;
     
-    Vector F1S2 {seg1.F, seg2.S};
-    Vector F1F2 {seg1.F, seg2.F};
+    Vector line2_normal {plane_normal, seg2.FS()};
+    //we already has F1F2 which is opposite to F2F1,
+    //and we can just a litle bit change out algorithm
+    Vector F2S1 {seg2.F(), seg1.S()};
 
-    Vector F2S1 {seg2.F, seg1.S};
-    Vector F2F1 {seg2.F, seg1.F};
-
-    if (scalar_product(F1S2, seg2.FS) * scalar_product(F1F2, seg2.FS) <= 0.0 &&
-        scalar_product(F2S1, seg1.FS) * scalar_product(F2F1, seg1.FS) <= 0.0)
+    if (scalar_product(F1F2, line2_normal) * scalar_product(F2S1, line2_normal) >= 0.0)
         return true;
+
     return false;
 }
 
