@@ -73,15 +73,42 @@ inline bool point_belong_triangle(const Point& point_A, const Triangle& tr)
     if (!are_coplanar(PA, PR, PQ))
         return false;
     
-    Vector plane_normal {vector_product(PR, PQ)};
+    Vector plane_normal {vector_product(PQ, PR)};
     
-    Vector side_PQ_normal {vector_product(plane_normal, PQ)};
-    Vector side_PR_normal {vector_product(PR, plane_normal)};
-    Vector side_QR_normal {vector_product(plane_normal, QR)};
+    Vector side_PQ_normal {vector_product(PQ, plane_normal)};
+    Vector side_PR_normal {vector_product(plane_normal, PR)};
+    Vector side_QR_normal {vector_product(QR, plane_normal)};
 
-    
+    Vector RA {tr.R_, point_A};
+
+    if ((scalar_product(side_PQ_normal, PA) <= 0.0) &&
+        (scalar_product(side_PR_normal, PA) <= 0.0) &&
+        (scalar_product(side_QR_normal, RA) <= 0.0))
+        return true; 
     
     return false;
+}
+
+inline bool seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
+{
+    if (point_belong_triangle(seg.F(), tr) || point_belong_triangle(seg.S(), tr))
+        return true;
+    
+
+}
+
+inline bool are_intersecting(const Segment& seg, const Triangle& tr)
+{
+    auto F_loc = magic_product(tr.P_, tr.Q_, tr.R_, seg.F());
+    auto S_loc = magic_product(tr.P_, tr.Q_, tr.R_, seg.S());
+
+    if (F_loc != Loc_3D::On && S_loc != Loc_3D::On && F_loc == S_loc)
+        return false;
+
+    if (F_loc == Loc_3D::On && S_loc == Loc_3D::On)
+        return seg_tr_intersecting_2D(seg, tr);
+    else
+        return seg_tr_intersecting_3D(seg, tr);
 }
 
 } // namespace Geom_Objects
