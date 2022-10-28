@@ -85,11 +85,9 @@ enum Loc_2D_LH
 
 inline Loc_2D_LH magic_product_2D_LH(const Point& A, const Point& B, const Point& C, const Vector& plane_normal)
 {
-    Vector AB {A, B};
-    Vector AC {A, C};
-    Vector AB_normal {vector_product(AB, plane_normal)};
-
-    double scal_prod = scalar_product(AB_normal, AC);
+    double scal_prod = -plane_normal.x_ * ((C.y_ - A.y_) * (B.z_ - A.z_) - (C.z_ - A.z_) * (B.y_ - A.y_))
+                       +plane_normal.y_ * ((C.x_ - A.x_) * (B.z_ - A.z_) - (C.z_ - A.z_) * (B.x_ - A.x_)) -
+                       -plane_normal.z_ * ((C.x_ - A.x_) * (B.y_ - A.y_) - (C.y_ - A.y_) * (B.x_ - A.x_));
 
     if (cmp::are_equal(scal_prod, 0.0))
         return Loc_2D_LH::On;
