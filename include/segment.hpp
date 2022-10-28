@@ -76,6 +76,29 @@ inline bool point_belong_segment(const Point& point, const Segment& segment)
         return false;
 }
 
+enum Loc_2D_LH
+{
+    Out = -1,
+    On  = 0,
+    In  = 1
+};
+
+inline Loc_2D_LH magic_product_2D_LH(const Point& A, const Point& B, const Point& C, const Vector& plane_normal)
+{
+    Vector AB {A, B};
+    Vector AC {A, C};
+    Vector AB_normal {vector_product(AB, plane_normal)};
+
+    double scal_prod = scalar_product(AB_normal, AC);
+
+    if (cmp::are_equal(scal_prod, 0.0))
+        return Loc_2D_LH::On;
+    else if (scal_prod > 0.0)
+        return Loc_2D_LH:: Out;
+    else
+        return Loc_2D_LH::In;  
+}
+
 inline bool are_intersecting(const Segment& seg1, const Segment& seg2)
 {
     Line line1 {seg1.F(), seg1.FS()}, line2 {seg2.F(), seg2.FS()};
@@ -101,24 +124,12 @@ inline bool are_intersecting(const Segment& seg1, const Segment& seg2)
             return false;
         return true;  
     }
-    
+
     Vector plane_normal {vector_product(seg1.FS(), seg2.FS())};
 
-    Vector line1_normal {vector_product(plane_normal, seg1.FS())};
-    Vector F1F2 {seg1.F(), seg2.F()};
-    Vector F1S2 {seg1.F(), seg2.S()};
-
-    if (scalar_product(F1F2, line1_normal) * scalar_product(F1S2, line1_normal) > 0.0)
-        return false;
-    
-    Vector line2_normal {vector_product(plane_normal, seg2.FS())};
-    //we already has F1F2 which is opposite to F2F1,
-    //and we can just a litle bit change out algorithm
-    Vector F2S1 {seg2.F(), seg1.S()};
-
-    if (!(scalar_product(F1F2, line2_normal) * scalar_product(F2S1, line2_normal) < 0.0))
+    if ((magic_product_2D_LH(seg1.F(), seg1.S(), seg2.F(), plane_normal) * magic_product_2D_LH(seg1.F(), seg1.F(), seg2.S(), plane_normal) <= 0) &&
+        (magic_product_2D_LH(seg1.F(), seg1.S(), seg2.F(), plane_normal) * magic_product_2D_LH(seg1.F(), seg1.F(), seg2.S(), plane_normal) <= 0))
         return true;
-
     return false;
 }
 
