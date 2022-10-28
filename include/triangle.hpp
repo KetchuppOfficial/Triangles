@@ -104,9 +104,13 @@ inline bool seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
 
     Vector FP {seg.F(), tr.P_}, FQ {seg.F(), tr.Q_}, FR {seg.F(), tr.R_};
 
-    bool inside_PQ = (scalar_product(FP, side_PQ_normal) >= 0.0);
-    bool inside_QR = (scalar_product(FQ, side_QR_normal) >= 0.0);
-    bool inside_RP = (scalar_product(FR, side_RP_normal) >= 0.0);
+    bool F_inside_PQ = (scalar_product(FP, side_PQ_normal) >= 0.0);
+    bool F_inside_QR = (scalar_product(FQ, side_QR_normal) >= 0.0);
+    bool F_inside_RP = (scalar_product(FR, side_RP_normal) >= 0.0);
+
+    bool S_inside_PQ = (scalar_product(Vector {seg.S(), tr.P_}, side_PQ_normal) >= 0.0);
+    bool S_inside_QR = (scalar_product(Vector {seg.S(), tr.Q_}, side_QR_normal) >= 0.0);
+    bool S_inside_RP = (scalar_product(Vector {seg.S(), tr.R_}, side_RP_normal) >= 0.0);
 
     enum LOC {
         OUT_ALL             = 000b,
@@ -117,7 +121,12 @@ inline bool seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
         OUT_QR_INSIDE_PQ_RP = 101b,
         OUT_RP_INSIDE_QR_PQ = 110b,
         INSIDE_ALL          = 111b
-    } loc = static_cast<LOC>(4 * inside_PQ + 2 * inside_QR + inside_RP);
+    }; 
+    LOC F_loc = static_cast<LOC>(4 * F_inside_PQ + 2 * F_inside_QR + F_inside_RP);
+    LOC S_loc = static_cast<LOC>(4 * S_inside_PQ + 2 * S_inside_QR + S_inside_RP);
+
+    if (F_loc == S_loc)
+        return false;
 
     switch (loc)
     {

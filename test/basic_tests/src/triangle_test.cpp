@@ -1,4 +1,5 @@
 #include "triangle.hpp"
+#include "segment.hpp"
 
 #include <gtest/gtest.h>
 
@@ -128,4 +129,10 @@ TEST(Triangles, point_belong_triangle_)
     EXPECT_FALSE(point_belong_triangle(D10, tr2));
 }
 
-
+TEST(Triangles, seg_tr_intersecting_2D_)
+{
+    Triangle tr {Point {-1.0, 3.0}, Point {0.0, 0.0}, Point {3.0, 0.0}};
+    Segment seg1 {Point {-1.0, 2.0}, Point {0.5, 2.0}}, seg2 {Point {-2.0, 3.0}, Point {0.0, 3.0}};
+    Segment seg3 {Point {3.0, 1.0}, Point {1.5, -1.0}}, seg4 {Point {0.5, -0.5}, Point {0.5, 0.5}};
+    Segment seg5 {Point {0.0, 0.0}, Point {2.0, 0.0}}, seg6 {Point }
+}
