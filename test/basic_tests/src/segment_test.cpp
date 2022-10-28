@@ -72,3 +72,22 @@ TEST(Segment_, are_intersecting_in_)
     EXPECT_TRUE(are_intersecting(seg1, seg5));
     EXPECT_FALSE(are_intersecting(seg1, seg6));
 }
+
+TEST(Triangles, seg_tr_intersecting_2D_)
+{
+    Triangle tr {Point {-1.0, 3.0}, Point {0.0, 0.0}, Point {3.0, 0.0}};
+    Segment seg1 {Point {-1.0, 2.0}, Point {0.5, 2.0}}, seg2 {Point {-2.0, 3.0}, Point {0.0, 3.0}};
+    Segment seg3 {Point {3.0, 1.0}, Point {1.5, -1.0}}, seg4 {Point {0.5, -0.5}, Point {0.5, 0.5}};
+    Segment seg5 {Point {0.0, 0.0}, Point {2.0, 0.0}}, seg6 {Point {-2.0, 0.0}, Point {-0.5, 0.0}};
+    Segment seg7 {Point {2.0, 2.0}, Point {1.0, 3.0}}, seg8 {Point {2.0, 2.0}, Point {-1.5, 3.5}};
+
+    EXPECT_TRUE(seg_tr_intersecting_2D(seg1, tr));
+    EXPECT_TRUE(seg_tr_intersecting_2D(seg2, tr));
+    EXPECT_TRUE(seg_tr_intersecting_2D(seg3, tr));
+    EXPECT_TRUE(seg_tr_intersecting_2D(seg4, tr));
+    EXPECT_TRUE(seg_tr_intersecting_2D(seg5, tr));
+    EXPECT_FALSE(seg_tr_intersecting_2D(seg6, tr));
+    EXPECT_FALSE(seg_tr_intersecting_2D(seg7, tr));
+    EXPECT_FALSE(seg_tr_intersecting_2D(seg8, tr));
+}
+

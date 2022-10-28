@@ -122,4 +122,82 @@ inline bool are_intersecting(const Segment& seg1, const Segment& seg2)
     return false;
 }
 
+inline bool seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
+{
+    if (point_belong_triangle(seg.F(), tr) || point_belong_triangle(seg.S(), tr))
+        return true;
+
+    Vector PQ {tr.P_, tr.Q_}, QR {tr.Q_, tr.R_}, RP {tr.R_, tr.P_};
+    
+    Vector plane_normal {vector_product(RP, PQ)};
+
+    Vector side_PQ_normal {vector_product(PQ, plane_normal)};
+    Vector side_QR_normal {vector_product(QR, plane_normal)};
+    Vector side_RP_normal {vector_product(RP, plane_normal)};
+
+    Vector FP {seg.F(), tr.P_}, FQ {seg.F(), tr.Q_}, FR {seg.F(), tr.R_};
+
+    bool F_inside_PQ = (scalar_product(FP, side_PQ_normal) >= 0.0);
+    bool F_inside_QR = (scalar_product(FQ, side_QR_normal) >= 0.0);
+    bool F_inside_RP = (scalar_product(FR, side_RP_normal) >= 0.0);
+
+    bool S_inside_PQ = (scalar_product(Vector {seg.S(), tr.P_}, side_PQ_normal) >= 0.0);
+    bool S_inside_QR = (scalar_product(Vector {seg.S(), tr.Q_}, side_QR_normal) >= 0.0);
+    bool S_inside_RP = (scalar_product(Vector {seg.S(), tr.R_}, side_RP_normal) >= 0.0);
+
+    enum LOC {
+        OUT_ALL             = 0b000,
+        OUT_PQ_QR_INSIDE_RP = 0b001,
+        OUT_RP_PQ_INSIDE_QR = 0b010,
+        OUT_PQ_INSIDE_QR_RP = 0b011,
+        OUT_QR_RP_INSIDE_PQ = 0b100,
+        OUT_QR_INSIDE_PQ_RP = 0b101,
+        OUT_RP_INSIDE_QR_PQ = 0b110,
+        INSIDE_ALL          = 0b111
+    }; 
+    LOC F_loc = static_cast<LOC>(4 * F_inside_PQ + 2 * F_inside_QR + F_inside_RP);
+    LOC S_loc = static_cast<LOC>(4 * S_inside_PQ + 2 * S_inside_QR + S_inside_RP);
+
+    if (F_loc == S_loc)
+        return false;
+
+    switch (F_loc)
+    {
+        case LOC::OUT_PQ_INSIDE_QR_RP: case LOC::OUT_QR_RP_INSIDE_PQ:
+            if (scalar_product(vector_product(seg.FS(), FP), vector_product(seg.FS(), FQ)) <= 0.0)
+                return true;
+            break;
+        case LOC::OUT_RP_INSIDE_QR_PQ: case LOC::OUT_PQ_QR_INSIDE_RP:
+            if (scalar_product(vector_product(seg.FS(), FR), vector_product(seg.FS(), FP)) <= 0.0)
+                return true;
+            break;
+        case LOC::OUT_QR_INSIDE_PQ_RP: case LOC::OUT_RP_PQ_INSIDE_QR:
+            if (scalar_product(vector_product(seg.FS(), FQ), vector_product(seg.FS(), FR)) <= 0.0)
+                return true;
+            break;
+        case LOC::INSIDE_ALL: case LOC::OUT_ALL:
+            throw std::logic_error{"Bad cases in switch in seg_tr_intersecting_2d()"};
+            break;
+        default:
+            throw std::logic_error{"Default case in switch in seg_tr_intersecting_2D"};
+            break;
+    }
+    return false;
+}
+
+/*inline bool are_intersecting(const Segment& seg, const Triangle& tr)
+{
+    auto F_loc = magic_product(tr.P_, tr.Q_, tr.R_, seg.F());
+    auto S_loc = magic_product(tr.P_, tr.Q_, tr.R_, seg.S());
+
+    if (F_loc != Loc_3D::On && S_loc != Loc_3D::On && F_loc == S_loc)
+        return false;
+
+    if (F_loc == Loc_3D::On && S_loc == Loc_3D::On)
+        return seg_tr_intersecting_2D(seg, tr);
+    else
+        return seg_tr_intersecting_3D(seg, tr);
+}*/
+
+
 }
