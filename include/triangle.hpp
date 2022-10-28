@@ -94,7 +94,6 @@ inline bool seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
     if (point_belong_triangle(seg.F(), tr) || point_belong_triangle(seg.S(), tr))
         return true;
     
-
 }
 
 inline bool are_intersecting(const Segment& seg, const Triangle& tr)
