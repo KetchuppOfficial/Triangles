@@ -128,3 +128,4 @@ TEST(Triangles, point_belong_triangle_)
     EXPECT_TRUE(point_belong_triangle(D9, tr2));
     EXPECT_FALSE(point_belong_triangle(D10, tr2));
 }
+

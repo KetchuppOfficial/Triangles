@@ -55,7 +55,7 @@ TEST(Segment_, point_belong_triangle_)
     EXPECT_TRUE(point_belong_segment(C3, seg3));
 }
 
-TEST(Segment_, are_intersecting_in_)
+TEST(Segment_, are_intersecting)
 {
     Segment seg1 {Point {0.0, 0.0}, Point {8.0, 8.0}};
     Segment seg2 {Point {1.0, 0.0}, Point {0.0, 1.0}};
@@ -63,6 +63,11 @@ TEST(Segment_, are_intersecting_in_)
     Segment seg4 {Point {7.0, 7.0}, Point {2.3, 3.4, 6.7}};
     Segment seg5 {Point {7.0, 7.0}, Point {11.0, 11.0}};
     Segment seg6 {Point {1.0, 0.0}, {9.0, 8.0}};
+    Segment seg7 {Point {2.0}, Point {5.0}};
+    Segment seg8 {Point {0.0}, Point {1.0}};
+    Segment seg9 {Point {3.0, 1.0}, Point {3.0, 5.0}};
+    Segment seg10 {Point {-2.0}, Point {-0.5}};
+    Segment seg11 {Point {3.0}, Point {3.0, -1.0}};
 
     EXPECT_TRUE(are_intersecting(seg1, seg2));
     EXPECT_TRUE(are_intersecting(seg2, seg1));
@@ -71,9 +76,14 @@ TEST(Segment_, are_intersecting_in_)
     EXPECT_TRUE(are_intersecting(seg1, seg4));
     EXPECT_TRUE(are_intersecting(seg1, seg5));
     EXPECT_FALSE(are_intersecting(seg1, seg6));
+    EXPECT_FALSE(are_intersecting(seg7, seg8));
+    EXPECT_FALSE(are_intersecting(seg7, seg9));
+    EXPECT_FALSE(are_intersecting(seg10, seg11));
+    EXPECT_FALSE(are_intersecting(seg11, seg10));
+    EXPECT_TRUE(are_intersecting(Segment {Point {3.0}, Point {-1.0, 3.0}}, Segment {Point {-2.0}, Point {-0.5}}) == are_intersecting(Segment {Point {-2.0}, Point {-0.5}}, Segment {Point {3.0}, Point {-1.0, 3.0}}));
 }
 
-TEST(Segment, seg_tr_intersecting_2D_)
+TEST(Segment_, seg_tr_intersecting_2D_)
 {
     Triangle tr {Point {-1.0, 3.0}, Point {0.0, 0.0}, Point {3.0, 0.0}};
     Segment seg1 {Point {-1.0, 2.0}, Point {0.5, 2.0}}, seg2 {Point {-2.0, 3.0}, Point {0.0, 3.0}};
@@ -93,4 +103,25 @@ TEST(Segment, seg_tr_intersecting_2D_)
     EXPECT_TRUE(seg_tr_intersecting_2D(seg9, tr));
     EXPECT_TRUE(seg_tr_intersecting_2D(seg10, tr));
 }
+
+/*TEST(Segment_, alt_seg_tr_intersecting_2D_)
+{
+    Triangle tr {Point {-1.0, 3.0}, Point {0.0, 0.0}, Point {3.0, 0.0}};
+    Segment seg1 {Point {-1.0, 2.0}, Point {0.5, 2.0}}, seg2 {Point {-2.0, 3.0}, Point {0.0, 3.0}};
+    Segment seg3 {Point {3.0, 1.0}, Point {1.5, -1.0}}, seg4 {Point {0.5, -0.5}, Point {0.5, 0.5}};
+    Segment seg5 {Point {0.0, 0.0}, Point {2.0, 0.0}}, seg6 {Point {-2.0, 0.0}, Point {-0.5, 0.0}};
+    Segment seg7 {Point {2.0, 2.0}, Point {1.0, 3.0}}, seg8 {Point {2.0, 2.0}, Point {-1.5, 3.5}};
+    Segment seg9 {Point {-0.5, 3.5}, Point {-1.5, 2.5}}, seg10 {Point {-4.0, 0.0}, Point {5.0, 0.0}};
+
+    EXPECT_TRUE(alt_seg_tr_intersecting_2D(seg1, tr));
+    EXPECT_TRUE(alt_seg_tr_intersecting_2D(seg2, tr));
+    EXPECT_TRUE(alt_seg_tr_intersecting_2D(seg3, tr));
+    EXPECT_TRUE(alt_seg_tr_intersecting_2D(seg4, tr));
+    EXPECT_TRUE(alt_seg_tr_intersecting_2D(seg5, tr));
+    EXPECT_FALSE(alt_seg_tr_intersecting_2D(seg6, tr));
+    EXPECT_FALSE(alt_seg_tr_intersecting_2D(seg7, tr));
+    EXPECT_FALSE(alt_seg_tr_intersecting_2D(seg8, tr));
+    EXPECT_TRUE(alt_seg_tr_intersecting_2D(seg9, tr));
+    EXPECT_TRUE(alt_seg_tr_intersecting_2D(seg10, tr));
+}*/
 

@@ -7,7 +7,8 @@
 #include "triangle.hpp"
 #include <iostream>
 
-namespace Geom_Objects{
+namespace Geom_Objects
+{
 
 class Segment {
     Point F_, S_;
@@ -92,7 +93,7 @@ inline Loc_2D_LH magic_product_2D_LH(const Point& A, const Point& B, const Point
     if (cmp::are_equal(scal_prod, 0.0))
         return Loc_2D_LH::On;
     else if (scal_prod > 0.0)
-        return Loc_2D_LH:: Out;
+        return Loc_2D_LH::Out;
     else
         return Loc_2D_LH::In;  
 }
@@ -103,7 +104,6 @@ inline bool are_intersecting(const Segment& seg1, const Segment& seg2)
     if (!are_intersecting(line1, line2))
         return false;
 
-    // need to rewrite
     if (line1 == line2)
     {
         Line& line = line1;
@@ -126,9 +126,43 @@ inline bool are_intersecting(const Segment& seg1, const Segment& seg2)
 
     Vector plane_normal {vector_product(seg1.FS(), seg2.FS())};
 
-    if ((magic_product_2D_LH(seg1.F(), seg1.S(), seg2.F(), plane_normal) * magic_product_2D_LH(seg1.F(), seg1.F(), seg2.S(), plane_normal) <= 0) &&
-        (magic_product_2D_LH(seg1.F(), seg1.S(), seg2.F(), plane_normal) * magic_product_2D_LH(seg1.F(), seg1.F(), seg2.S(), plane_normal) <= 0))
+    /*std::cout << magic_product_2D_LH(seg1.F(), seg1.S(), seg2.F(), plane_normal) << std::endl;
+    std::cout << magic_product_2D_LH(seg1.F(), seg1.S(), seg2.S(), plane_normal) << std::endl;
+    std::cout << std::boolalpha << (magic_product_2D_LH(seg1.F(), seg1.S(), seg2.F(), plane_normal) * magic_product_2D_LH(seg1.F(), seg1.S(), seg2.S(), plane_normal) <= 0) << std::endl << std::endl;
+    std::cout << magic_product_2D_LH(seg2.F(), seg2.S(), seg1.F(), plane_normal) << std::endl;
+    std::cout << magic_product_2D_LH(seg2.F(), seg2.S(), seg1.S(), plane_normal) << std::endl;
+    std::cout << std::boolalpha << (magic_product_2D_LH(seg2.F(), seg2.S(), seg1.F(), plane_normal) * magic_product_2D_LH(seg2.F(), seg2.S(), seg1.S(), plane_normal) <= 0) << std::endl << std::endl;
+    */
+    if ((magic_product_2D_LH(seg1.F(), seg1.S(), seg2.F(), plane_normal) * magic_product_2D_LH(seg1.F(), seg1.S(), seg2.S(), plane_normal) <= 0) &&
+        (magic_product_2D_LH(seg2.F(), seg2.S(), seg1.F(), plane_normal) * magic_product_2D_LH(seg2.F(), seg2.S(), seg1.S(), plane_normal) <= 0))
         return true;
+    return false;
+}
+
+inline bool alt_seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
+{
+    if (point_belong_triangle(seg.F(), tr) || point_belong_triangle(seg.S(), tr))
+        return true;
+
+    std::cout << "F: " << seg.F() << std::endl;
+    std::cout << "S: " << seg.S() << std::endl;
+    std::cout << "R: " << tr.R_ << std::endl;
+    std::cout << "P: " << tr.P_ << std::endl;
+    std::cout << are_intersecting(Segment {tr.R_, tr.P_}, seg) << std::endl;
+    std::cout << are_intersecting(seg, Segment {tr.R_, tr.P_}) << std::endl;
+    std::cout << "F: " << seg.F() << std::endl;
+    std::cout << "S: " << seg.S() << std::endl;
+    std::cout << "R: " << tr.R_ << std::endl;
+    std::cout << "P: " << tr.P_ << std::endl;
+
+    std::cout << are_intersecting(Segment {Point {3.0}, Point {-1.0, 3.0}}, Segment {Point {-2.0}, Point {-0.5}}) << std::endl;
+    std::cout << are_intersecting(Segment {Point {-2.0}, Point {-0.5}}, Segment {Point {3.0}, Point {-1.0, 3.0}}) << std::endl;
+
+    if (are_intersecting(seg, Segment {tr.P_, tr.Q_}) ||
+        are_intersecting(seg, Segment {tr.Q_, tr.R_}) ||
+        are_intersecting(seg, Segment {tr.R_, tr.P_}))
+        return true;
+
     return false;
 }
 
@@ -183,10 +217,10 @@ inline bool seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
                 return true;
             break;
         case LOC::INSIDE_ALL: case LOC::OUT_ALL:
-            throw std::logic_error{"Bad cases in switch in seg_tr_intersecting_2d()"};
+            throw std::logic_error{"Bad cases in switch in seg_tr_intersecting_2D()"};
             break;
         default:
-            throw std::logic_error{"Default case in switch in seg_tr_intersecting_2D"};
+            throw std::logic_error{"Default case in switch in seg_tr_intersecting_2D()"};
             break;
     }
     return false;
@@ -205,6 +239,4 @@ inline bool seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
     else
         return seg_tr_intersecting_3D(seg, tr);
 }*/
-
-
 }
