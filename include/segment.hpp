@@ -197,6 +197,16 @@ inline bool alt_seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
     return false;
 }
 
+inline bool seg_tr_intersecting_3D(const Segment& seg, const Triangle& tr)
+{
+    const Point& P = tr.P_, Q = tr.Q_, R = tr.R_, F = seg.F(), S = seg.S();
+    if (magic_product(P, F, S, Q) != magic_product(P, F, S, R) &&
+        magic_product(Q, F, S, P) != magic_product(Q, F, S, R) &&
+        magic_product(R, F, S, P) != magic_product(R, F, S, Q))
+        return true;
+    return false;
+}
+
 /*inline bool are_intersecting(const Segment& seg, const Triangle& tr)
 {
     auto F_loc = magic_product(tr.P_, tr.Q_, tr.R_, seg.F());
