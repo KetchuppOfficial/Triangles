@@ -51,9 +51,9 @@ public:
 
     bool operator== (const Line &other) const
     {
-        if (point_ == other.point_)
-            return are_collinear (drc_vec_, other.drc_vec_);
-        return are_collinear (Vector {point_, other.point_}, drc_vec_);
+        if (!are_collinear(drc_vec_, other.drc_vec_))
+            return false;
+        return are_collinear(Vector {point_, other.point_}, drc_vec_);
     }
 
     bool operator!= (const Line &other) const { return !(*this == other); }

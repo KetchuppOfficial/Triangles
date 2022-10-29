@@ -30,24 +30,16 @@ class Segment {
 
         if (scalar_product(PQ, RQ) <= 0.0)
         {
-            std::cout << "in if" << std::endl;
             F_ = tr.P_;
             S_ = tr.R_;
         }
         else
         {
-            std::cout << "in else" << std::endl;
             F_ = tr.Q_;
             if (PQ.norm() > RQ.norm())
-            {
-                std::cout << "in else if" << std::endl;
                 S_ = tr.P_;
-            }
             else
-            {
-                std::cout << "in else else" << std::endl;
                 S_ = tr.R_;
-            }
         }
 
         FS_ = Vector {F_, S_};
@@ -126,13 +118,6 @@ inline bool are_intersecting(const Segment& seg1, const Segment& seg2)
 
     Vector plane_normal {vector_product(seg1.FS(), seg2.FS())};
 
-    /*std::cout << magic_product_2D_LH(seg1.F(), seg1.S(), seg2.F(), plane_normal) << std::endl;
-    std::cout << magic_product_2D_LH(seg1.F(), seg1.S(), seg2.S(), plane_normal) << std::endl;
-    std::cout << std::boolalpha << (magic_product_2D_LH(seg1.F(), seg1.S(), seg2.F(), plane_normal) * magic_product_2D_LH(seg1.F(), seg1.S(), seg2.S(), plane_normal) <= 0) << std::endl << std::endl;
-    std::cout << magic_product_2D_LH(seg2.F(), seg2.S(), seg1.F(), plane_normal) << std::endl;
-    std::cout << magic_product_2D_LH(seg2.F(), seg2.S(), seg1.S(), plane_normal) << std::endl;
-    std::cout << std::boolalpha << (magic_product_2D_LH(seg2.F(), seg2.S(), seg1.F(), plane_normal) * magic_product_2D_LH(seg2.F(), seg2.S(), seg1.S(), plane_normal) <= 0) << std::endl << std::endl;
-    */
     if ((magic_product_2D_LH(seg1.F(), seg1.S(), seg2.F(), plane_normal) * magic_product_2D_LH(seg1.F(), seg1.S(), seg2.S(), plane_normal) <= 0) &&
         (magic_product_2D_LH(seg2.F(), seg2.S(), seg1.F(), plane_normal) * magic_product_2D_LH(seg2.F(), seg2.S(), seg1.S(), plane_normal) <= 0))
         return true;
