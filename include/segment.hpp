@@ -124,24 +124,10 @@ inline bool are_intersecting(const Segment& seg1, const Segment& seg2)
     return false;
 }
 
-inline bool alt_seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
+inline bool seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
 {
     if (point_belong_triangle(seg.F(), tr) || point_belong_triangle(seg.S(), tr))
         return true;
-
-    std::cout << "F: " << seg.F() << std::endl;
-    std::cout << "S: " << seg.S() << std::endl;
-    std::cout << "R: " << tr.R_ << std::endl;
-    std::cout << "P: " << tr.P_ << std::endl;
-    std::cout << are_intersecting(Segment {tr.R_, tr.P_}, seg) << std::endl;
-    std::cout << are_intersecting(seg, Segment {tr.R_, tr.P_}) << std::endl;
-    std::cout << "F: " << seg.F() << std::endl;
-    std::cout << "S: " << seg.S() << std::endl;
-    std::cout << "R: " << tr.R_ << std::endl;
-    std::cout << "P: " << tr.P_ << std::endl;
-
-    std::cout << are_intersecting(Segment {Point {3.0}, Point {-1.0, 3.0}}, Segment {Point {-2.0}, Point {-0.5}}) << std::endl;
-    std::cout << are_intersecting(Segment {Point {-2.0}, Point {-0.5}}, Segment {Point {3.0}, Point {-1.0, 3.0}}) << std::endl;
 
     if (are_intersecting(seg, Segment {tr.P_, tr.Q_}) ||
         are_intersecting(seg, Segment {tr.Q_, tr.R_}) ||
@@ -151,7 +137,7 @@ inline bool alt_seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
     return false;
 }
 
-inline bool seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
+inline bool alt_seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
 {
     if (point_belong_triangle(seg.F(), tr) || point_belong_triangle(seg.S(), tr))
         return true;
