@@ -224,4 +224,5 @@ inline bool seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
     else
         return seg_tr_intersecting_3D(seg, tr);
 }*/
+
 }
