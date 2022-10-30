@@ -124,3 +124,33 @@ TEST(Segment_, alt_seg_tr_intersecting_2D_)
     EXPECT_TRUE(alt_seg_tr_intersecting_2D(seg10, tr));
 }
 
+TEST(Segment_, seg_tr_intersection_3D_)
+{
+    Triangle tr {Point {-3.0, 0.0}, Point {0.0, 4.0}, Point {2.0, 0.0}};
+
+    Point A1 {0.0, 4.0}, A2 {0.0, 1.0}, A3 {1.0, 2.0}, A4 {2.0, 2.0};
+
+    for (auto dx = 1.0; dx < 5.0; dx++)
+        for (auto dy = 1.0; dy < 5.0; dy++)
+            for (auto dz = 1.0; dz < 5.0; dz++)
+            {
+                Point F1 {A1.x_ + dx, A1.y_ + dy, A1.z_ + dz};
+                Point S1 {A1.x_ - dx, A1.y_ - dy, A1.z_ - dz};
+
+                Point F2 {A2.x_ + dx, A2.y_ + dy, A2.z_ + dz};
+                Point S2 {A2.x_ - dx, A2.y_ - dy, A2.z_ - dz};
+
+                Point F3 {A3.x_ + dx, A3.y_ + dy, A3.z_ + dz};
+                Point S3 {A3.x_ - dx, A3.y_ - dy, A3.z_ - dz};
+
+                Point F4 {A4.x_ + dx, A4.y_ + dy, A4.z_ + dz};
+                Point S4 {A4.x_ - dx, A4.y_ - dy, A4.z_ - dz};
+                
+                Segment seg1 {F1, S1}, seg2 {F2, S2}, seg3 {F3, S3}, seg4 {F4, S4};
+                EXPECT_TRUE(seg_tr_intersecting_3D(seg1, tr));
+                EXPECT_TRUE(seg_tr_intersecting_3D(seg2, tr));
+                EXPECT_TRUE(seg_tr_intersecting_3D(seg3, tr));
+                EXPECT_FALSE(seg_tr_intersecting_3D(seg4, tr));
+            }
+}
+

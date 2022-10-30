@@ -41,7 +41,6 @@ class Segment {
             else
                 S_ = tr.R_;
         }
-
         FS_ = Vector {F_, S_};
     }
 
@@ -200,6 +199,12 @@ inline bool alt_seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
 inline bool seg_tr_intersecting_3D(const Segment& seg, const Triangle& tr)
 {
     const Point& P = tr.P_, Q = tr.Q_, R = tr.R_, F = seg.F(), S = seg.S();
+
+    if (point_belong_segment(P, seg) ||
+        point_belong_segment(Q, seg) ||
+        point_belong_segment(R, seg))
+        return true;
+
     if (magic_product(P, F, S, Q) != magic_product(P, F, S, R) &&
         magic_product(Q, F, S, P) != magic_product(Q, F, S, R) &&
         magic_product(R, F, S, P) != magic_product(R, F, S, Q))
@@ -207,7 +212,7 @@ inline bool seg_tr_intersecting_3D(const Segment& seg, const Triangle& tr)
     return false;
 }
 
-/*inline bool are_intersecting(const Segment& seg, const Triangle& tr)
+inline bool are_intersecting(const Segment& seg, const Triangle& tr)
 {
     auto F_loc = magic_product(tr.P_, tr.Q_, tr.R_, seg.F());
     auto S_loc = magic_product(tr.P_, tr.Q_, tr.R_, seg.S());
@@ -219,6 +224,6 @@ inline bool seg_tr_intersecting_3D(const Segment& seg, const Triangle& tr)
         return seg_tr_intersecting_2D(seg, tr);
     else
         return seg_tr_intersecting_3D(seg, tr);
-}*/
+}
 
 }
