@@ -77,16 +77,14 @@ enum Loc_2D_LH
 
 inline Loc_2D_LH magic_product_2D_LH(const Point& A, const Point& B, const Point& C, const Vector& plane_normal)
 {
-    double scal_prod = -plane_normal.x_ * ((C.y_ - A.y_) * (B.z_ - A.z_) - (C.z_ - A.z_) * (B.y_ - A.y_))
-                       +plane_normal.y_ * ((C.x_ - A.x_) * (B.z_ - A.z_) - (C.z_ - A.z_) * (B.x_ - A.x_))
-                       -plane_normal.z_ * ((C.x_ - A.x_) * (B.y_ - A.y_) - (C.y_ - A.y_) * (B.x_ - A.x_));
+    double prod = triple_product(Vector {A, C}, Vector {A, B}, plane_normal);
 
-    if (cmp::are_equal(scal_prod, 0.0))
+    if (cmp::are_equal(prod, 0.0))
         return Loc_2D_LH::On;
-    else if (scal_prod > 0.0)
-        return Loc_2D_LH::Out;
+    else if (prod > 0.0)
+        return Loc_2D_LH::In;
     else
-        return Loc_2D_LH::In;  
+        return Loc_2D_LH::Out;  
 }
 
 inline bool are_intersecting(const Segment& seg1, const Segment& seg2)
@@ -148,13 +146,13 @@ inline bool alt_seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
 
     Vector FP {F, tr.P_}, FQ {F, tr.Q_}, FR {F, tr.R_};
 
-    bool F_inside_PQ = (magic_product_2D_LH(tr.P_, tr.Q_, F, plane_normal) != Loc_2D_LH::Out);
-    bool F_inside_QR = (magic_product_2D_LH(tr.Q_, tr.R_, F, plane_normal) != Loc_2D_LH::Out);
-    bool F_inside_RP = (magic_product_2D_LH(tr.R_, tr.P_, F, plane_normal) != Loc_2D_LH::Out);
+    bool F_inside_PQ = (magic_product_2D_LH(tr.P_, tr.Q_, F, plane_normal) != Loc_2D_LH::In);
+    bool F_inside_QR = (magic_product_2D_LH(tr.Q_, tr.R_, F, plane_normal) != Loc_2D_LH::In);
+    bool F_inside_RP = (magic_product_2D_LH(tr.R_, tr.P_, F, plane_normal) != Loc_2D_LH::In);
 
-    bool S_inside_PQ = (magic_product_2D_LH(tr.P_, tr.Q_, S, plane_normal) != Loc_2D_LH::Out);
-    bool S_inside_QR = (magic_product_2D_LH(tr.Q_, tr.R_, S, plane_normal) != Loc_2D_LH::Out);
-    bool S_inside_RP = (magic_product_2D_LH(tr.R_, tr.P_, S, plane_normal) != Loc_2D_LH::Out);
+    bool S_inside_PQ = (magic_product_2D_LH(tr.P_, tr.Q_, S, plane_normal) != Loc_2D_LH::In);
+    bool S_inside_QR = (magic_product_2D_LH(tr.Q_, tr.R_, S, plane_normal) != Loc_2D_LH::In);
+    bool S_inside_RP = (magic_product_2D_LH(tr.R_, tr.P_, S, plane_normal) != Loc_2D_LH::In);
 
     enum LOC {
         OUT_ALL             = 0b000,
