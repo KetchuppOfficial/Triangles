@@ -14,7 +14,7 @@ TEST (Triangles, Swap_QR)
 
     tr.swap_QR ();
 
-    EXPECT_TRUE (tr.Q_ == R && tr.R_ == Q);
+    EXPECT_TRUE (tr.Q() == R && tr.R() == Q);
 }
 
 TEST (Triangles, Swap_Clockwise)
@@ -26,7 +26,7 @@ TEST (Triangles, Swap_Clockwise)
 
     tr.swap_clockwise ();
 
-    EXPECT_TRUE (tr.P_ == R && tr.Q_ == P && tr.R_ == Q);
+    EXPECT_TRUE (tr.P() == R && tr.Q() == P && tr.R() == Q);
 }
 
 TEST (Triangles, Swap_Counterclockwise)
@@ -38,7 +38,7 @@ TEST (Triangles, Swap_Counterclockwise)
     Triangle tr {P, Q, R};
     tr.swap_counterclockwise ();
 
-    EXPECT_TRUE (tr.P_ == Q && tr.Q_ == R && tr.R_ == P);
+    EXPECT_TRUE (tr.P() == Q && tr.Q() == R && tr.R() == P);
 }
 
 TEST (Triangles, Is_Point)

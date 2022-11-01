@@ -16,23 +16,23 @@ TEST(IntersectionTest_2D, SpaceTransformation)
 
     space_transformation (T1, T2);
 
-    EXPECT_TRUE ((T1.P_ == (Point {0.0, 0.0, 0.0})) &&
-                 (T1.Q_ == (Point {2.0, 0.0, 0.0})) &&
-                 (T1.R_ == (Point {0.0, 1.0, 0.0})));
+    EXPECT_TRUE ((T1.P() == (Point {0.0, 0.0, 0.0})) &&
+                 (T1.Q() == (Point {2.0, 0.0, 0.0})) &&
+                 (T1.R() == (Point {0.0, 1.0, 0.0})));
 
-    EXPECT_TRUE ((T2.P_ == (Point {3.0, 0.0, 0.0})) &&
-                 (T2.Q_ == (Point {4.0, 0.0, 0.0})) &&
-                 (T2.R_ == (Point {4.0, 2.0, 0.0})));
+    EXPECT_TRUE ((T2.P() == (Point {3.0, 0.0, 0.0})) &&
+                 (T2.Q() == (Point {4.0, 0.0, 0.0})) &&
+                 (T2.R() == (Point {4.0, 2.0, 0.0})));
 
     space_transformation (T3, T4);
 
-    EXPECT_TRUE ((T3.P_ == (Point {0.0, 0.0, 0.0})) &&
-                 (T3.Q_ == (Point {2.0*std::sqrt(2.0), 0.0, 0.0})) &&
-                 (T3.R_ == (Point {-1 / std::sqrt(2.0), std::sqrt(6) / 2.0, 0.0})));
+    EXPECT_TRUE ((T3.P() == (Point {0.0, 0.0, 0.0})) &&
+                 (T3.Q() == (Point {2.0*std::sqrt(2.0), 0.0, 0.0})) &&
+                 (T3.R() == (Point {-1 / std::sqrt(2.0), std::sqrt(6) / 2.0, 0.0})));
 
-    EXPECT_TRUE ((T4.P_ == (Point {0.0, std::sqrt(6.0), 0.0})) && 
-                 (T4.Q_ == (Point {std::sqrt(2.0), std::sqrt(6.0), 0.0})) &&
-                 (T4.R_ == (Point {1 / std::sqrt(2), -std::sqrt(6) / 2.0, 0.0})));
+    EXPECT_TRUE ((T4.P() == (Point {0.0, std::sqrt(6.0), 0.0})) && 
+                 (T4.Q() == (Point {std::sqrt(2.0), std::sqrt(6.0), 0.0})) &&
+                 (T4.R() == (Point {1 / std::sqrt(2), -std::sqrt(6) / 2.0, 0.0})));
 }
 
 TEST(IntersectionTest_2D, Magic_Product)
@@ -41,21 +41,21 @@ TEST(IntersectionTest_2D, Magic_Product)
     Triangle T2 { Point {0.0, 0.0, 0.0}, Point {1.0, 0.0, 0.0}, Point {2.0, 0.0, 0.0} };
     Triangle T3 { Point {0.0, 0.0, 0.0}, Point {0.0, 0.0, 0.0}, Point {0.0, 0.0, 0.0} };
 
-    EXPECT_TRUE (magic_product (T1.P_, T1.Q_, T1.R_) == Loc_2D::Positive &&
-                 magic_product (T1.R_, T1.P_, T1.Q_) == Loc_2D::Positive &&
-                 magic_product (T1.Q_, T1.R_, T1.P_) == Loc_2D::Positive);
+    EXPECT_TRUE (magic_product (T1.P(), T1.Q(), T1.R()) == Loc_2D::Positive &&
+                 magic_product (T1.R(), T1.P(), T1.Q()) == Loc_2D::Positive &&
+                 magic_product (T1.Q(), T1.R(), T1.P()) == Loc_2D::Positive);
 
-    EXPECT_TRUE (magic_product (T1.Q_, T1.P_, T1.R_) == Loc_2D::Negative &&
-                 magic_product (T1.P_, T1.R_, T1.Q_) == Loc_2D::Negative &&
-                 magic_product (T1.R_, T1.Q_, T1.P_) == Loc_2D::Negative);
+    EXPECT_TRUE (magic_product (T1.Q(), T1.P(), T1.R()) == Loc_2D::Negative &&
+                 magic_product (T1.P(), T1.R(), T1.Q()) == Loc_2D::Negative &&
+                 magic_product (T1.R(), T1.Q(), T1.P()) == Loc_2D::Negative);
 
-    EXPECT_TRUE (magic_product (T2.P_, T2.Q_, T2.R_) == Loc_2D::Neutral &&
-                 magic_product (T2.R_, T2.P_, T2.Q_) == Loc_2D::Neutral &&
-                 magic_product (T2.Q_, T2.R_, T2.P_) == Loc_2D::Neutral);
+    EXPECT_TRUE (magic_product (T2.P(), T2.Q(), T2.R()) == Loc_2D::Neutral &&
+                 magic_product (T2.R(), T2.P(), T2.Q()) == Loc_2D::Neutral &&
+                 magic_product (T2.Q(), T2.R(), T2.P()) == Loc_2D::Neutral);
 
-    EXPECT_TRUE (magic_product (T3.P_, T3.Q_, T3.R_) == Loc_2D::Neutral &&
-                 magic_product (T3.R_, T3.P_, T3.Q_) == Loc_2D::Neutral &&
-                 magic_product (T3.Q_, T3.R_, T3.P_) == Loc_2D::Neutral);
+    EXPECT_TRUE (magic_product (T3.P(), T3.Q(), T3.R()) == Loc_2D::Neutral &&
+                 magic_product (T3.R(), T3.P(), T3.Q()) == Loc_2D::Neutral &&
+                 magic_product (T3.Q(), T3.R(), T3.P()) == Loc_2D::Neutral);
 }
 
 TEST (IntersectionTest_2D, Intersection_R1) 

@@ -25,21 +25,21 @@ class Segment {
 
     Segment(const Triangle& tr)
     {
-        Vector PQ {tr.P_, tr.Q_};
-        Vector RQ {tr.R_, tr.Q_};
+        Vector PQ {tr.P(), tr.Q()};
+        Vector RQ {tr.R(), tr.Q()};
 
         if (scalar_product(PQ, RQ) <= 0.0)
         {
-            F_ = tr.P_;
-            S_ = tr.R_;
+            F_ = tr.P();
+            S_ = tr.R();
         }
         else
         {
-            F_ = tr.Q_;
+            F_ = tr.Q();
             if (PQ.norm() > RQ.norm())
-                S_ = tr.P_;
+                S_ = tr.P();
             else
-                S_ = tr.R_;
+                S_ = tr.R();
         }
         FS_ = Vector {F_, S_};
     }
@@ -77,7 +77,7 @@ enum Loc_2D_LH
 
 inline Loc_2D_LH magic_product_2D_LH(const Point& A, const Point& B, const Point& C, const Vector& plane_normal)
 {
-    double prod = triple_product(Vector {A, C}, Vector {A, B}, plane_normal);
+    double prod = triple_product(Vector {A, B}, Vector {A, C}, plane_normal);
 
     if (cmp::are_equal(prod, 0.0))
         return Loc_2D_LH::On;
@@ -86,6 +86,23 @@ inline Loc_2D_LH magic_product_2D_LH(const Point& A, const Point& B, const Point
     else
         return Loc_2D_LH::Out;  
 }
+
+inline bool point_belong_triangle(const Point& point_A, const Triangle& tr)
+{
+    if (magic_product(tr.P(), tr.Q(), tr.R(), point_A) != Loc_3D::On)
+        return false;
+
+    Vector plane_normal {tr.make_plane_normal()};
+    
+    if (magic_product_2D_LH(tr.P(), tr.Q(), point_A, plane_normal) != Loc_2D_LH::Out &&
+        magic_product_2D_LH(tr.Q(), tr.R(), point_A, plane_normal) != Loc_2D_LH::Out &&
+        magic_product_2D_LH(tr.R(), tr.P(), point_A, plane_normal) != Loc_2D_LH::Out)
+        return true;
+    
+    std::cout << "ALARM!!!" << std::endl << std::endl;
+    return false;
+}
+
 
 inline bool are_intersecting(const Segment& seg1, const Segment& seg2)
 {
@@ -126,9 +143,9 @@ inline bool seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
     if (point_belong_triangle(seg.F(), tr) || point_belong_triangle(seg.S(), tr))
         return true;
 
-    if (are_intersecting(seg, Segment {tr.P_, tr.Q_}) ||
-        are_intersecting(seg, Segment {tr.Q_, tr.R_}) ||
-        are_intersecting(seg, Segment {tr.R_, tr.P_}))
+    if (are_intersecting(seg, Segment {tr.P(), tr.Q()}) ||
+        are_intersecting(seg, Segment {tr.Q(), tr.R()}) ||
+        are_intersecting(seg, Segment {tr.R(), tr.P()}))
         return true;
 
     return false;
@@ -142,17 +159,17 @@ inline bool alt_seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
     const Point& F = seg.F();
     const Point& S = seg.S();
     
-    Vector plane_normal {vector_product(Vector {tr.R_, tr.P_}, Vector {tr.P_, tr.Q_})};
+    Vector plane_normal {tr.make_plane_normal()};
 
-    Vector FP {F, tr.P_}, FQ {F, tr.Q_}, FR {F, tr.R_};
+    Vector FP {F, tr.P()}, FQ {F, tr.Q()}, FR {F, tr.R()};
 
-    bool F_inside_PQ = (magic_product_2D_LH(tr.P_, tr.Q_, F, plane_normal) != Loc_2D_LH::In);
-    bool F_inside_QR = (magic_product_2D_LH(tr.Q_, tr.R_, F, plane_normal) != Loc_2D_LH::In);
-    bool F_inside_RP = (magic_product_2D_LH(tr.R_, tr.P_, F, plane_normal) != Loc_2D_LH::In);
+    bool F_inside_PQ = (magic_product_2D_LH(tr.P(), tr.Q(), F, plane_normal) != Loc_2D_LH::In);
+    bool F_inside_QR = (magic_product_2D_LH(tr.Q(), tr.R(), F, plane_normal) != Loc_2D_LH::In);
+    bool F_inside_RP = (magic_product_2D_LH(tr.R(), tr.P(), F, plane_normal) != Loc_2D_LH::In);
 
-    bool S_inside_PQ = (magic_product_2D_LH(tr.P_, tr.Q_, S, plane_normal) != Loc_2D_LH::In);
-    bool S_inside_QR = (magic_product_2D_LH(tr.Q_, tr.R_, S, plane_normal) != Loc_2D_LH::In);
-    bool S_inside_RP = (magic_product_2D_LH(tr.R_, tr.P_, S, plane_normal) != Loc_2D_LH::In);
+    bool S_inside_PQ = (magic_product_2D_LH(tr.P(), tr.Q(), S, plane_normal) != Loc_2D_LH::In);
+    bool S_inside_QR = (magic_product_2D_LH(tr.Q(), tr.R(), S, plane_normal) != Loc_2D_LH::In);
+    bool S_inside_RP = (magic_product_2D_LH(tr.R(), tr.P(), S, plane_normal) != Loc_2D_LH::In);
 
     enum LOC {
         OUT_ALL             = 0b000,
@@ -196,7 +213,7 @@ inline bool alt_seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
 
 inline bool seg_tr_intersecting_3D(const Segment& seg, const Triangle& tr)
 {
-    const Point& P = tr.P_, Q = tr.Q_, R = tr.R_, F = seg.F(), S = seg.S();
+    const Point& P = tr.P(), Q = tr.Q(), R = tr.R(), F = seg.F(), S = seg.S();
 
     if (point_belong_segment(P, seg) ||
         point_belong_segment(Q, seg) ||
@@ -212,8 +229,8 @@ inline bool seg_tr_intersecting_3D(const Segment& seg, const Triangle& tr)
 
 inline bool are_intersecting(const Segment& seg, const Triangle& tr)
 {
-    auto F_loc = magic_product(tr.P_, tr.Q_, tr.R_, seg.F());
-    auto S_loc = magic_product(tr.P_, tr.Q_, tr.R_, seg.S());
+    auto F_loc = magic_product(tr.P(), tr.Q(), tr.R(), seg.F());
+    auto S_loc = magic_product(tr.P(), tr.Q(), tr.R(), seg.S());
 
     if (F_loc != Loc_3D::On && S_loc != Loc_3D::On && F_loc == S_loc)
         return false;

@@ -16,11 +16,13 @@ enum TR_TYPE {
 };
 
 
-struct Triangle
+class Triangle
 {
     Point P_, Q_, R_;
+    TR_TYPE type;
 
-    Triangle (const Point &P, const Point &Q, const Point &R) : P_ {P}, Q_ {Q}, R_ {R} {}
+    public:
+    Triangle (const Point &P, const Point &Q, const Point &R) : P_ {P}, Q_ {Q}, R_ {R}, type {type_calc()} {}
 
     bool operator== (const Triangle &rhs) const
     {
@@ -51,7 +53,8 @@ struct Triangle
         return are_collinear (PQ, PR);
     }
 
-    TR_TYPE type() const
+    private:
+    TR_TYPE type_calc() const
     {
         if (is_point())
             return TR_TYPE::POINT;
@@ -61,33 +64,20 @@ struct Triangle
             return TR_TYPE::TRIANGLE;
     }
 
+    public:
+    const Point& P() const & {return P_;}
+    const Point& Q() const & {return Q_;}
+    const Point& R() const & {return R_;}
+    
+    Point& P() & {return P_;}
+    Point& Q() & {return Q_;}
+    Point& R() & {return R_;}
+
+    Vector make_plane_normal() const
+    {
+        return vector_product(Vector {P_, Q_}, Vector {P_, R_});
+    }
 };
-
-inline bool point_belong_triangle(const Point& point_A, const Triangle& tr)
-{
-    Vector PA {tr.P_, point_A};
-
-    Vector PR {tr.P_, tr.R_};
-    Vector PQ {tr.P_, tr.Q_};
-    Vector QR {tr.Q_, tr.R_};
-    if (!are_coplanar(PA, PR, PQ))
-        return false;
-    
-    Vector plane_normal {vector_product(PQ, PR)};
-    
-    Vector side_PQ_normal {vector_product(PQ, plane_normal)};
-    Vector side_PR_normal {vector_product(plane_normal, PR)};
-    Vector side_QR_normal {vector_product(QR, plane_normal)};
-
-    Vector RA {tr.R_, point_A};
-
-    if ((scalar_product(vector_product(PQ, plane_normal), PA) <= 0.0) &&
-        (scalar_product(vector_product(plane_normal, PR), PA) <= 0.0) &&
-        (scalar_product(vector_product(QR, plane_normal), RA) <= 0.0))
-        return true; 
-    
-    return false;
-}
 
 } // namespace Geom_Objects
 
