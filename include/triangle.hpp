@@ -9,17 +9,17 @@
 namespace Geom_Objects
 {
 
-enum TR_TYPE {
-    TRIANGLE,
-    SEGMENT,
-    POINT,
+enum Tr_Type {
+    _Triangle_,
+    _Segment_,
+    _Point_,
 };
 
 
 class Triangle
 {
     Point P_, Q_, R_;
-    TR_TYPE type;
+    Tr_Type type;
 
     public:
     Triangle (const Point &P, const Point &Q, const Point &R) : P_ {P}, Q_ {Q}, R_ {R}, type {type_calc()} {}
@@ -54,14 +54,14 @@ class Triangle
     }
 
     private:
-    TR_TYPE type_calc() const
+    Tr_Type type_calc() const
     {
         if (is_point())
-            return TR_TYPE::POINT;
+            return Tr_Type::_Point_;
         else if (is_segment())
-            return TR_TYPE::SEGMENT;
+            return Tr_Type::_Segment_;
         else
-            return TR_TYPE::TRIANGLE;
+            return Tr_Type::_Triangle_;
     }
 
     public:

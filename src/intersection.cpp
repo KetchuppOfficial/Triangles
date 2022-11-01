@@ -44,6 +44,8 @@ void space_transformation (Triangle &tr_1, Triangle &tr_2)
     tr_1.P() = {0.0, 0.0, 0.0}; //  this is origin
 }
 
+
+
 bool test_intersection_R1 (const Triangle &tr_1, const Triangle &tr_2)
 {
     if (magic_product (tr_2.R(), tr_2.P(), tr_1.Q()) == Loc_2D::Negative)
