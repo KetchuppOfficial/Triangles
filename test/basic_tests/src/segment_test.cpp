@@ -1,5 +1,6 @@
 #include "segment.hpp"
 #include <gtest/gtest.h>
+#include <vector>
 
 using namespace Geom_Objects;
 
@@ -153,4 +154,37 @@ TEST(Segment_, seg_tr_intersection_3D_)
                 EXPECT_FALSE(seg_tr_intersecting_3D(seg4, tr));
             }
 }
+TEST(Segment_, segment_and_triangle_intersecting_)
+{
+    Point P {12.0, 0.0}, Q {0.0, 13.0}, R {0.0, 0.0};
+    Triangle tr {P, Q, R};
 
+    Segment seg1 {P, Q}, seg2 {Q, P}, seg3 {Q, R};
+    Segment seg4 {R, Q}, seg5 {R, P}, seg6 {P, R};
+
+    std::vector<Segment> vec1 {seg1, seg2, seg3, seg4, seg5, seg6};
+
+    for (auto seg: vec1)
+        EXPECT_TRUE(segment_and_triangle_intersecting(seg, tr));
+    
+    Point A1 {1.0, 4.0, 1.0}, A2 {2.0, 3.0, 5.0}, A3 {6.0, 8.0, 4.0}, A4 {11.0, 11.0, 12.0};
+
+    Segment seg7  {A1, A2}, seg8  {A1, A3}, seg9  {A1, A4};
+    Segment seg10 {A2, A3}, seg11 {A2, A4}, seg12 {A3, A4};
+    Segment seg13 {A2, A1}, seg14 {A3, A1}, seg15 {A4, A1};
+    Segment seg16 {A3, A2}, seg17 {A4, A2}, seg18 {A4, A3};
+
+    std::vector<Segment> vec2 {seg7, seg8, seg9, seg10, seg11, seg12, seg13, seg14, seg15, seg16, seg17, seg18};
+
+    for (auto seg: vec2)
+        EXPECT_FALSE(segment_and_triangle_intersecting(seg, tr));
+
+    Point B1 {3.0, 3.0, -1.0}, B2 {1.0, 2.0, 5.0}, B3 {1'000'000, 1'000'000, 0.05}, B4 {3.0, -3.0, 1.0};
+
+    Segment seg19 {B1, B2}, seg20 {B1, B4}, seg21 {B1, B3}, seg22 {B2, B3};
+
+    EXPECT_TRUE(segment_and_triangle_intersecting(seg19, tr));
+    EXPECT_TRUE(segment_and_triangle_intersecting(seg20, tr));
+    EXPECT_FALSE(segment_and_triangle_intersecting(seg21, tr));
+    EXPECT_FALSE(segment_and_triangle_intersecting(seg22, tr));
+}

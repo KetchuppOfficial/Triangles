@@ -44,7 +44,22 @@ void space_transformation (Triangle &tr_1, Triangle &tr_2)
     tr_1.P() = {0.0, 0.0, 0.0}; //  this is origin
 }
 
+enum class Case {          //3^1   //3^0
+    Point_n_Point       = 0 * 3 + 0 * 1,
+    Point_n_Segment     = 0 * 3 + 1 * 1,
+    Point_n_Triangle    = 0 * 3 + 2 * 1,
+    Segment_n_Point     = 1 * 3 + 0 * 1,
+    Segment_n_Segment   = 1 * 3 + 1 * 1,
+    Segment_n_Triangle  = 1 * 3 + 2 * 1,
+    Triangle_n_Point    = 2 * 3 + 0 * 1,
+    Triangle_n_Segment  = 2 * 3 + 1 * 1,
+    Triangle_n_Triangle = 2 * 3 + 2 * 1,
+};
 
+Case case_of_intersection(const Triangle& tr1, const Triangle& tr2)
+{
+    return static_cast<Case>(3 * tr1.type() + 1 * tr2.type());
+}
 
 bool test_intersection_R1 (const Triangle &tr_1, const Triangle &tr_2)
 {

@@ -10,24 +10,26 @@ namespace Geom_Objects
 {
 
 enum Tr_Type {
-    _Triangle_,
-    _Segment_,
-    _Point_,
+    _Triangle_ = 2,
+    _Segment_ = 1,
+    _Point_ = 0,
 };
 
 
 class Triangle
 {
     Point P_, Q_, R_;
-    Tr_Type type;
+    Tr_Type type_;
 
     public:
-    Triangle (const Point &P, const Point &Q, const Point &R) : P_ {P}, Q_ {Q}, R_ {R}, type {type_calc()} {}
+    Triangle (const Point &P, const Point &Q, const Point &R) : P_ {P}, Q_ {Q}, R_ {R}, type_ {type_calc()} {}
 
     bool operator== (const Triangle &rhs) const
     {
         return (P_ == rhs.P_ && Q_ == rhs.Q_ && R_ == rhs.R_);
     }
+
+    Tr_Type type() const & {return type_;};
 
     void swap_QR () { std::swap (Q_, R_); }
 

@@ -227,7 +227,7 @@ inline bool seg_tr_intersecting_3D(const Segment& seg, const Triangle& tr)
     return false;
 }
 
-inline bool are_intersecting(const Segment& seg, const Triangle& tr)
+inline bool segment_and_triangle_intersecting(const Segment& seg, const Triangle& tr)
 {
     auto F_loc = magic_product(tr.P(), tr.Q(), tr.R(), seg.F());
     auto S_loc = magic_product(tr.P(), tr.Q(), tr.R(), seg.S());
