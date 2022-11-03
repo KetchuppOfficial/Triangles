@@ -229,4 +229,4 @@ inline bool segment_and_triangle_intersecting(const Segment& seg, const Triangle
         return seg_tr_intersecting_3D(seg, tr);
 }
 
-} //namespace Geom_Obj
+} //namespace Geom_Objects

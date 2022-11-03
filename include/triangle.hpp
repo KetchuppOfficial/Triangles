@@ -74,11 +74,6 @@ class Triangle
     Point& P() & noexcept {return P_;}
     Point& Q() & noexcept {return Q_;}
     Point& R() & noexcept {return R_;}
-
-    Vector normal() const
-    {
-        return vector_product(Vector {P_, Q_}, Vector {P_, R_});
-    }
 };
 
 } // namespace Geom_Objects
