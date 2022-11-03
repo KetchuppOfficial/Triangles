@@ -19,17 +19,17 @@ TEST(Segment_, ctor_by_triangle)
     Segment seg2 {tr2};
     Segment seg3 {tr3};
 
-    EXPECT_TRUE(seg1.F() == B1 || seg1.F() == C1);
-    EXPECT_TRUE(seg1.F() != seg1.S());
-    EXPECT_TRUE(seg1.S() == B1 || seg1.S() == C1);
+    EXPECT_TRUE(seg1.F_ == B1 || seg1.F_ == C1);
+    EXPECT_TRUE(seg1.F_ != seg1.S_);
+    EXPECT_TRUE(seg1.S_ == B1 || seg1.S_ == C1);
 
-    EXPECT_TRUE(seg2.F() == A2 || seg2.F() == B2);
-    EXPECT_TRUE(seg2.F() != seg2.S());
-    EXPECT_TRUE(seg2.S() == A2 || seg2.S() == B2);
+    EXPECT_TRUE(seg2.F_ == A2 || seg2.F_ == B2);
+    EXPECT_TRUE(seg2.F_ != seg2.S_);
+    EXPECT_TRUE(seg2.S_ == A2 || seg2.S_ == B2);
 
-    EXPECT_TRUE(seg3.F() == B3 || seg3.F() == C3);
-    EXPECT_TRUE(seg3.F() != seg3.S());
-    EXPECT_TRUE(seg3.S() == B3 || seg3.S() == C3);
+    EXPECT_TRUE(seg3.F_ == B3 || seg3.F_ == C3);
+    EXPECT_TRUE(seg3.F_ != seg3.S_);
+    EXPECT_TRUE(seg3.S_ == B3 || seg3.S_ == C3);
 }
 
 TEST(Segment_, point_belong_triangle_)
@@ -104,7 +104,7 @@ TEST(Segment_, seg_tr_intersecting_2D_)
     EXPECT_TRUE(seg_tr_intersecting_2D(seg10, tr));
 }
 
-TEST(Segment_, alt_seg_tr_intersecting_2D_)
+/*TEST(Segment_, alt_seg_tr_intersecting_2D_)
 {
     Triangle tr {Point {-1.0, 3.0}, Point {0.0, 0.0}, Point {3.0, 0.0}};
     Segment seg1 {Point {-1.0, 2.0}, Point {0.5, 2.0}}, seg2 {Point {-2.0, 3.0}, Point {0.0, 3.0}};
@@ -123,7 +123,7 @@ TEST(Segment_, alt_seg_tr_intersecting_2D_)
     EXPECT_FALSE(alt_seg_tr_intersecting_2D(seg8, tr));
     EXPECT_TRUE(alt_seg_tr_intersecting_2D(seg9, tr));
     EXPECT_TRUE(alt_seg_tr_intersecting_2D(seg10, tr));
-}
+}*/
 
 TEST(Segment_, seg_tr_intersection_3D_)
 {

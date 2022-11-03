@@ -10,12 +10,10 @@
 namespace Geom_Objects
 {
 
-class Segment {
+struct Segment {
     Point F_, S_;
-    Vector FS_;
-
-    public:
-    Segment(const Point& f, const Point& s): F_ {f}, S_ {s}, FS_ {Vector {F_, S_}}
+    
+    Segment(const Point& F, const Point& S): F_ {F}, S_ {S}
     {
         #ifndef RELEASE
         if (F_ == S_)
@@ -25,10 +23,15 @@ class Segment {
 
     Segment(const Triangle& tr)
     {
+        #ifndef RELEASE
+        if (tr.type() != Tr_Type::Segment_)
+            throw std::logic_error{"In ctor Segmnet by Triangle type of Triangle isnt Segemnt_"};
+        #endif
+
         Vector PQ {tr.P(), tr.Q()};
         Vector RQ {tr.R(), tr.Q()};
 
-        if (scalar_product(PQ, RQ) <= 0.0)
+        if (scalar_product(PQ, RQ) < 0.0 || tr.P() == tr.R())
         {
             F_ = tr.P();
             S_ = tr.R();
@@ -41,125 +44,109 @@ class Segment {
             else
                 S_ = tr.R();
         }
-        FS_ = Vector {F_, S_};
     }
-
-    const Point& F() const noexcept {return F_;}
-    const Point& S() const noexcept {return S_;}
-    const Vector& FS() const noexcept {return FS_;}
 
     void swap_points() noexcept
     {
         std::swap(F_, S_);
-        FS_ = -FS_;
     }
 };
 
 inline bool point_belong_segment(const Point& point, const Segment& segment)
 {
-    Vector PF {point, segment.F()};
-    Vector PS {point, segment.S()};
+    Vector PF {point, segment.F_};
+    Vector PS {point, segment.S_};
 
     if (!are_collinear(PF, PS))
         return false;
-    else if (scalar_product(PF, segment.FS()) * scalar_product(PS, segment.FS()) <= 0.0)
+    else if (scalar_product(PF,PS) < 0.0 || segment.F_ == point || segment.S_ == point)
         return true;
     else
         return false;
 }
 
-enum Loc_2D_LH
-{
-    Out = -1,
-    On  = 0,
-    In  = 1
+enum Loc_Points {
+    In_Same = 1,
+    In_Different = -1,
+    On_Line = 0,
 };
 
-inline Loc_2D_LH magic_product_2D_LH(const Point& A, const Point& B, const Point& C, const Vector& plane_normal)
+inline Loc_Points laying_in_same_half(const Point& A, const Point& B, const Point& C, const Point& D)
 {
-    double prod = triple_product(Vector {A, B}, Vector {A, C}, plane_normal);
+    Vector AB {A, B}, AC {A, C}, AD {A, D};
+
+    auto prod = scalar_product(vector_product(AB, AC), vector_product(AB, AD));
 
     if (cmp::are_equal(prod, 0.0))
-        return Loc_2D_LH::On;
+        return Loc_Points::On_Line;
     else if (prod > 0.0)
-        return Loc_2D_LH::In;
+        return  Loc_Points::In_Same;
     else
-        return Loc_2D_LH::Out;  
+        return Loc_Points::In_Different;
 }
 
 inline bool point_belong_triangle(const Point& point_A, const Triangle& tr)
 {
     if (magic_product(tr.P(), tr.Q(), tr.R(), point_A) != Loc_3D::On)
         return false;
-
-    Vector plane_normal {tr.make_plane_normal()};
     
-    if (magic_product_2D_LH(tr.P(), tr.Q(), point_A, plane_normal) != Loc_2D_LH::Out &&
-        magic_product_2D_LH(tr.Q(), tr.R(), point_A, plane_normal) != Loc_2D_LH::Out &&
-        magic_product_2D_LH(tr.R(), tr.P(), point_A, plane_normal) != Loc_2D_LH::Out)
-        return true;
-    
-    std::cout << "ALARM!!!" << std::endl << std::endl;
-    return false;
+    return laying_in_same_half(tr.P(), tr.Q(), tr.R(), point_A) != Loc_Points::In_Different &&
+           laying_in_same_half(tr.Q(), tr.R(), tr.P(), point_A) != Loc_Points::In_Different &&
+           laying_in_same_half(tr.R(), tr.P(), tr.Q(), point_A) != Loc_Points::In_Different;
 }
-
 
 inline bool are_intersecting(const Segment& seg1, const Segment& seg2)
 {
-    Line line1 {seg1.F(), seg1.FS()}, line2 {seg2.F(), seg2.FS()};
+    Vector F1S1 {seg1.F_, seg1.S_};
+    Vector F2S2 {seg2.F_, seg2.S_};
+    
+    Line line1 {seg1.F_, F1S1}, line2 {seg2.F_, F2S2};
     if (!are_intersecting(line1, line2))
         return false;
 
     if (line1 == line2)
     {
-        Line& line = line1;
         Segment seg2_cpy {seg2};
 
-        const Point& A1 = seg1.F();
-        const Point& B1 = seg1.S();
-        if (scalar_product(seg1.FS(), seg2_cpy.FS()) < 0.0)
+        const Point& A1 = seg1.F_;
+        const Point& B1 = seg1.S_;
+        if (scalar_product(F1S1, F2S2) < 0.0)
             seg2_cpy.swap_points();
-        const Point& A2 = seg2_cpy.F();
-        const Point& B2 = seg2_cpy.S();
+        const Point& A2 = seg2_cpy.F_;
+        const Point& B2 = seg2_cpy.S_;
 
         Vector B1A2 {B1, A2};
         Vector B2A1 {B2, A1};
 
-        if (scalar_product(B1A2, line.drc_vec()) >= 0.0 || scalar_product(B2A1, line.drc_vec()) >= 0.0)
-            return false;
-        return true;  
+        auto prod_B1A2_B2A1 = scalar_product(B1A2, B2A1);
+
+        return prod_B1A2_B2A1 > 0.0 || cmp::are_equal(prod_B1A2_B2A1, 0.0); 
     }
 
-    Vector plane_normal {vector_product(seg1.FS(), seg2.FS())};
-
-    if ((magic_product_2D_LH(seg1.F(), seg1.S(), seg2.F(), plane_normal) * magic_product_2D_LH(seg1.F(), seg1.S(), seg2.S(), plane_normal) <= 0) &&
-        (magic_product_2D_LH(seg2.F(), seg2.S(), seg1.F(), plane_normal) * magic_product_2D_LH(seg2.F(), seg2.S(), seg1.S(), plane_normal) <= 0))
-        return true;
-    return false;
+    return laying_in_same_half(seg1.F_, seg1.S_, seg2.F_, seg2.S_) != Loc_Points::In_Same &&
+           laying_in_same_half(seg2.F_, seg2.S_, seg1.F_, seg1.S_) != Loc_Points::In_Same;
 }
 
 inline bool seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
 {
-    if (point_belong_triangle(seg.F(), tr) || point_belong_triangle(seg.S(), tr))
+    if (point_belong_triangle(seg.F_, tr) || point_belong_triangle(seg.S_, tr))
         return true;
 
-    if (are_intersecting(seg, Segment {tr.P(), tr.Q()}) ||
-        are_intersecting(seg, Segment {tr.Q(), tr.R()}) ||
-        are_intersecting(seg, Segment {tr.R(), tr.P()}))
-        return true;
-
-    return false;
+    return are_intersecting(seg, Segment {tr.P(), tr.Q()}) ||
+           are_intersecting(seg, Segment {tr.Q(), tr.R()}) ||
+           are_intersecting(seg, Segment {tr.R(), tr.P()});
 }
 
+/*
 inline bool alt_seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
 {
-    if (point_belong_triangle(seg.F(), tr) || point_belong_triangle(seg.S(), tr))
+    if (point_belong_triangle(seg.F_, tr) || point_belong_triangle(seg.S_, tr))
         return true;
 
-    const Point& F = seg.F();
-    const Point& S = seg.S();
+    const Point& F = seg.F_;
+    const Point& S = seg.S_;
     
-    Vector plane_normal {tr.make_plane_normal()};
+    Vector plane_normal {tr.normal()};
 
     Vector FP {F, tr.P()}, FQ {F, tr.Q()}, FR {F, tr.R()};
 
@@ -210,10 +197,11 @@ inline bool alt_seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr)
     }
     return false;
 }
+*/
 
 inline bool seg_tr_intersecting_3D(const Segment& seg, const Triangle& tr)
 {
-    const Point& P = tr.P(), Q = tr.Q(), R = tr.R(), F = seg.F(), S = seg.S();
+    const Point& P = tr.P(), Q = tr.Q(), R = tr.R(), F = seg.F_, S = seg.S_;
 
     if (point_belong_segment(P, seg) ||
         point_belong_segment(Q, seg) ||
@@ -229,8 +217,8 @@ inline bool seg_tr_intersecting_3D(const Segment& seg, const Triangle& tr)
 
 inline bool segment_and_triangle_intersecting(const Segment& seg, const Triangle& tr)
 {
-    auto F_loc = magic_product(tr.P(), tr.Q(), tr.R(), seg.F());
-    auto S_loc = magic_product(tr.P(), tr.Q(), tr.R(), seg.S());
+    auto F_loc = magic_product(tr.P(), tr.Q(), tr.R(), seg.F_);
+    auto S_loc = magic_product(tr.P(), tr.Q(), tr.R(), seg.S_);
 
     if (F_loc != Loc_3D::On && S_loc != Loc_3D::On && F_loc == S_loc)
         return false;
@@ -241,4 +229,4 @@ inline bool segment_and_triangle_intersecting(const Segment& seg, const Triangle
         return seg_tr_intersecting_3D(seg, tr);
 }
 
-}
+} //namespace Geom_Obj

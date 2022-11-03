@@ -10,9 +10,9 @@ namespace Geom_Objects
 {
 
 enum Tr_Type {
-    _Triangle_ = 2,
-    _Segment_ = 1,
-    _Point_ = 0,
+    Triangle_ = 2,
+    Segment_ = 1,
+    Point_ = 0,
 };
 
 
@@ -59,23 +59,23 @@ class Triangle
     Tr_Type type_calc() const
     {
         if (is_point())
-            return Tr_Type::_Point_;
+            return Tr_Type::Point_;
         else if (is_segment())
-            return Tr_Type::_Segment_;
+            return Tr_Type::Segment_;
         else
-            return Tr_Type::_Triangle_;
+            return Tr_Type::Triangle_;
     }
 
     public:
-    const Point& P() const & {return P_;}
-    const Point& Q() const & {return Q_;}
-    const Point& R() const & {return R_;}
+    const Point& P() const & noexcept {return P_;}
+    const Point& Q() const & noexcept {return Q_;}
+    const Point& R() const & noexcept {return R_;}
     
-    Point& P() & {return P_;}
-    Point& Q() & {return Q_;}
-    Point& R() & {return R_;}
+    Point& P() & noexcept {return P_;}
+    Point& Q() & noexcept {return Q_;}
+    Point& R() & noexcept {return R_;}
 
-    Vector make_plane_normal() const
+    Vector normal() const
     {
         return vector_product(Vector {P_, Q_}, Vector {P_, R_});
     }

@@ -44,7 +44,7 @@ void space_transformation (Triangle &tr_1, Triangle &tr_2)
     tr_1.P() = {0.0, 0.0, 0.0}; //  this is origin
 }
 
-enum class Case {          //3^1   //3^0
+enum class Case {       //   3^1     3^0
     Point_n_Point       = 0 * 3 + 0 * 1,
     Point_n_Segment     = 0 * 3 + 1 * 1,
     Point_n_Triangle    = 0 * 3 + 2 * 1,
