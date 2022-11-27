@@ -2,10 +2,23 @@
 #define TEST_INCLUDE_ALGORITHM_TESTING_HPP
 
 #include "triangle.hpp"
+#include "segment.hpp"
 
 namespace Geom_Objects
 {
 
+enum Loc_Points {
+    In_Same = 1,
+    In_Different = -1,
+    On_Line = 0,
+};
+
+Loc_Points laying_in_same_half(const Point& A, const Point& B, const Point& C, const Point& D);
+bool point_belong_triangle(const Point& point_A, const Triangle& tr);
+bool are_intersecting(const Segment& seg1, const Segment& seg2);
+bool seg_tr_intersecting_2D(const Segment& seg, const Triangle& tr);
+bool seg_tr_intersecting_3D(const Segment& seg, const Triangle& tr);
+bool segment_and_triangle_intersecting(const Segment& seg, const Triangle& tr);
 bool intersection_in_2D (const Triangle &tr_1_, const Triangle &tr_2_);
 inline Loc_2D magic_product (const Point &P, const Point &Q, const Point &M);
 void space_transformation (Triangle &tr_1, Triangle &tr_2);
