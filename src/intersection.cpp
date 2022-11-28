@@ -328,16 +328,38 @@ bool intersection_in_3D (const Triangle &tr_1_, const Triangle &tr_2_, const Loc
 
 bool are_intersecting (const Triangle &tr_1, const Triangle &tr_2)
 {
-    auto P1_loc = magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.P());
-    auto Q1_loc = magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.Q());
-    auto R1_loc = magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.R());
+    switch(case_of_intersection(tr_1, tr_2))
+    {
+        case Case::Point_n_Point:
+            return tr_1.P() == tr_2.P();
+        case Case::Point_n_Segment:
+            return point_belong_segment(tr_1.P(), Segment {tr_2});
+        case Case::Point_n_Triangle:
+            return point_belong_triangle(tr_1.P(), tr_2);
+        case Case::Segment_n_Point:
+            return point_belong_segment(tr_2.P(), Segment {tr_1});
+        case Case::Segment_n_Segment:
+            return are_intersecting(Segment {tr_1}, Segment {tr_2});
+        case Case::Segment_n_Triangle:
+            return segment_and_triangle_intersecting(Segment {tr_1}, tr_2);
+        case Case::Triangle_n_Point:
+            return point_belong_triangle(tr_2.P(), tr_1);
+        case Case::Triangle_n_Segment:
+            return segment_and_triangle_intersecting(Segment {tr_2}. tr_1);
+        case Case::Triangle_n_Triangle:
+        {
+            auto P1_loc = magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.P());
+            auto Q1_loc = magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.Q());
+            auto R1_loc = magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.R());
 
-    if (P1_loc != Loc_3D::On && P1_loc == Q1_loc && Q1_loc == R1_loc)
-        return false;
-    else if (P1_loc == Loc_3D::On && Q1_loc == Loc_3D::On && R1_loc == Loc_3D::On)
-        return intersection_in_2D (tr_1, tr_2);
-    else
-        return intersection_in_3D (tr_1, tr_2, P1_loc, Q1_loc, R1_loc);
+            if (P1_loc != Loc_3D::On && P1_loc == Q1_loc && Q1_loc == R1_loc)
+                return false;
+            else if (P1_loc == Loc_3D::On && Q1_loc == Loc_3D::On && R1_loc == Loc_3D::On)
+                return intersection_in_2D (tr_1, tr_2);
+            else
+                return intersection_in_3D (tr_1, tr_2, P1_loc, Q1_loc, R1_loc);
+        }
+    }
 }
 
 } // namespace Geom_Objects
