@@ -33,6 +33,20 @@ bool operator== (const Segment<Point_T> &lhs, const Segment<Point_T> &rhs)
     return (lhs.P() == rhs.P() && lhs.Q() == rhs.Q());
 }
 
+template<typename Point_T>
+void dump (std::ostream &os, const Segment<Point_T> &seg)
+{
+    os << "P = " << seg.P() << "; "
+       << "Q = " << seg.Q();
+}
+
+template<typename Point_T>
+std::ostream &operator<< (std::ostream &os, const Segment<Point_T> &seg)
+{
+    dump (os, seg);
+    return os;
+}
+
 } // namespace geometry
 
 } // namespace yLab
