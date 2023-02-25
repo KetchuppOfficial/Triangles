@@ -10,12 +10,11 @@
 namespace yLab::geometry
 {
 
-namespace detail
-{
-
 template<typename T>
 bool are_intersecting (const Segment<Point_3D<T>> &seg_1, const Segment<Point_3D<T>> &seg_2)
 {
+    using detail::magic_product;
+    
     Vector P1_Q1{seg_1.P(), seg_1.Q()};
     Vector P2_Q2{seg_2.P(), seg_2.Q()};
     Vector P1_Q2{seg_1.P(), seg_2.Q()};
@@ -38,7 +37,7 @@ bool are_intersecting (const Segment<Point_3D<T>> &seg_1, const Segment<Point_3D
     }
     else
     {
-        auto [seg_1_2d, seg_2_2d] = space_transformation (seg_1, seg_2);
+        auto [seg_1_2d, seg_2_2d] = detail::space_transformation (seg_1, seg_2);
 
         auto P2_wrt_P1Q1 = magic_product (seg_1_2d.P(), seg_1_2d.Q(), seg_2_2d.P());
         auto Q2_wrt_P1Q1 = magic_product (seg_1_2d.P(), seg_1_2d.Q(), seg_2_2d.Q());
@@ -58,8 +57,6 @@ bool are_intersecting (const Segment<Point_3D<T>> &seg_1, const Segment<Point_3D
         }
     }
 }
-
-} // namespace detail
 
 } // namespace yLab::geometry
 

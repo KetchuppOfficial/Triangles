@@ -8,9 +8,6 @@
 namespace yLab::geometry
 {
 
-namespace detail
-{
-
 template<typename T>
 bool are_intersecting (const Point_3D<T> &pt, const Segment<Point_3D<T>> &seg)
 {
@@ -30,8 +27,6 @@ template<typename T>
 bool are_intersecting (const Segment<Point_3D<T>> &seg, const Point_3D<T> &pt)
 {
     return are_intersecting (pt, seg);
-}
-
 }
 
 } // yLab::geometry

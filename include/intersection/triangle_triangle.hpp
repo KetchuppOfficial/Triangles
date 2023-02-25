@@ -2,7 +2,6 @@
 #define INCLUDE_INTERSECTION_3D_HPP
 
 #include <utility>
-#include <cassert>
 
 #include "triangle.hpp"
 
@@ -102,10 +101,14 @@ bool are_intersecting_3D (const Triangle<Point_3D<T>> &tr_1, const Triangle<Poin
     }
 }
 
+} // namespace detail
+
 template<typename T>
 bool are_intersecting (const Triangle<Point_3D<T>> &tr_1, const Triangle<Point_3D<T>> &tr_2)
-{
-    assert (tr_1.type() == Tr_Species::triangle && tr_2.type() == Tr_Species::triangle);
+{    
+    using detail::Loc_2D;
+    using detail::Loc_3D;
+    using detail::magic_product;
     
     auto P1_loc = magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.P());
     auto Q1_loc = magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.Q());
@@ -115,21 +118,19 @@ bool are_intersecting (const Triangle<Point_3D<T>> &tr_1, const Triangle<Point_3
     {
         if (P1_loc == Loc_3D::On)
         {
-            auto [tr_1_2d, tr_2_2d] = space_transformation (tr_1, tr_2);
+            auto [tr_1_2d, tr_2_2d] = detail::space_transformation (tr_1, tr_2);
             
             if (magic_product (tr_2_2d.P(), tr_2_2d.Q(), tr_2_2d.R()) == Loc_2D::Negative)
                 tr_2_2d.swap_QR ();
             
-            return are_intersecting_2D (tr_1_2d, tr_2_2d);
+            return detail::are_intersecting_2D (tr_1_2d, tr_2_2d);
         }
         else
             return false;
     }
     else
-        return are_intersecting_3D (tr_1, tr_2, P1_loc, Q1_loc, R1_loc);
+        return detail::are_intersecting_3D (tr_1, tr_2, P1_loc, Q1_loc, R1_loc);
 }
-
-} // namespace detail
 
 } // namespace yLab::geometry
 

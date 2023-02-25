@@ -3,7 +3,6 @@
 
 #include <utility>
 #include <tuple>
-#include <cassert>
 
 #include "point.hpp"
 #include "segment.hpp"
@@ -32,9 +31,7 @@ Point_2D<T> point_transformation (const Point_3D<T> &point, const Point_3D<T> &o
 
 template<typename T>
 auto get_2d_coordinates (const Triangle<Point_3D<T>> &tr)
-{
-    assert (tr.type() == Tr_Species::triangle);
-    
+{    
     Vector x_axis{tr.P(), tr.Q()};
     Vector z_axis = vector_product (x_axis, Vector{tr.P(), tr.R()});
     Vector y_axis = vector_product (z_axis, x_axis);
@@ -50,8 +47,6 @@ auto space_transformation (const Triangle<Point_3D<T>> &tr_1, const Triangle<Poi
 {
     using triangle_2d = Triangle<Point_2D<T>>;
     using triangle_pair = std::pair<triangle_2d, triangle_2d>;
-
-    assert (tr_1.type() == Tr_Species::triangle && tr_2.type() == Tr_Species::triangle);
     
     auto [origin, x_axis, y_axis] = get_2d_coordinates (tr_1);
 
@@ -72,8 +67,6 @@ auto space_transformation (const Triangle<Point_3D<T>> &tr, const Point_3D<T> &p
     using point_2d = Point_2D<T>;
     using triangle_2d = Triangle<point_2d>;
     using point_triangle_pair = std::pair<point_2d, triangle_2d>;
-
-    assert (tr.type() == Tr_Species::triangle);
     
     auto [origin, x_axis, y_axis] = get_2d_coordinates (tr);
 
@@ -98,8 +91,6 @@ auto space_transformation (const Triangle<Point_3D<T>> &tr, const Segment<Point_
     using segment_2d = Segment<Point_2D<T>>;
     using triangle_2d = Triangle<Point_2D<T>>;
     using segment_triangle_pair = std::pair<segment_2d, triangle_2d>;
-
-    assert (tr.type() == Tr_Species::triangle);
     
     auto [origin, x_axis, y_axis] = get_2d_coordinates (tr);
 
