@@ -25,7 +25,8 @@ bool test_intersection_R1 (const Segment<Point_2D<T>> &seg,
     if (magic_product (tr.R(), tr.P(), seg.Q()) == Loc_2D::Negative)
         return false;
     else
-        return (magic_product (seg.P(), tr.P(), seg.Q()) != Loc_2D::Negative);
+        return (magic_product (seg.P(), tr.P(), seg.Q()) != Loc_2D::Negative &&
+                magic_product (seg.P(), tr.R(), seg.Q()) != Loc_2D::Positive);
 }
 
 template<typename T>
@@ -105,7 +106,7 @@ bool are_intersecting_2D (Triangle<Point_2D<T>> &tr, Primitive_T &other)
 {
     auto P1_wrt_P2Q2 = magic_product (tr.P(), tr.Q(), other.P());
     auto P1_wrt_Q2R2 = magic_product (tr.Q(), tr.R(), other.P());
-    auto P1_wrt_R2P2 = magic_product (tr.P(), tr.Q(), other.P());
+    auto P1_wrt_R2P2 = magic_product (tr.R(), tr.P(), other.P());
 
     auto P1_loc = deduce_pt_location (P1_wrt_P2Q2, P1_wrt_Q2R2, P1_wrt_R2P2);
 
