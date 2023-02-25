@@ -3,6 +3,7 @@
 
 #include <type_traits>
 #include <utility>
+#include <ostream>
 
 #include "point.hpp"
 
