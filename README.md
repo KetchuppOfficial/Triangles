@@ -9,4 +9,4 @@ cmake --build build
 ctest --test-dir build
 ```
 
-## I want to thank [Dany](https://github.com/BileyHarryCopter) and [Sergey](https://github.com/LegendaryHog) for starting this project with me
+## I want to thank [Dany](https://github.com/BileyHarryCopter) and [Sergey](https://github.com/LegendaryHog) for contribution to thsi project at its first stage
