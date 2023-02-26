@@ -14,6 +14,7 @@ namespace yLab::geometry
 template<typename T>
 bool are_intersecting (const Segment<Point_3D<T>> &seg, const Triangle<Point_3D<T>> &tr)
 {
+    using detail::Loc_2D;
     using detail::Loc_3D;
     using detail::magic_product;
 
@@ -25,6 +26,10 @@ bool are_intersecting (const Segment<Point_3D<T>> &seg, const Triangle<Point_3D<
         if (P1_loc == Loc_3D::On)
         {
             auto [seg_2d, tr_2d] = detail::space_transformation (seg, tr);
+
+            if (magic_product (tr_2d.P(), tr_2d.Q(), tr_2d.R()) != Loc_2D::Positive)
+                tr_2d.swap_QR();
+
             return detail::are_intersecting_2D (tr_2d, seg_2d);
         }
         else

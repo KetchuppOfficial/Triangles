@@ -119,8 +119,11 @@ bool are_intersecting (const Triangle<Point_3D<T>> &tr_1, const Triangle<Point_3
         if (P1_loc == Loc_3D::On)
         {
             auto [tr_1_2d, tr_2_2d] = detail::space_transformation (tr_1, tr_2);
+
+            if (magic_product (tr_1_2d.P(), tr_1_2d.Q(), tr_1_2d.R()) != Loc_2D::Positive)
+                tr_1_2d.swap_QR();
             
-            if (magic_product (tr_2_2d.P(), tr_2_2d.Q(), tr_2_2d.R()) == Loc_2D::Negative)
+            if (magic_product (tr_2_2d.P(), tr_2_2d.Q(), tr_2_2d.R()) != Loc_2D::Positive)
                 tr_2_2d.swap_QR ();
             
             return detail::are_intersecting_2D (tr_1_2d, tr_2_2d);
