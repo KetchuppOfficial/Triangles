@@ -23,48 +23,59 @@ auto transform_triangle (const Triangle<Point_3D<T>> &tr_1_, Loc_3D P1_loc, Loc_
     auto &tr_1 = triangle_pair.first;
     auto &tr_2 = triangle_pair.second;
 
-    if (P1_loc == Loc_3D::Above)
+    switch (P1_loc)
     {
-        if (Q1_loc == Loc_3D::Above && R1_loc != Loc_3D::Above)
-        {
-            tr_1.swap_clockwise();
-            tr_2.swap_QR();
-        }
-        else if (Q1_loc != Loc_3D::Above && R1_loc == Loc_3D::Above)
-        {
-            tr_1.swap_counterclockwise();
-            tr_2.swap_QR();
-        }
-    }
-    else if (P1_loc == Loc_3D::On)
-    {
-        if (Q1_loc == Loc_3D::Above && R1_loc == Loc_3D::Above)
-            tr_2.swap_QR();
-        else if (Q1_loc == Loc_3D::Above && R1_loc != Loc_3D::Above)
-            tr_1.swap_counterclockwise();
-        else if (Q1_loc != Loc_3D::Above && R1_loc == Loc_3D::Above)
-            tr_1.swap_clockwise();
-        else if (Q1_loc == Loc_3D::On && R1_loc == Loc_3D::Below)
-        {
-            tr_1.swap_clockwise();
-            tr_2.swap_QR();
-        }
-        else if (Q1_loc == Loc_3D::Below && R1_loc == Loc_3D::On)
-        {
-            tr_1.swap_counterclockwise();
-            tr_2.swap_QR();
-        }
-    }
-    else
-    {
-        if (Q1_loc == R1_loc)
-            tr_2.swap_QR();
-        else if (Q1_loc == Loc_3D::Below && R1_loc != Loc_3D::Below)
-            tr_1.swap_clockwise();
-        else if (Q1_loc != Loc_3D::Below && R1_loc == Loc_3D::Below)
-            tr_1.swap_counterclockwise();
-        else
-            tr_2.swap_QR();
+        case Loc_3D::Above:
+
+            if (Q1_loc == Loc_3D::Above && R1_loc != Loc_3D::Above)
+            {
+                tr_1.swap_clockwise();
+                tr_2.swap_QR();
+            }
+            else if (Q1_loc != Loc_3D::Above && R1_loc == Loc_3D::Above)
+            {
+                tr_1.swap_counterclockwise();
+                tr_2.swap_QR();
+            }
+
+            break;
+
+        case Loc_3D::On:
+
+            if (Q1_loc == Loc_3D::Above)
+            {
+                if (R1_loc == Loc_3D::Above)
+                    tr_2.swap_QR();
+                else
+                    tr_1.swap_counterclockwise();
+            }
+            else if (R1_loc == Loc_3D::Above)
+                tr_1.swap_clockwise();
+            else if (Q1_loc == Loc_3D::On && R1_loc == Loc_3D::Below)
+            {
+                tr_1.swap_clockwise();
+                tr_2.swap_QR();
+            }
+            else if (Q1_loc == Loc_3D::Below && R1_loc == Loc_3D::On)
+            {
+                tr_1.swap_counterclockwise();
+                tr_2.swap_QR();
+            }
+
+            break;
+
+        case Loc_3D::Below:
+
+            if (Q1_loc == R1_loc)
+                tr_2.swap_QR();
+            else if (Q1_loc == Loc_3D::Below)
+                tr_1.swap_clockwise();
+            else if (R1_loc == Loc_3D::Below)
+                tr_1.swap_counterclockwise();
+            else
+                tr_2.swap_QR();
+
+            break;
     }
 
     return triangle_pair;
