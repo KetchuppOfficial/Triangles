@@ -28,7 +28,7 @@ enum class Loc_2D
 template<typename T>
 Loc_2D magic_product (const Point_2D<T> &P, const Point_2D<T> &Q, const Point_2D<T> &M)
 {
-    auto product = (P.x_ - M.x_) * (Q.y_ - M.y_) - (P.y_ - M.y_) * (Q.x_ - M.x_);
+    auto product = (P.x() - M.x()) * (Q.y() - M.y()) - (P.y() - M.y()) * (Q.x() - M.x());
     
     if (cmp::is_zero (product))
         return Loc_2D::Neutral;
@@ -58,17 +58,17 @@ template<typename T>
 Loc_3D magic_product (const Point_3D<T> &P, const Point_3D<T> &Q, 
                       const Point_3D<T> &R, const Point_3D<T> &M)
 {
-    auto elem_21 = M.x_ - Q.x_;
-    auto elem_22 = M.y_ - Q.y_;
-    auto elem_23 = M.z_ - Q.z_;
+    auto elem_21 = M.x() - Q.x();
+    auto elem_22 = M.y() - Q.y();
+    auto elem_23 = M.z() - Q.z();
 
-    auto elem_31 = M.x_ - R.x_;
-    auto elem_32 = M.y_ - R.y_;
-    auto elem_33 = M.z_ - R.z_;
+    auto elem_31 = M.x() - R.x();
+    auto elem_32 = M.y() - R.y();
+    auto elem_33 = M.z() - R.z();
 
-    auto product = (M.x_ - P.x_) * (elem_22 * elem_33 - elem_23 * elem_32) -
-                   (M.y_ - P.y_) * (elem_21 * elem_33 - elem_23 * elem_31) +
-                   (M.z_ - P.z_) * (elem_21 * elem_32 - elem_22 * elem_31);
+    auto product = (M.x() - P.x()) * (elem_22 * elem_33 - elem_23 * elem_32) -
+                   (M.y() - P.y()) * (elem_21 * elem_33 - elem_23 * elem_31) +
+                   (M.z() - P.z()) * (elem_21 * elem_32 - elem_22 * elem_31);
 
     if (cmp::is_zero (product))
         return Loc_3D::On;

@@ -43,13 +43,13 @@ Point_2D<T> project_point (const Point_3D<T> &pt, Axises coordinate_to_set_zero)
     switch (coordinate_to_set_zero)
     {
         case Axises::x:
-            return Point_2D{pt.y_, pt.z_};
+            return Point_2D{pt.y(), pt.z()};
 
         case Axises::y:
-            return Point_2D{pt.z_, pt.x_};
+            return Point_2D{pt.z(), pt.x()};
 
         case Axises::z:
-            return Point_2D{pt.x_, pt.y_};
+            return Point_2D{pt.x(), pt.y()};
 
         default:
             throw std::runtime_error ("Unexpected value of coordinate_to_set_zero");
@@ -64,20 +64,20 @@ Segment<Point_2D<T>> project_segment (const Segment<Point_3D<T>> &seg,
     {
         case Axises::x:
         {
-            return Segment{Point_2D{seg.P().y_, seg.P().z_}, 
-                           Point_2D{seg.Q().y_, seg.Q().z_}};
+            return Segment{Point_2D{seg.P().y(), seg.P().z()}, 
+                           Point_2D{seg.Q().y(), seg.Q().z()}};
         }
 
         case Axises::y:
         {
-            return Segment{Point_2D{seg.P().z_, seg.P().x_}, 
-                           Point_2D{seg.Q().z_, seg.Q().x_}};
+            return Segment{Point_2D{seg.P().z(), seg.P().x()}, 
+                           Point_2D{seg.Q().z(), seg.Q().x()}};
         }
 
         case Axises::z:
         {
-            return Segment{Point_2D{seg.P().x_, seg.P().y_}, 
-                           Point_2D{seg.Q().x_, seg.Q().y_}};
+            return Segment{Point_2D{seg.P().x(), seg.P().y()}, 
+                           Point_2D{seg.Q().x(), seg.Q().y()}};
         }
 
         default:
@@ -93,23 +93,23 @@ Triangle<Point_2D<T>> project_triangle (const Triangle<Point_3D<T>> &tr,
     {
         case Axises::x:
         {
-            return Triangle{Point_2D{tr.P().y_, tr.P().z_}, 
-                            Point_2D{tr.Q().y_, tr.Q().z_},
-                            Point_2D{tr.R().y_, tr.R().z_}};
+            return Triangle{Point_2D{tr.P().y(), tr.P().z()}, 
+                            Point_2D{tr.Q().y(), tr.Q().z()},
+                            Point_2D{tr.R().y(), tr.R().z()}};
         }
 
         case Axises::y:
         {
-            return Triangle{Point_2D{tr.P().z_, tr.P().x_}, 
-                            Point_2D{tr.Q().z_, tr.Q().x_},
-                            Point_2D{tr.R().z_, tr.R().x_}};
+            return Triangle{Point_2D{tr.P().z(), tr.P().x()}, 
+                            Point_2D{tr.Q().z(), tr.Q().x()},
+                            Point_2D{tr.R().z(), tr.R().x()}};
         }
 
         case Axises::z:
         {
-            return Triangle{Point_2D{tr.P().x_, tr.P().y_}, 
-                            Point_2D{tr.Q().x_, tr.Q().y_},
-                            Point_2D{tr.R().x_, tr.R().y_}};
+            return Triangle{Point_2D{tr.P().x(), tr.P().y()}, 
+                            Point_2D{tr.Q().x(), tr.Q().y()},
+                            Point_2D{tr.R().x(), tr.R().y()}};
         }
 
         default:

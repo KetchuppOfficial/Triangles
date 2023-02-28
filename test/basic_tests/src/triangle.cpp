@@ -81,8 +81,8 @@ TEST (Triangles, Is_Point)
 TEST (Triangles, Is_Segment)
 {
     Point_3D pt_11{73240.874, -127.7935, 12597.987124};
-    Point_3D pt_12{pt_11.x_ / 2.0, pt_11.y_ / 2.0, pt_11.z_ / 2.0};
-    Point_3D pt_31{pt_11.x_ / 3.0, pt_11.y_ / 3.0, pt_11.z_ / 3.0};
+    Point_3D pt_12{pt_11.x() / 2.0, pt_11.y() / 2.0, pt_11.z() / 2.0};
+    Point_3D pt_31{pt_11.x() / 3.0, pt_11.y() / 3.0, pt_11.z() / 3.0};
 
     try
     {

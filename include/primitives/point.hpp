@@ -13,21 +13,37 @@ namespace yLab
 namespace geometry
 {
 
-template <typename T>
+template<typename T>
 requires std::is_floating_point_v<T>
-struct Point_2D final
+class Point_2D final
 {
-    T x_, y_;
+public:
 
-    explicit Point_2D (T x = T{}, T y = T{}) : x_ {x}, y_ {y} {}
+    using distance_type = T;
 
-    bool operator== (const Point_2D &other) const
-    {
-        return (cmp::are_equal (x_, other.x_) && cmp::are_equal (y_, other.y_));
-    }
+private:
+    
+    distance_type coordinates_[2];
 
-    bool is_valid () const { return (x_ == x_ && y_ == y_); }
+public:
+
+    explicit Point_2D (T x = T{}, T y = T{}) : coordinates_{x, y} {}
+
+    distance_type x () const { return coordinates_[0]; }
+    distance_type y () const { return coordinates_[1]; }
+
+    // No bound checking !!!
+    distance_type operator[] (int i) const { return coordinates_[i]; }
+    distance_type &operator[] (int i) { return coordinates_[i]; }
+
+    bool is_valid () const { return (x() == x() && y() == y()); }
 };
+
+template<typename T>
+bool operator== (const Point_2D<T> &lhs, const Point_2D<T> &rhs)
+{
+    return (cmp::are_equal (lhs.x(), rhs.x()) && cmp::are_equal (lhs.y(), rhs.y()));
+}
 
 template<typename T>
 T distance (const Point_2D<T> &first, const Point_2D<T> &second)
@@ -36,8 +52,8 @@ T distance (const Point_2D<T> &first, const Point_2D<T> &second)
         return T{};
     else
     {
-        auto x_diff = first.x_ - second.x_;
-        auto y_diff = first.y_ - second.y_;
+        auto x_diff = first.x() - second.x();
+        auto y_diff = first.y() - second.y();
 
         return std::sqrt (x_diff * x_diff + y_diff * y_diff);
     }
@@ -46,7 +62,7 @@ T distance (const Point_2D<T> &first, const Point_2D<T> &second)
 template<typename T>
 void dump (std::ostream &os, const Point_2D<T> &pt)
 {
-    os << "(" << pt.x_ << ", " << pt.y_ << ")";
+    os << "(" << pt.x() << ", " << pt.y() << ")";
 }
 
 template<typename T>
@@ -56,22 +72,39 @@ std::ostream &operator<< (std::ostream &os, const Point_2D<T> &pt)
     return os;
 }
 
-template <typename T>
+template<typename T>
 requires std::is_floating_point_v<T>
-struct Point_3D final
+class Point_3D final
 {
-    T x_, y_, z_;
+public:
 
-    explicit Point_3D (T x = T{}, T y = T{}, T z = T{}) : x_ {x}, y_ {y}, z_ {z} {}
+    using distance_type = T;
 
-    bool operator== (const Point_3D &other) const
-    {
-        return (cmp::are_equal (x_, other.x_) && cmp::are_equal (y_, other.y_) &&
-                cmp::are_equal (z_, other.z_));
-    }
+private:
 
-    bool is_valid () const { return (x_ == x_ && y_ == y_ && z_ == z_); }
+    distance_type coordinates_[3];
+
+public:
+
+    explicit Point_3D (T x = T{}, T y = T{}, T z = T{}) : coordinates_{x, y, z} {}
+
+    distance_type x () const { return coordinates_[0]; }
+    distance_type y () const { return coordinates_[1]; }
+    distance_type z () const { return coordinates_[2]; }
+
+    // No bound checking !!!
+    distance_type operator[] (int i) const { return coordinates_[i]; }
+    distance_type &operator[] (int i) { return coordinates_[i]; }
+
+    bool is_valid () const { return (x() == x() && y() == y() && z() == z()); }
 };
+
+template<typename T>
+bool operator== (const Point_3D<T> &lhs, const Point_3D<T> &rhs)
+{
+    return (cmp::are_equal (lhs.x(), rhs.x()) && cmp::are_equal (lhs.y(), rhs.y()) &&
+            cmp::are_equal (lhs.z(), rhs.z()));
+}
 
 template<typename T>
 T distance (const Point_3D<T> &first, const Point_3D<T> &second)
@@ -80,9 +113,9 @@ T distance (const Point_3D<T> &first, const Point_3D<T> &second)
         return T{};
     else
     {
-        auto x_diff = first.x_ - second.x_;
-        auto y_diff = first.y_ - second.y_;
-        auto z_diff = first.z_ - second.z_;
+        auto x_diff = first.x() - second.x();
+        auto y_diff = first.y() - second.y();
+        auto z_diff = first.z() - second.z();
 
         return std::sqrt (x_diff * x_diff + y_diff * y_diff + z_diff * z_diff);
     }
@@ -91,7 +124,7 @@ T distance (const Point_3D<T> &first, const Point_3D<T> &second)
 template<typename T>
 void dump (std::ostream &os, const Point_3D<T> &pt)
 {
-    os << "(" << pt.x_ << ", " << pt.y_ << ", " << pt.z_ << ")";
+    os << "(" << pt.x() << ", " << pt.y() << ", " << pt.z() << ")";
 }
 
 template<typename T>

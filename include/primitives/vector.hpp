@@ -20,18 +20,18 @@ struct Vector final
     T x_, y_;
     T z_ = T{};
 
-    explicit Vector (T x = T{}, T y = T{}, T z = T{}) : x_ {x}, y_ {y}, z_ {z} {}
+    explicit Vector (T x = T{}, T y = T{}, T z = T{}) : x_{x}, y_{y}, z_{z} {}
 
-    Vector (const Point_3D<T> &pt) : x_ {pt.x_}, y_ {pt.y_}, z_ {pt.z_} {}
+    Vector (const Point_3D<T> &pt) : x_ {pt.x()}, y_{pt.y()}, z_{pt.z()} {}
 
     Vector (const Point_3D<T> &first, const Point_3D<T> &second)
-           : x_ {cmp::are_equal (first.x_, second.x_) ? T{} : second.x_ - first.x_},
-             y_ {cmp::are_equal (first.y_, second.y_) ? T{} : second.y_ - first.y_},
-             z_ {cmp::are_equal (first.z_, second.z_) ? T{} : second.z_ - first.z_} {}
+           : x_ {cmp::are_equal (first.x(), second.x()) ? T{} : second.x() - first.x()},
+             y_ {cmp::are_equal (first.y(), second.y()) ? T{} : second.y() - first.y()},
+             z_ {cmp::are_equal (first.z(), second.z()) ? T{} : second.z() - first.z()} {}
 
     Vector (const Point_2D<T> &first, const Point_2D<T> &second)
-           : x_ {cmp::are_equal (first.x_, second.x_) ? T{} : second.x_ - first.x_},
-             y_ {cmp::are_equal (first.y_, second.y_) ? T{} : second.y_ - first.y_} {}
+           : x_ {cmp::are_equal (first.x(), second.x()) ? T{} : second.x() - first.x()},
+             y_ {cmp::are_equal (first.y(), second.y()) ? T{} : second.y() - first.y()} {}
 
     bool operator== (const Vector &other) const
     {
