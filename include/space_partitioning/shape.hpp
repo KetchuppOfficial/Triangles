@@ -6,7 +6,7 @@
 #include "point.hpp"
 #include "segment.hpp"
 #include "triangle.hpp"
-#include "intersection_traits.hpp"
+#include "primitive_traits.hpp"
 #include "axis_aligned_bounding_box.hpp"
 
 namespace yLab
@@ -21,9 +21,9 @@ class Shape
 public:
 
     using distance_type = T;
-    using point_type = typename Intersection_Traits<distance_type>::point_type;
-    using segment_type = typename Intersection_Traits<distance_type>::segment_type;
-    using triangle_type = typename Intersection_Traits<distance_type>::triangle_type;
+    using point_type = typename Primitive_Traits<distance_type>::point_type;
+    using segment_type = typename Primitive_Traits<distance_type>::segment_type;
+    using triangle_type = typename Primitive_Traits<distance_type>::triangle_type;
     using primitive_variant = std::variant<point_type, segment_type, triangle_type>;
 
 private:
