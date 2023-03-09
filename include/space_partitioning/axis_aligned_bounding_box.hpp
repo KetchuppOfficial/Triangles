@@ -52,6 +52,8 @@ public:
     const point_type &center () const { return center_; }
     point_type &center () { return center_; }
 
+    distance_type halfwidth (unsigned i) const { return halfwidth_[i]; }
+
     distance_type halfwidth_x () const { return halfwidth_[0]; }
     distance_type halfwidth_y () const { return halfwidth_[1]; }
     distance_type halfwidth_z () const { return halfwidth_[2]; }
