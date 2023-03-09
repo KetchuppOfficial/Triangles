@@ -34,8 +34,8 @@ public:
     const primitive_type &primitive () const { return primitive_; }
     primitive_type &primitive () { return primitive_; }
 
-    const AABB<distance_type> &aabb () const { return aabb_; }
-    AABB<distance_type> &aabb () { return aabb_; }
+    const AABB<distance_type> &bounding_volume () const { return aabb_; }
+    AABB<distance_type> &bounding_volume () { return aabb_; }
 };
 
 template<typename T>
@@ -59,8 +59,8 @@ public:
     const primitive_type &primitive () const { return segment_; }
     primitive_type &primitive () { return segment_; }
 
-    const AABB<distance_type> &aabb () const { return aabb_; }
-    AABB<distance_type> &aabb () { return aabb_; }
+    const AABB<distance_type> &bounding_volume () const { return aabb_; }
+    AABB<distance_type> &bounding_volume () { return aabb_; }
 };
 
 template<typename T>
@@ -82,8 +82,8 @@ public:
     const primitive_type &primitive () const { return aabb_.center(); }
     primitive_type &primitive () { return aabb_.center(); }
 
-    const AABB<distance_type> &aabb () const { return aabb_; }
-    AABB<distance_type> &aabb () { return aabb_; }
+    const AABB<distance_type> &bounding_volume () const { return aabb_; }
+    AABB<distance_type> &bounding_volume () { return aabb_; }
 };
 
 } // geometry
