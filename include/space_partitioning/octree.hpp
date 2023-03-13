@@ -94,6 +94,12 @@ public:
         insert (first, last);
     }
 
+    Octree (const Octree &rhs) = delete;
+    Octree &operator= (const Octree &rhs) = delete;
+
+    Octree (Octree &&rhs) = delete;
+    Octree &operator= (Octree &&rhs) = delete;
+
     size_type height () const { return height_; }
     size_type size () const { return nodes_.size(); }
     size_type max_size () const
