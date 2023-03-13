@@ -51,7 +51,7 @@ public:
 
     void intersect_all () { intersect_all (std::addressof (octree_.root())); }
 
-    void show_intersected () const
+    void show_intersecting () const
     {
         for (auto &&[first, second] : indexes_)
             std::cout << first << " " << second << std::endl;
