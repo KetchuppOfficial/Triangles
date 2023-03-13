@@ -27,6 +27,7 @@ template<std::input_iterator it>
 auto calculate_octree_parameters (it first, it last)
 {
     using distance_type = it::value_type::distance_type;
+    using size_type = typename Octree<distance_type>::size_type;
     
     std::array<distance_type, 3> min{};
     std::array<distance_type, 3> max{};
@@ -57,8 +58,8 @@ auto calculate_octree_parameters (it first, it last)
     auto halfwidht = (*max_elem - *min_elem) / distance_type{2};
 
     // Linear size of a shape is of scale 2 * halfwidth / cbrt (n_shapes)
-    auto height = std::min (Octree<distance_type>::max_height(),
-                            static_cast<typename Octree<distance_type>::size_type>(cbrt (n_shapes)) / 2);
+    auto calc_height = static_cast<size_type>(std::ceil (cbrt (n_shapes) / 2.0));
+    auto height = std::min (Octree<distance_type>::max_height(), calc_height);
 
     return std::tuple{Point_3D{pt_coord, pt_coord, pt_coord}, halfwidht, height};
 }
@@ -91,13 +92,13 @@ public:
     template<std::input_iterator it>
     Octree (it first, it last)
     {
-        nodes_.reserve (max_size());
-
         auto [center, halfwidth, height] = detail::calculate_octree_parameters (first, last);
         if (height == 0)
             throw Empty_Octree{};
+        else
+            height_ = height;
 
-        height_ = height;
+        nodes_.reserve (max_size());
         build_subtree (center, halfwidth, height);
 
         insert (first, last);
@@ -132,7 +133,6 @@ public:
 
 private:
 
-    // At least max_size() bytes has to be preallocated
     node_type *build_subtree (const point_type &center, distance_type halfwidth, unsigned stop_depth)
     {
         node_type &subroot = nodes_.emplace_back(center, halfwidth);
