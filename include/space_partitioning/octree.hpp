@@ -94,11 +94,23 @@ public:
         insert (first, last);
     }
 
-    Octree (const Octree &rhs) = delete;
-    Octree &operator= (const Octree &rhs) = delete;
+    Octree (const Octree &rhs) : nodes_{rhs.nodes_}, height_{rhs.height_} {}
+    Octree &operator= (const Octree &rhs)
+    {
+        Octree tmp{rhs};
+        std::swap (*this, tmp);
 
-    Octree (Octree &&rhs) = delete;
-    Octree &operator= (Octree &&rhs) = delete;
+        return *this;
+    }
+
+    Octree (Octree &&rhs) : nodes_{std::move (rhs.nodes_)}, height_{std::move (rhs.height_)} {}
+    Octree &operator= (Octree &&rhs)
+    {
+        std::swap (nodes_, rhs.nodes_);
+        std::swap (height_, rhs.height_);
+
+        return *this;
+    }
 
     size_type height () const { return height_; }
     size_type size () const { return nodes_.size(); }
