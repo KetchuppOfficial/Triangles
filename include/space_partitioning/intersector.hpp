@@ -36,16 +36,26 @@ private:
     
     Octree<distance_type> octree_;
     std::vector<node_type *> ancestor_stack_;
+    std::vector<std::pair<std::size_t, std::size_t>> indexes_;
 
 public:
 
     template<std::input_iterator it>
     Intersector (it first, it last) : octree_{first, last}
     {
-        ancestor_stack_.reserve (octree_.max_size());
+        auto n_shapes = std::distance (first, last);
+
+        ancestor_stack_.reserve (n_shapes);
+        indexes_.reserve (n_shapes);
     }
 
     void intersect_all () { intersect_all (std::addressof (octree_.root())); }
+
+    void show_intersected () const
+    {
+        for (auto &&[first, second] : indexes_)
+            std::cout << first << " " << second << std::endl;
+    }
 
 private:
 
@@ -61,13 +71,7 @@ private:
                         break;
 
                     if (are_intersecting (shape_1, shape_2))
-                    {
-                        std::visit([](auto &&primitive_1, auto &&primitive_2)
-                                   {
-                                        std::cout << primitive_1 << " and "
-                                                  << primitive_2 << " intersect;" << std::endl;
-                                   }, shape_1.primitive(), shape_2.primitive());
-                    }
+                        indexes_.emplace_back(shape_1.index, shape_2.index);
                 }
 
         for (auto i = 0; i != 8; ++i)
