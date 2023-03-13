@@ -6,6 +6,7 @@
 #include <exception>
 #include <iterator>
 #include <utility>
+#include <tuple>
 
 #include "shape.hpp"
 #include "node.hpp"
@@ -16,6 +17,8 @@ namespace yLab
 
 namespace geometry
 {
+
+template<typename> class Octree;
 
 namespace detail
 {
@@ -28,7 +31,8 @@ auto calculate_octree_parameters (it first, it last)
     std::array<distance_type, 3> min{};
     std::array<distance_type, 3> max{};
     
-    for (; first != last; ++first)
+    std::size_t n_shapes = 0;
+    for (; first != last; ++first, ++n_shapes)
     {
         auto &bounding_volume = (*first).bounding_volume();
         auto &center = bounding_volume.center();
@@ -52,7 +56,11 @@ auto calculate_octree_parameters (it first, it last)
     auto pt_coord = (*min_elem + *max_elem) / distance_type{2};
     auto halfwidht = (*max_elem - *min_elem) / distance_type{2};
 
-    return std::pair{Point_3D{pt_coord, pt_coord, pt_coord}, halfwidht};
+    // Linear size of a shape is of scale 2 * halfwidth / cbrt (n_shapes)
+    auto height = std::min (Octree<distance_type>::max_height(),
+                            static_cast<typename Octree<distance_type>::size_type>(cbrt (n_shapes)) / 2);
+
+    return std::tuple{Point_3D{pt_coord, pt_coord, pt_coord}, halfwidht, height};
 }
 
 } // namespace detail
@@ -69,54 +77,39 @@ public:
 
     using distance_type = T;
     using point_type = typename Primitive_Traits<T>::point_type;
-    using shape_type = Shape<distance_type>;
     using node_type = Octree_Node<distance_type>;
+    using shape_type = typename node_type::shape_type;
     using size_type = std::size_t;
 
 private:
 
     std::vector<node_type> nodes_;
-    size_type height_ = 0;
+    size_type height_;
 
 public:
     
     template<std::input_iterator it>
-    Octree (unsigned height, it first, it last) : height_{height}
+    Octree (it first, it last)
     {
-        if (height_ == 0)
-            throw Empty_Octree{};
-
         nodes_.reserve (max_size());
 
-        auto [center, halfwidth] = detail::calculate_octree_parameters (first, last);
-        build_subtree (center, halfwidth, height_);
+        auto [center, halfwidth, height] = detail::calculate_octree_parameters (first, last);
+        if (height == 0)
+            throw Empty_Octree{};
+
+        height_ = height;
+        build_subtree (center, halfwidth, height);
 
         insert (first, last);
     }
 
-    Octree (const Octree &rhs) : nodes_{rhs.nodes_}, height_{rhs.height_} {}
-    Octree &operator= (const Octree &rhs)
-    {
-        Octree tmp{rhs};
-        std::swap (*this, tmp);
+    size_type height () const noexcept { return height_; }
+    static constexpr size_type max_height () noexcept { return 6; }
 
-        return *this;
-    }
-
-    Octree (Octree &&rhs) : nodes_{std::move (rhs.nodes_)}, height_{std::move (rhs.height_)} {}
-    Octree &operator= (Octree &&rhs)
-    {
-        std::swap (nodes_, rhs.nodes_);
-        std::swap (height_, rhs.height_);
-
-        return *this;
-    }
-
-    size_type height () const { return height_; }
-    size_type size () const { return nodes_.size(); }
+    size_type size () const noexcept { return nodes_.size(); }
     size_type max_size () const
     {
-        return (static_cast<size_type>(std::pow (8, height())) - 1) / (8 - 1);
+        return (static_cast<size_type>(std::exp2 (2, 3 * height())) - 1) / (8 - 1);
     }
 
     // Modifiers
@@ -156,7 +149,7 @@ private:
                 point_type new_center{center.x() + offset.x(), center.y() + offset.y(),
                                       center.z() + offset.z()};
 
-                subroot.child(child_i) = build_subtree (new_center, step, stop_depth - 1);
+                subroot.child (child_i) = build_subtree (new_center, step, stop_depth - 1);
             }
         }
 
