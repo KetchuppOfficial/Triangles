@@ -21,19 +21,21 @@ namespace
 
 std::vector<point_type> construct_points ()
 {
-    auto cin_iter = std::istream_iterator<int>{std::cin};
-    auto cin_end  = std::istream_iterator<int>{};
-    auto n_points = *cin_iter;
+    auto cin_iter = std::istream_iterator<float>{std::cin};
+    auto cin_end  = std::istream_iterator<float>{};
+    auto n_points = static_cast<std::size_t>(*cin_iter) * 3;
     cin_iter++;
     
     std::vector<point_type> points;
+    points.reserve (n_points);
+
     for (auto i = 0; i != n_points && cin_iter != cin_end; ++i)
     {
-        float x = *cin_iter++;
-        float y = *cin_iter++;
-        float z = *cin_iter++;
+        auto x = *cin_iter++;
+        auto y = *cin_iter++;
+        auto z = *cin_iter++;
         
-        points.push_back (point_type{x, y, z});
+        points.emplace_back (x, y, z);
     }
 
     return points;
@@ -58,6 +60,7 @@ std::vector<shape> construct_shapes (it first, it last)
     std::vector<shape> triangles;
     triangles.reserve (std::distance (first, last) / 3);
 
+    auto shape_i = 0;
     while (first != last)
     {
         auto &P = *first++;
@@ -67,17 +70,19 @@ std::vector<shape> construct_shapes (it first, it last)
         try
         {
             triangle_type tr{P, Q, R};
-            triangles.emplace_back (tr);
+            triangles.emplace_back (tr, shape_i);
         }
         catch (yLab::geometry::Triangle_Is_Segment &expt)
         {
             segment_type seg = assemble_segment (P, Q, R);
-            triangles.emplace_back (seg);
+            triangles.emplace_back (seg, shape_i);
         }
         catch (yLab::geometry::Triangle_Is_Point &expt)
         {
-            triangles.emplace_back (P);
+            triangles.emplace_back (P, shape_i);
         }
+
+        shape_i++;
     }
 
     return triangles;
@@ -94,6 +99,7 @@ int main ()
 
     intersector collider {shapes.begin(), shapes.end()};
     collider.intersect_all();
+    collider.show_intersecting();
 
     return 0;
 }
