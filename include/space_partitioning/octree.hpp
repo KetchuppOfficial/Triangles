@@ -109,7 +109,7 @@ public:
     size_type size () const noexcept { return nodes_.size(); }
     size_type max_size () const
     {
-        return (static_cast<size_type>(std::exp2 (2, 3 * height())) - 1) / (8 - 1);
+        return (static_cast<size_type>(std::exp2 (3 * height())) - 1) / (8 - 1);
     }
 
     // Modifiers
