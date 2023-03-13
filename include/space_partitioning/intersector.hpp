@@ -24,13 +24,6 @@ namespace yLab
 namespace geometry
 {
 
-namespace detail
-{
-
-unsigned optimal_height () { return 5; }
-
-} // namespace detail
-
 template<typename T>
 class Intersector final
 {
@@ -47,7 +40,7 @@ private:
 public:
 
     template<std::input_iterator it>
-    Intersector (it first, it last) : octree_{detail::optimal_height(), first, last}
+    Intersector (it first, it last) : octree_{first, last}
     {
         ancestor_stack_.reserve (octree_.max_size());
     }
