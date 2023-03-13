@@ -16,7 +16,7 @@ namespace geometry
 {
 
 template<typename T>
-class Shape
+class Shape final
 {
 public:
 
@@ -33,11 +33,18 @@ private:
 
 public:
 
-    Shape (const point_type &pt) : primitive_{pt}, aabb_{pt} {}
-    Shape (const segment_type &seg) : primitive_{seg}, aabb_{seg.P(), seg.Q()} {}
+    // This member is needed to pass tests where the indexes of shapes should be outputed
+    std::size_t index;
+
+    Shape (const point_type &pt, std::size_t i = 0)
+          : primitive_{pt}, aabb_{pt}, index{i} {}
+
+    Shape (const segment_type &seg, std::size_t i = 0)
+          : primitive_{seg}, aabb_{seg.P(), seg.Q()}, index{i} {}
 
     template<typename primitive_type>
-    Shape (const primitive_type &pr) : primitive_{pr}, aabb_{pr.begin(), pr.end()} {}
+    Shape (const primitive_type &pr, std::size_t i = 0)
+          : primitive_{pr}, aabb_{pr.begin(), pr.end()}, index{i} {}
 
     const primitive_variant &primitive () const { return primitive_; }
     primitive_variant &primitive () { return primitive_; }
@@ -50,8 +57,6 @@ template<typename T>
 bool are_intersecting (const Shape<T> &shape_1, const Shape<T> &shape_2)
 {
     if (are_overlapping (shape_1.bounding_volume(), shape_2.bounding_volume()))
-        return true;
-    else
     {
         return std::visit ([](auto &primitive_1, auto &primitive_2)
                            {
@@ -59,6 +64,8 @@ bool are_intersecting (const Shape<T> &shape_1, const Shape<T> &shape_2)
                            },
                            shape_1.primitive(), shape_2.primitive());
     }
+    else
+        return false;
 }
 
 } // namespace geometry
