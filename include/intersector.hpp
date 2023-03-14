@@ -7,6 +7,7 @@
 #include <array>
 #include <algorithm>
 #include <utility>
+#include <unordered_set>
 
 #include "point_point.hpp"
 #include "point_segment.hpp"
@@ -36,7 +37,7 @@ private:
     
     Octree<distance_type> octree_;
     std::vector<node_type *> ancestor_stack_;
-    std::vector<std::pair<std::size_t, std::size_t>> indexes_;
+    std::unordered_set<std::size_t> indexes_; // unique indexes are contained
 
 public:
 
@@ -53,8 +54,9 @@ public:
 
     void show_intersecting () const
     {
-        for (auto &&[first, second] : indexes_)
-            std::cout << first << " " << second << std::endl;
+        for (auto &&index : indexes_)
+            std::cout << index << " ";
+        std::cout << std::endl;
     }
 
 private:
@@ -67,11 +69,14 @@ private:
             for (auto &&shape_1 : ancestor_stack_[n]->shapes())
                 for (auto &&shape_2 : root->shapes())
                 {
-                    if (std::addressof(shape_1) == std::addressof (shape_2))
+                    if (std::addressof (shape_1) == std::addressof (shape_2))
                         break;
 
                     if (are_intersecting (shape_1, shape_2))
-                        indexes_.emplace_back(shape_1.index, shape_2.index);
+                    {
+                        indexes_.emplace(shape_1.index);
+                        indexes_.emplace(shape_2.index);
+                    }    
                 }
 
         for (auto i = 0; i != 8; ++i)
