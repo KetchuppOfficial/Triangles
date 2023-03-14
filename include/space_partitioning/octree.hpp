@@ -26,7 +26,7 @@ namespace detail
 template<std::input_iterator it>
 auto calculate_octree_parameters (it first, it last)
 {
-    using distance_type = it::value_type::distance_type;
+    using distance_type = typename std::iterator_traits<it>::value_type::distance_type;
     using size_type = typename Octree<distance_type>::size_type;
     
     std::array<distance_type, 3> min{};
