@@ -15,9 +15,10 @@ namespace yLab::geometry
 namespace detail
 {
 
+// P2_loc doesn't change; Q2_loc and R2_loc don't change or they are swapped
 template<typename T>
 auto transform_triangle (const Triangle<Point_3D<T>> &tr_1_, Loc_3D P1_loc, Loc_3D Q1_loc, Loc_3D R1_loc, 
-                         const Triangle<Point_3D<T>> &tr_2_)
+                         const Triangle<Point_3D<T>> &tr_2_, Loc_3D &Q2_loc, Loc_3D &R2_loc)
 {
     auto triangle_pair = std::make_pair (tr_1_, tr_2_);
     auto &tr_1 = triangle_pair.first;
@@ -31,11 +32,13 @@ auto transform_triangle (const Triangle<Point_3D<T>> &tr_1_, Loc_3D P1_loc, Loc_
             {
                 tr_1.swap_clockwise();
                 tr_2.swap_QR();
+                std::swap (Q2_loc, R2_loc);
             }
             else if (Q1_loc != Loc_3D::Above && R1_loc == Loc_3D::Above)
             {
                 tr_1.swap_counterclockwise();
                 tr_2.swap_QR();
+                std::swap (Q2_loc, R2_loc);
             }
 
             break;
@@ -45,7 +48,10 @@ auto transform_triangle (const Triangle<Point_3D<T>> &tr_1_, Loc_3D P1_loc, Loc_
             if (Q1_loc == Loc_3D::Above)
             {
                 if (R1_loc == Loc_3D::Above)
+                {
                     tr_2.swap_QR();
+                    std::swap (Q2_loc, R2_loc);
+                }
                 else
                     tr_1.swap_counterclockwise();
             }
@@ -55,11 +61,13 @@ auto transform_triangle (const Triangle<Point_3D<T>> &tr_1_, Loc_3D P1_loc, Loc_
             {
                 tr_1.swap_clockwise();
                 tr_2.swap_QR();
+                std::swap (Q2_loc, R2_loc);
             }
             else if (Q1_loc == Loc_3D::Below && R1_loc == Loc_3D::On)
             {
                 tr_1.swap_counterclockwise();
                 tr_2.swap_QR();
+                std::swap (Q2_loc, R2_loc);
             }
 
             break;
@@ -67,13 +75,19 @@ auto transform_triangle (const Triangle<Point_3D<T>> &tr_1_, Loc_3D P1_loc, Loc_
         case Loc_3D::Below:
 
             if (Q1_loc == R1_loc)
+            {
                 tr_2.swap_QR();
+                std::swap (Q2_loc, R2_loc);
+            }
             else if (Q1_loc == Loc_3D::Below)
                 tr_1.swap_clockwise();
             else if (R1_loc == Loc_3D::Below)
                 tr_1.swap_counterclockwise();
             else
+            {
                 tr_2.swap_QR();
+                std::swap (Q2_loc, R2_loc);
+            }
 
             break;
     }
@@ -94,16 +108,22 @@ bool are_intersecting_3D (const Triangle<Point_3D<T>> &tr_1, const Triangle<Poin
     else
     {        
         // "m" means "modified"
-        auto [tr_1m_, tr_2m_] = transform_triangle (tr_1, P1_loc, Q1_loc, R1_loc, tr_2);
-        auto [tr_2m, tr_1m] = transform_triangle (tr_2m_, P2_loc, Q2_loc, R2_loc, tr_1m_);
+        auto [tr_1m_, tr_2m_] = transform_triangle (tr_1, P1_loc, Q1_loc, R1_loc, tr_2, Q2_loc, R2_loc);
 
-        auto new_P1_loc = magic_product (tr_2m.P(), tr_2m.Q(), tr_2m.R(), tr_1m.P());
-        auto new_P2_loc = magic_product (tr_1m.P(), tr_1m.Q(), tr_1m.R(), tr_2m.P());
+        P1_loc = magic_product (tr_2m_.P(), tr_2m_.Q(), tr_2m_.R(), tr_1m_.P());
+        Q1_loc = magic_product (tr_2m_.P(), tr_2m_.Q(), tr_2m_.R(), tr_1m_.Q());
+        R1_loc = magic_product (tr_2m_.P(), tr_2m_.Q(), tr_2m_.R(), tr_1m_.R());
 
-        if (new_P1_loc == Loc_3D::On && new_P2_loc == Loc_3D::On)
+        auto [tr_2m, tr_1m] = transform_triangle (tr_2m_, P2_loc, Q2_loc, R2_loc, tr_1m_, Q1_loc, R1_loc);
+
+        P2_loc = magic_product (tr_1m.P(), tr_1m.Q(), tr_1m.R(), tr_2m.P());
+        Q2_loc = magic_product (tr_1m.P(), tr_1m.Q(), tr_1m.R(), tr_2m.Q());
+        R2_loc = magic_product (tr_1m.P(), tr_1m.Q(), tr_1m.R(), tr_2m.R());
+
+        if (P1_loc == Loc_3D::On && P2_loc == Loc_3D::On)
             return (tr_1m.P() == tr_2m.P());
         else
-        {
+        {   
             auto KJ_mut_pos = magic_product (tr_1m.P(), tr_1m.Q(), tr_2m.P(), tr_2m.Q());
             auto LI_mut_pos = magic_product (tr_1m.P(), tr_1m.R(), tr_2m.P(), tr_2m.R());
 
