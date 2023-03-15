@@ -16,15 +16,15 @@ namespace yLab
 namespace geometry
 {
 
-template<typename T>
+template<typename T, typename U = Indexed_Shape<T>>
 class Octree_Node final
 {
 public:
 
     using distance_type = T;
     using vector_type = Vector<distance_type>;
+    using shape_type = U;
     using point_type = typename Primitive_Traits<distance_type>::point_type;
-    using shape_type = Indexed_Shape<distance_type>;
     
 private:
 

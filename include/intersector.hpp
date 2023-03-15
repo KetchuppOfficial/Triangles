@@ -25,13 +25,14 @@ namespace yLab
 namespace geometry
 {
 
-template<typename T>
+template<typename T, typename U = Indexed_Shape<T>>
 class Intersector final
 {
 public:
 
     using distance_type = T;
-    using node_type = typename Octree<distance_type>::node_type;
+    using shape_type = U;
+    using node_type = typename Octree<distance_type, shape_type>::node_type;
 
 private: 
     

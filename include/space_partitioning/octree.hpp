@@ -18,7 +18,7 @@ namespace yLab
 namespace geometry
 {
 
-template<typename> class Octree;
+template<typename, typename> class Octree;
 
 namespace detail
 {
@@ -31,8 +31,9 @@ inline std::size_t pseudo_optimal_height (std::size_t n_shapes)
 template<std::input_iterator it>
 auto calculate_octree_parameters (it first, it last)
 {
-    using distance_type = typename std::iterator_traits<it>::value_type::distance_type;
-    using size_type = typename Octree<distance_type>::size_type;
+    using shape_type = typename std::iterator_traits<it>::value_type;
+    using distance_type = typename shape_type::distance_type;
+    using size_type = typename Octree<distance_type, shape_type>::size_type;
     
     std::array<distance_type, 3> min{};
     std::array<distance_type, 3> max{};
@@ -62,7 +63,7 @@ auto calculate_octree_parameters (it first, it last)
     auto pt_coord = (*min_elem + *max_elem) / distance_type{2};
     auto halfwidht = (*max_elem - *min_elem) / distance_type{2};
 
-    auto height = std::min (Octree<distance_type>::max_height(),
+    auto height = std::min (Octree<distance_type, shape_type>::max_height(),
                             pseudo_optimal_height (n_shapes));
 
     return std::tuple{Point_3D{pt_coord, pt_coord, pt_coord}, halfwidht, height};
@@ -75,15 +76,15 @@ struct Empty_Octree final: public std::runtime_error
     Empty_Octree () : std::runtime_error{"Constructing octree of height 0 is forbidden"} {}
 };
 
-template<typename T>
+template<typename T, typename U = Indexed_Shape<T>>
 class Octree final
 {
 public:
 
     using distance_type = T;
     using point_type = typename Primitive_Traits<T>::point_type;
-    using node_type = Octree_Node<distance_type>;
-    using shape_type = typename node_type::shape_type;
+    using shape_type = U;
+    using node_type = Octree_Node<distance_type, shape_type>;
     using size_type = std::size_t;
 
 private:
