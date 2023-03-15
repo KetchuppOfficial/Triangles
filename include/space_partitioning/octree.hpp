@@ -23,6 +23,11 @@ template<typename> class Octree;
 namespace detail
 {
 
+inline std::size_t pseudo_optimal_height (std::size_t n_shapes)
+{
+    return static_cast<std::size_t>(std::log10 (1 + n_shapes));
+}
+
 template<std::input_iterator it>
 auto calculate_octree_parameters (it first, it last)
 {
@@ -57,9 +62,8 @@ auto calculate_octree_parameters (it first, it last)
     auto pt_coord = (*min_elem + *max_elem) / distance_type{2};
     auto halfwidht = (*max_elem - *min_elem) / distance_type{2};
 
-    // Linear size of a shape is of scale 2 * halfwidth / cbrt (n_shapes)
-    auto calc_height = static_cast<size_type>(std::ceil (cbrt (n_shapes) / 2.0));
-    auto height = std::min (Octree<distance_type>::max_height(), calc_height);
+    auto height = std::min (Octree<distance_type>::max_height(),
+                            pseudo_optimal_height (n_shapes));
 
     return std::tuple{Point_3D{pt_coord, pt_coord, pt_coord}, halfwidht, height};
 }
@@ -162,3 +166,4 @@ private:
 } // namespace yLab
 
 #endif // INCLUDE_SPACE_PARTITIONING_OCTREE_HPP
+g();
