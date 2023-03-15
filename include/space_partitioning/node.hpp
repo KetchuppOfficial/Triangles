@@ -24,7 +24,7 @@ public:
     using distance_type = T;
     using vector_type = Vector<distance_type>;
     using point_type = typename Primitive_Traits<distance_type>::point_type;
-    using shape_type = Shape<distance_type>;
+    using shape_type = Indexed_Shape<distance_type>;
     
 private:
 

@@ -74,8 +74,8 @@ private:
 
                     if (are_intersecting (shape_1, shape_2))
                     {
-                        indexes_.emplace(shape_1.index);
-                        indexes_.emplace(shape_2.index);
+                        indexes_.emplace(shape_1.index());
+                        indexes_.emplace(shape_2.index());
                     }    
                 }
 

@@ -7,14 +7,16 @@
 
 #include "intersector.hpp"
 
-using vector = yLab::geometry::Vector<float>;
+using distance_type = float;
 
-using point_type    = yLab::geometry::Primitive_Traits<float>::point_type;
-using segment_type  = yLab::geometry::Primitive_Traits<float>::segment_type;
-using triangle_type = yLab::geometry::Primitive_Traits<float>::triangle_type;
-using shape = yLab::geometry::Shape<float>;
+using vector = yLab::geometry::Vector<distance_type>;
 
-using intersector = yLab::geometry::Intersector<float>;
+using point_type    = yLab::geometry::Primitive_Traits<distance_type>::point_type;
+using segment_type  = yLab::geometry::Primitive_Traits<distance_type>::segment_type;
+using triangle_type = yLab::geometry::Primitive_Traits<distance_type>::triangle_type;
+using shape_type    = yLab::geometry::Indexed_Shape<distance_type>;
+
+using intersector = yLab::geometry::Intersector<distance_type>;
 
 namespace
 {
@@ -55,9 +57,9 @@ segment_type assemble_segment (const point_type &P, const point_type &Q, const p
 }
 
 template<std::input_iterator it>
-std::vector<shape> construct_shapes (it first, it last)
+std::vector<shape_type> construct_shapes (it first, it last)
 {
-    std::vector<shape> triangles;
+    std::vector<shape_type> triangles;
     triangles.reserve (std::distance (first, last) / 3);
 
     auto shape_i = 0;
@@ -95,7 +97,7 @@ std::vector<shape> construct_shapes (it first, it last)
 int main ()
 {
     std::vector<point_type> points = construct_points ();
-    std::vector<shape> shapes = construct_shapes (points.begin(), points.end());
+    std::vector<shape_type> shapes = construct_shapes (points.begin(), points.end());
 
     intersector collider {shapes.begin(), shapes.end()};
     collider.intersect_all();

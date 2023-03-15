@@ -16,7 +16,7 @@ namespace geometry
 {
 
 template<typename T>
-class Shape final
+class Shape
 {
 public:
 
@@ -33,24 +33,42 @@ private:
 
 public:
 
-    // This member is needed to pass tests where the indexes of shapes should be outputed
-    std::size_t index;
+    Shape (const point_type &pt) : primitive_{pt}, aabb_{pt} {}
 
-    Shape (const point_type &pt, std::size_t i = 0)
-          : primitive_{pt}, aabb_{pt}, index{i} {}
-
-    Shape (const segment_type &seg, std::size_t i = 0)
-          : primitive_{seg}, aabb_{seg.P(), seg.Q()}, index{i} {}
+    Shape (const segment_type &seg)
+          : primitive_{seg}, aabb_{seg.P(), seg.Q()} {}
 
     template<typename primitive_type>
-    Shape (const primitive_type &pr, std::size_t i = 0)
-          : primitive_{pr}, aabb_{pr.begin(), pr.end()}, index{i} {}
+    Shape (const primitive_type &pr) : primitive_{pr}, aabb_{pr.begin(), pr.end()} {}
+
+    virtual ~Shape () = default;
 
     const primitive_variant &primitive () const { return primitive_; }
     primitive_variant &primitive () { return primitive_; }
 
     const AABB<distance_type> &bounding_volume () const { return aabb_; }
     AABB<distance_type> &bounding_volume () { return aabb_; }
+};
+
+template<typename T>
+class Indexed_Shape : public Shape<T>
+{
+public:
+
+    using distance_type = T;
+    using index_type = std::size_t;
+    
+private:
+
+    index_type index_;
+
+public:
+    
+    template<typename U>
+    Indexed_Shape (const U &primitive, index_type index)
+                  : Shape<distance_type>{primitive}, index_{index} {}
+ 
+    index_type index () const noexcept { return index_; }
 };
 
 template<typename T>
