@@ -92,8 +92,6 @@ std::vector<shape_type> construct_shapes (it first, it last)
 
 } // unnamed namespace
 
-#define OCTREE_RULES
-
 int main ()
 {
     std::vector<point_type> points = construct_points ();
