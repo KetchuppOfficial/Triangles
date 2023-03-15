@@ -166,4 +166,3 @@ private:
 } // namespace yLab
 
 #endif // INCLUDE_SPACE_PARTITIONING_OCTREE_HPP
-g();
