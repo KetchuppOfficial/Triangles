@@ -20,8 +20,8 @@ struct cmp_precision final
 
 template<typename T>
 requires std::is_floating_point_v<T>
-bool are_equal (T first, T second, T zero_diff = cmp_precision<T>::epsilon, 
-                                   T rel_diff  = cmp_precision<T>::epsilon)
+constexpr bool are_equal (T first, T second, T zero_diff = cmp_precision<T>::epsilon, 
+                                             T rel_diff  = cmp_precision<T>::epsilon)
 {
     auto diff = std::abs (first - second);
 
@@ -32,19 +32,31 @@ bool are_equal (T first, T second, T zero_diff = cmp_precision<T>::epsilon,
 }
 
 template<typename T>
-bool is_zero (T value) { return are_equal (value, T{}); }
+constexpr bool is_zero (T value) { return are_equal (value, T{}); }
 
 template<typename T>
-bool less (T first, T second) { return (first < second) && !are_equal (first, second); }
+constexpr bool less (T first, T second)
+{
+    return (first < second) && !are_equal (first, second);
+}
 
 template<typename T>
-bool less_equal (T first, T second) { return (first < second) || are_equal (first, second); }
+constexpr bool less_equal (T first, T second)
+{
+    return (first < second) || are_equal (first, second);
+}
 
 template<typename T>
-bool greater (T first, T second) { return (first > second) && !are_equal (first, second); }
+constexpr bool greater (T first, T second)
+{
+    return (first > second) && !are_equal (first, second);
+}
 
 template<typename T>
-bool greater_equal (T first, T second) { return (first > second) || are_equal (first, second); }
+constexpr bool greater_equal (T first, T second)
+{
+    return (first > second) || are_equal (first, second);
+}
 
 } // namespace cmp
 
