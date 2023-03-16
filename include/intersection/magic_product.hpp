@@ -32,7 +32,7 @@ Loc_2D magic_product (const Point_2D<T> &P, const Point_2D<T> &Q, const Point_2D
     
     if (cmp::is_zero (product))
         return Loc_2D::Neutral;
-    else if (product > 0)
+    else if (cmp::greater (product, T{}))
         return Loc_2D::Positive;
     else
         return Loc_2D::Negative;
@@ -72,7 +72,7 @@ Loc_3D magic_product (const Point_3D<T> &P, const Point_3D<T> &Q,
 
     if (cmp::is_zero (product))
         return Loc_3D::On;
-    else if (product > 0)
+    else if (cmp::greater (product, T{}))
         return Loc_3D::Above;
     else
         return Loc_3D::Below;

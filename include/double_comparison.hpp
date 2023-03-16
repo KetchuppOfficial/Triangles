@@ -34,6 +34,18 @@ bool are_equal (T first, T second, T zero_diff = cmp_precision<T>::epsilon,
 template<typename T>
 bool is_zero (T value) { return are_equal (value, T{}); }
 
+template<typename T>
+bool less (T first, T second) { return (first < second) && !are_equal (first, second); }
+
+template<typename T>
+bool less_equal (T first, T second) { return (first < second) || are_equal (first, second); }
+
+template<typename T>
+bool greater (T first, T second) { return (first > second) && !are_equal (first, second); }
+
+template<typename T>
+bool greater_equal (T first, T second) { return (first > second) || are_equal (first, second); }
+
 } // namespace cmp
 
 } // namespace yLab

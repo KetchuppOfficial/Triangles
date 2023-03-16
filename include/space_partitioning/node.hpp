@@ -69,13 +69,13 @@ void insert_shape (Octree_Node<T> *root, const typename Octree_Node<T>::shape_ty
     {
         auto delta = bounding_volume.center()[i] - root->center()[i];
 
-        if (std::abs (delta) < bounding_volume.halfwidth (i))
+        if (cmp::less (std::abs (delta), bounding_volume.halfwidth (i)))
         {
             within_range = true;
             break;
         }
         
-        if (delta > T{})
+        if (cmp::greater (delta, T{}))
             index |= (1 << i);
     }
 

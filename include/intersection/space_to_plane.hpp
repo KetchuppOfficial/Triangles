@@ -29,7 +29,7 @@ Axises deduce_coordinate_to_set_zero (const Vector<T> &vec_1, const Vector<T> &v
     auto y = std::abs (norm.y_);
     auto z = std::abs (norm.z_);
 
-    if (x > y && x > z)
+    if (cmp::greater (x, y) && cmp::greater (x, z))
         return Axises::x;
     else if (y > z)
         return Axises::y;

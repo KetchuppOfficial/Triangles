@@ -49,16 +49,18 @@ auto calculate_octree_parameters (it first, it last)
             auto left_border_i = center[i] - bounding_volume.halfwidth(i);
             auto right_border_i = center[i] + bounding_volume.halfwidth(i);
 
-            if (left_border_i < min[i])
+            if (cmp::less (left_border_i, min[i]))
                 min[i] = left_border_i;
 
-            if (right_border_i > max[i])
+            if (cmp::greater (right_border_i, max[i]))
                 max[i] = right_border_i;
         }
     }
 
-    auto min_elem = std::min_element (min.begin(), min.end());
-    auto max_elem = std::max_element (max.begin(), max.end());
+    auto less = [](distance_type &first, distance_type &second){ return cmp::less(first, second); };
+
+    auto min_elem = std::min_element (min.begin(), min.end(), less);
+    auto max_elem = std::max_element (max.begin(), max.end(), less);
 
     auto pt_coord = (*min_elem + *max_elem) / distance_type{2};
     auto halfwidht = (*max_elem - *min_elem) / distance_type{2};
