@@ -4,6 +4,7 @@
 #include <iterator>
 #include <variant>
 #include <vector>
+#include <chrono>
 
 #include "intersector.hpp"
 
@@ -97,9 +98,13 @@ int main ()
     std::vector<point_type> points = construct_points ();
     std::vector<shape_type> shapes = construct_shapes (points.begin(), points.end());
 
+    auto begin = std::chrono::high_resolution_clock::now();
     intersector collider {shapes.begin(), shapes.end()};
     collider.intersect_all();
     collider.show_intersecting();
+    auto end = std::chrono::high_resolution_clock::now();
+
+    std::cout << duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms" << std::endl;
 
     return 0;
 }
