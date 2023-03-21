@@ -1,5 +1,3 @@
-// clang++ -std=c++20 -I../../include -I../../include/space_partitioning -I../../include/primitives/ -I../../include/intersection driver.cpp
-
 #include <iostream>
 #include <iterator>
 #include <variant>
