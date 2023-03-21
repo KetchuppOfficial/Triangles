@@ -45,7 +45,7 @@ public:
     template<std::input_iterator it>
     Intersector (it first, it last) : octree_{first, last}
     {
-        auto n_shapes = std::distance (first, last);
+        auto n_shapes = octree_.size();
 
         ancestor_stack_.reserve (n_shapes);
         indexes_.reserve (n_shapes);
@@ -66,8 +66,11 @@ private:
     {
         ancestor_stack_.push_back (root);
 
-        for (auto n = 0; n != ancestor_stack_.size(); ++n)
+        auto stack_size = ancestor_stack_.size();
+        for (auto n = 0; n != stack_size; ++n)
+        {
             for (auto &&shape_1 : ancestor_stack_[n]->shapes())
+            {
                 for (auto &&shape_2 : root->shapes())
                 {
                     if (std::addressof (shape_1) == std::addressof (shape_2))
@@ -79,6 +82,8 @@ private:
                         indexes_.emplace(shape_2.index());
                     }    
                 }
+            }
+        }
 
         for (auto i = 0; i != 8; ++i)
         {
