@@ -17,10 +17,10 @@ namespace yLab::geometry
 namespace detail
 {
 
-enum class Axises { x, y, z };
+enum class Axes { x, y, z };
 
 template<typename T>
-Axises deduce_coordinate_to_set_zero (const Vector<T> &vec_1, const Vector<T> &vec_2)
+Axes deduce_coordinate_to_set_zero (const Vector<T> &vec_1, const Vector<T> &vec_2)
 {
     assert (are_collinear (vec_1, vec_2) == false);
     
@@ -30,25 +30,25 @@ Axises deduce_coordinate_to_set_zero (const Vector<T> &vec_1, const Vector<T> &v
     auto z = std::abs (norm.z_);
 
     if (cmp::greater (x, y) && cmp::greater (x, z))
-        return Axises::x;
+        return Axes::x;
     else if (y > z)
-        return Axises::y;
+        return Axes::y;
     else
-        return Axises::z;
+        return Axes::z;
 }
 
 template<typename T>
-Point_2D<T> project_point (const Point_3D<T> &pt, Axises coordinate_to_set_zero)
+Point_2D<T> project_point (const Point_3D<T> &pt, Axes coordinate_to_set_zero)
 {
     switch (coordinate_to_set_zero)
     {
-        case Axises::x:
+        case Axes::x:
             return Point_2D{pt.y(), pt.z()};
 
-        case Axises::y:
+        case Axes::y:
             return Point_2D{pt.z(), pt.x()};
 
-        case Axises::z:
+        case Axes::z:
             return Point_2D{pt.x(), pt.y()};
 
         default:
@@ -58,23 +58,23 @@ Point_2D<T> project_point (const Point_3D<T> &pt, Axises coordinate_to_set_zero)
 
 template<typename T>
 Segment<Point_2D<T>> project_segment (const Segment<Point_3D<T>> &seg,
-                                      Axises coordinate_to_set_zero)
+                                      Axes coordinate_to_set_zero)
 {
     switch (coordinate_to_set_zero)
     {
-        case Axises::x:
+        case Axes::x:
         {
             return Segment{Point_2D{seg.P().y(), seg.P().z()}, 
                            Point_2D{seg.Q().y(), seg.Q().z()}};
         }
 
-        case Axises::y:
+        case Axes::y:
         {
             return Segment{Point_2D{seg.P().z(), seg.P().x()}, 
                            Point_2D{seg.Q().z(), seg.Q().x()}};
         }
 
-        case Axises::z:
+        case Axes::z:
         {
             return Segment{Point_2D{seg.P().x(), seg.P().y()}, 
                            Point_2D{seg.Q().x(), seg.Q().y()}};
@@ -87,25 +87,25 @@ Segment<Point_2D<T>> project_segment (const Segment<Point_3D<T>> &seg,
 
 template<typename T>
 Triangle<Point_2D<T>> project_triangle (const Triangle<Point_3D<T>> &tr,
-                                        Axises coordinate_to_set_zero)
+                                        Axes coordinate_to_set_zero)
 {
     switch (coordinate_to_set_zero)
     {
-        case Axises::x:
+        case Axes::x:
         {
             return Triangle{Point_2D{tr.P().y(), tr.P().z()}, 
                             Point_2D{tr.Q().y(), tr.Q().z()},
                             Point_2D{tr.R().y(), tr.R().z()}};
         }
 
-        case Axises::y:
+        case Axes::y:
         {
             return Triangle{Point_2D{tr.P().z(), tr.P().x()}, 
                             Point_2D{tr.Q().z(), tr.Q().x()},
                             Point_2D{tr.R().z(), tr.R().x()}};
         }
 
-        case Axises::z:
+        case Axes::z:
         {
             return Triangle{Point_2D{tr.P().x(), tr.P().y()}, 
                             Point_2D{tr.Q().x(), tr.Q().y()},
