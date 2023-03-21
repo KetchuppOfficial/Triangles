@@ -2,6 +2,7 @@
 #define INCLUDE_INTERSECTION_3D_HPP
 
 #include <utility>
+#include <tuple>
 
 #include "triangle.hpp"
 
@@ -14,6 +15,17 @@ namespace yLab::geometry
 
 namespace detail
 {
+
+template<typename T>
+std::tuple<Loc_3D, Loc_3D, Loc_3D> compute_relative_location (const Triangle<Point_3D<T>> &tr_1,
+                                                              const Triangle<Point_3D<T>> &tr_2)
+{
+    auto P1_loc = magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.P());
+    auto Q1_loc = magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.Q());
+    auto R1_loc = magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.R());
+
+    return std::make_tuple (P1_loc, Q1_loc, R1_loc);
+}
 
 // P2_loc doesn't change; Q2_loc and R2_loc don't change or they are swapped
 template<typename T>
@@ -88,9 +100,7 @@ template<typename T>
 bool are_intersecting_3D (const Triangle<Point_3D<T>> &tr_1, const Triangle<Point_3D<T>> &tr_2,
                           Loc_3D P1_loc, Loc_3D Q1_loc, Loc_3D R1_loc)
 {   
-    auto P2_loc = magic_product (tr_1.P(), tr_1.Q(), tr_1.R(), tr_2.P());
-    auto Q2_loc = magic_product (tr_1.P(), tr_1.Q(), tr_1.R(), tr_2.Q());
-    auto R2_loc = magic_product (tr_1.P(), tr_1.Q(), tr_1.R(), tr_2.R());
+    auto [P2_loc, Q2_loc, R2_loc] = detail::compute_relative_location (tr_2, tr_1);
 
     if (P2_loc == Q2_loc && Q2_loc == R2_loc)
         return false;
@@ -126,9 +136,7 @@ bool are_intersecting (const Triangle<Point_3D<T>> &tr_1, const Triangle<Point_3
     using detail::Loc_3D;
     using detail::magic_product;
     
-    auto P1_loc = magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.P());
-    auto Q1_loc = magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.Q());
-    auto R1_loc = magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.R());
+    auto [P1_loc, Q1_loc, R1_loc] = detail::compute_relative_location (tr_1, tr_2);
 
     if (P1_loc == Q1_loc && Q1_loc == R1_loc)
     {
