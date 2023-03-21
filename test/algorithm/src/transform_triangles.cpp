@@ -8,20 +8,20 @@
 using namespace yLab::geometry;
 using namespace yLab::geometry::detail;
 
-#define COMMON_PART                                                                                                \
-do                                                                                                                 \
-{                                                                                                                  \
-    auto [tr_1_, tr_2_] = transform_triangle (tr_1, magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.P()),        \
-                                                    magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.Q()),        \
-                                                    magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.R()), tr_2); \
-                                                                                                                   \
-    EXPECT_TRUE (new_tr_1 == tr_1_);                                                                               \
-    EXPECT_TRUE (new_tr_2 == tr_2_);                                                                               \
-}                                                                                                                  \
+#define COMMON_PART                                                                           \
+do                                                                                            \
+{                                                                                             \
+    transform_triangles (tr_1, magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.P()),        \
+                               magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.Q()),        \
+                               magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.R()), tr_2); \
+                                                                                              \
+    EXPECT_TRUE (new_tr_1 == tr_1);                                                           \
+    EXPECT_TRUE (new_tr_2 == tr_2);                                                           \
+}                                                                                             \
 while (0)
 
 // P_loc == Loc_3D::Above
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    
 TEST (Transform_Triangle, P_Above__Q_Above__R_On)
 {
     Triangle tr_1 {Point_3D{-12.0, 13.0, 4.0},
