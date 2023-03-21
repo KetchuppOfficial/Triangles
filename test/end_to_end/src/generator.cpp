@@ -23,6 +23,8 @@ args cmd_line_args (int argc, char *argv[])
     if (n_shapes < 0)
         throw std::runtime_error{"The number of shapes has to be a positive integer"};
 
+    std::cerr << n_shapes << std::endl;
+
     distance_type world_size = std::atof (argv[2]);
     if (yLab::cmp::less_equal (world_size, distance_type{}))
         throw std::runtime_error{"The size of the world has to be a positive number"};
@@ -76,7 +78,7 @@ std::vector<point> generate_points (std::size_t n_shapes, distance_type world_si
 template<std::forward_iterator it>
 void dump_points (it first, it last)
 {
-    std::cout << std::distance (first, last) * 3 << std::endl;
+    std::cout << std::distance (first, last) / 3 << std::endl;
 
     for (auto point_i = 0; first != last; ++first)
     {
