@@ -3,7 +3,6 @@
 
 #include <utility>
 #include <algorithm>
-#include <cassert>
 #include <exception>
 
 #include "point.hpp"
@@ -20,11 +19,8 @@ namespace detail
 enum class Axes { x, y, z };
 
 template<typename T>
-Axes deduce_coordinate_to_set_zero (const Vector<T> &vec_1, const Vector<T> &vec_2)
+Axes deduce_coordinate_to_set_zero (const Vector<T> &norm)
 {
-    assert (are_collinear (vec_1, vec_2) == false);
-    
-    Vector norm = vector_product(vec_1, vec_2);
     auto x = std::abs (norm.x_);
     auto y = std::abs (norm.y_);
     auto z = std::abs (norm.z_);
@@ -124,8 +120,7 @@ auto space_transformation (const Point_3D<T> &pt, const Triangle<Point_3D<T>> &t
     using triangle_2d = Triangle<point_2d>;
     using point_triangle_pair = std::pair<point_2d, triangle_2d>;
     
-    auto coordinate_to_set_zero = deduce_coordinate_to_set_zero (Vector{tr.P(), tr.Q()},
-                                                                 Vector{tr.P(), tr.R()});
+    auto coordinate_to_set_zero = deduce_coordinate_to_set_zero (tr.norm());
 
     return point_triangle_pair{project_point (pt, coordinate_to_set_zero),
                                project_triangle (tr, coordinate_to_set_zero)};
@@ -143,8 +138,8 @@ auto space_transformation (const Segment<Point_3D<T>> &seg_1, const Segment<Poin
     using segment_2d = Segment<Point_2D<T>>;
     using segment_pair = std::pair<segment_2d, segment_2d>;
 
-    auto coordinate_to_set_zero = deduce_coordinate_to_set_zero (Vector{seg_1.P(), seg_1.Q()},
-                                                                 Vector{seg_2.P(), seg_2.Q()});
+    auto norm = vector_product (Vector{seg_1.P(), seg_1.Q()}, Vector{seg_2.P(), seg_2.Q()});
+    auto coordinate_to_set_zero = deduce_coordinate_to_set_zero (norm);
 
     return segment_pair{project_segment (seg_1, coordinate_to_set_zero),
                         project_segment (seg_2, coordinate_to_set_zero)};
@@ -157,8 +152,7 @@ auto space_transformation (const Segment<Point_3D<T>> &seg, const Triangle<Point
     using triangle_2d = Triangle<Point_2D<T>>;
     using segment_triangle_pair = std::pair<segment_2d, triangle_2d>;
 
-    auto coordinate_to_set_zero = deduce_coordinate_to_set_zero (Vector{tr.P(), tr.Q()},
-                                                                 Vector{tr.P(), tr.R()});
+    auto coordinate_to_set_zero = deduce_coordinate_to_set_zero (tr.norm());
 
     return segment_triangle_pair{project_segment (seg, coordinate_to_set_zero),
                                  project_triangle (tr, coordinate_to_set_zero)};
@@ -176,8 +170,7 @@ auto space_transformation (const Triangle<Point_3D<T>> &tr_1, const Triangle<Poi
     using triangle_2d = Triangle<Point_2D<T>>;
     using triangle_pair = std::pair<triangle_2d, triangle_2d>;
 
-    auto coordinate_to_set_zero = deduce_coordinate_to_set_zero (Vector{tr_1.P(), tr_1.Q()},
-                                                                 Vector{tr_1.P(), tr_1.R()});
+    auto coordinate_to_set_zero = deduce_coordinate_to_set_zero (tr_1.norm());
 
     return triangle_pair{project_triangle (tr_1, coordinate_to_set_zero),
                          project_triangle (tr_2, coordinate_to_set_zero)};

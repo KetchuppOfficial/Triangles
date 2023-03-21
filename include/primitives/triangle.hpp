@@ -34,6 +34,7 @@ template<typename T> class Triangle final
 public:
 
     using point_type = T;
+    using distance_type = typename point_type::distance_type;
     using iterator = point_type *;
     using const_iterator = const point_type *;
 
@@ -72,6 +73,11 @@ public:
     {
         std::swap (P(), Q());
         std::swap (R(), Q());
+    }
+
+    Vector<distance_type> norm () const
+    {
+        return vector_product (Vector{P(), Q()}, Vector{P(), R()});
     }
 
     iterator begin () { return std::addressof (P()); }
