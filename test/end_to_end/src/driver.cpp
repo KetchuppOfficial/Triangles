@@ -3,6 +3,7 @@
 #include <variant>
 #include <vector>
 #include <chrono>
+#include <fstream>
 
 #include "collision_manager.hpp"
 
@@ -93,16 +94,36 @@ std::vector<shape_type> construct_shapes (it first, it last)
 
 int main ()
 {
+    using std::chrono::milliseconds;
+
+    std::ofstream time_info{"time.info"};
+
+    auto primitives_start = std::chrono::high_resolution_clock::now();
     std::vector<point_type> points = construct_points ();
     std::vector<shape_type> shapes = construct_shapes (points.begin(), points.end());
+    auto primitives_finish = std::chrono::high_resolution_clock::now();
 
-    auto begin = std::chrono::high_resolution_clock::now();
     collision_manager collider {shapes.begin(), shapes.end()};
-    collider.intersect_all();
-    collider.show_intersecting();
-    auto end = std::chrono::high_resolution_clock::now();
+    auto manager_finish = std::chrono::high_resolution_clock::now();
 
-    std::cout << duration_cast<std::chrono::milliseconds>(end - begin).count() << " ms" << std::endl;
+    collider.intersect_all();
+    auto intersection_finish = std::chrono::high_resolution_clock::now();
+
+    collider.show_intersecting();
+    auto output_finish = std::chrono::high_resolution_clock::now();
+
+    time_info << "Building of primitives            "
+              << duration_cast<milliseconds>(primitives_finish - primitives_start).count()
+              << " ms" << std::endl
+              << "Construction of collision manager "
+              << duration_cast<milliseconds>(manager_finish - primitives_finish).count()
+              << " ms" << std::endl
+              << "Intersection                      "
+              << duration_cast<milliseconds>(intersection_finish - manager_finish).count()
+              << " ms" << std::endl
+              << "Output                            "
+              << duration_cast<milliseconds>(output_finish - intersection_finish).count()
+              << " ms" << std::endl;
 
     return 0;
 }
