@@ -6,7 +6,7 @@
 #include <vector>
 #include <chrono>
 
-#include "intersector.hpp"
+#include "collision_manager.hpp"
 
 using distance_type = float;
 
@@ -17,7 +17,7 @@ using segment_type  = yLab::geometry::Primitive_Traits<distance_type>::segment_t
 using triangle_type = yLab::geometry::Primitive_Traits<distance_type>::triangle_type;
 using shape_type    = yLab::geometry::Indexed_Shape<distance_type>;
 
-using intersector = yLab::geometry::Intersector<distance_type>;
+using collision_manager = yLab::geometry::Collision_Manager<distance_type>;
 
 namespace
 {
@@ -99,7 +99,7 @@ int main ()
     std::vector<shape_type> shapes = construct_shapes (points.begin(), points.end());
 
     auto begin = std::chrono::high_resolution_clock::now();
-    intersector collider {shapes.begin(), shapes.end()};
+    collision_manager collider {shapes.begin(), shapes.end()};
     collider.intersect_all();
     collider.show_intersecting();
     auto end = std::chrono::high_resolution_clock::now();

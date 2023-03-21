@@ -1,5 +1,5 @@
-#ifndef INCLUDE_SPACE_PARTITIONING_INTERSECTOR
-#define INCLUDE_SPACE_PARTITIONING_INTERSECTOR
+#ifndef INCLUDE_SPACE_PARTITIONING_COLLISION_MANAGER
+#define INCLUDE_SPACE_PARTITIONING_COLLISION_MANAGER
 
 #include <iostream>
 #include <vector>
@@ -26,7 +26,7 @@ namespace geometry
 {
 
 template<typename T, typename U = Indexed_Shape<T>>
-class Intersector final
+class Collision_Manager final
 {
 public:
 
@@ -43,7 +43,7 @@ private:
 public:
 
     template<std::input_iterator it>
-    Intersector (it first, it last) : octree_{first, last}
+    Collision_Manager (it first, it last) : octree_{first, last}
     {
         auto n_shapes = octree_.size();
 
@@ -99,4 +99,4 @@ private:
 
 } // namespace yLab
 
-#endif // INCLUDE_SPACE_PARTITIONING_INTERSECTOR
+#endif // INCLUDE_SPACE_PARTITIONING_COLLISION_MANAGER
