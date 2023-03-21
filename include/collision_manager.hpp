@@ -64,10 +64,9 @@ private:
 
     void intersect_all (node_type *root)
     {
-        ancestor_stack_.push_back (root);
+        ancestor_stack_.emplace_back (root);
 
-        auto stack_size = ancestor_stack_.size();
-        for (auto n = 0; n != stack_size; ++n)
+        for (auto n = 0; n != ancestor_stack_.size(); ++n)
         {
             for (auto &&shape_1 : ancestor_stack_[n]->shapes())
             {
