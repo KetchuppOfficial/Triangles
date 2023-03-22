@@ -6,16 +6,14 @@ using namespace yLab::geometry;
 
 TEST (Intersection, Triangle_Triangle_3D)
 {
+    // (points are referenced by their names after transform_triangle())
+
     Triangle tr{Point_3D{0.0, 1.0, 0.0}, Point_3D{1.0, 0.0, 0.0}, Point_3D{0.0, 0.0, 0.0}};
 
     // planes of triangles are parallel
     Triangle tr_1{Point_3D{0.0, 1.0, 1.0}, Point_3D{1.0, 0.0, 1.0}, Point_3D{0.0, 0.0, 1.0}};
     EXPECT_FALSE (yLab::geometry::are_intersecting (tr, tr_1));
     EXPECT_FALSE (yLab::geometry::are_intersecting (tr_1, tr));
-
-    // triangles aren't coplanar
-    // (points are referenced by their names after transform_triangle())
-    // ================================================================
 
     // no triangle intersect the plane of the other one
     Triangle tr_2{Point_3D{-1.0, 0.0, 0.0}, Point_3D{-1.0, 1.0, 0.0}, Point_3D{-1.0, 0.0, 2.0}};
@@ -83,4 +81,124 @@ TEST (Intersection, Triangle_Triangle_3D)
     EXPECT_FALSE (yLab::geometry::are_intersecting (tr_14, tr));
 
     // ================================================================
+}
+
+TEST (Intersection, Triangle_Triangle_2D)
+{
+    // Index 1 is referred as in the algorithm. It's 2 actually in one test and 1 in the other
+    
+    Triangle tr{Point_3D{0.0, 1.0}, Point_3D{0.0, 0.0}, Point_3D{1.0, 0.0}};
+
+    // P1 belongs to the interior of T2
+    Triangle tr_1{Point_3D{0.25, 0.25}, Point_3D{0.25, 1.25}, Point_3D{1.25, 0.25}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_1, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_1));
+
+    // P1 belongs to a side of T2
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+    Triangle tr_2{Point_3D{0.5, 0.5}, Point_3D{1.5, 0.5}, Point_3D{0.5, 1.5}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_2, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_2));
+
+    Triangle tr_3{Point_3D{0.5, 0.0}, Point_3D{0.5, -1.0}, Point_3D{1.5, -1.0}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_3, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_3));
+
+    Triangle tr_4{Point_3D{0.0, 0.5}, Point_3D{-1.0, 0.5}, Point_3D{-1.0, 1.5}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_4, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_4));
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+
+    // P1 conincides with a vertex of T2
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+    Triangle tr_5{Point_3D{0.0, 1.0}, Point_3D{1.0, 1.0}, Point_3D{0.0, 2.0}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_5, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_5));
+
+    Triangle tr_6{Point_3D{1.0, 0.0}, Point_3D{2.0, 0.0}, Point_3D{1.0, 1.0}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_6, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_6));
+
+    Triangle tr_7{Point_3D{0.0, 0.0}, Point_3D{-1.0, 0.0}, Point_3D{0.0, -1.0}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_7, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_7));
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+
+    // P1 belongs to R1-area
+    // ===================================================================== //
+    Point_3D P_1{1.0, 1.0};
+
+    // Q1 belongs to R11
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+    Point_3D Q_11{0.5, 1.5};
+
+    // R1 belongs to R11
+    Triangle tr_8{P_1, Q_11, Point_3D{0.75, 0.75}};
+    EXPECT_FALSE (yLab::geometry::are_intersecting (tr_8, tr));
+    EXPECT_FALSE (yLab::geometry::are_intersecting (tr, tr_8));
+
+    // R1 belongs to RP
+    Triangle tr_9{P_1, Q_11, Point_3D{0.5, 0.5}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_9, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_9));
+
+    // R1 belongs to the interior of T2
+    Triangle tr_10{P_1, Q_11, Point_3D{0.25, 0.25}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_10, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_10));
+
+    // R1 is somewhere outside T2 but the interseciton takes place
+    Triangle tr_11{P_1, Q_11, Point_3D{-0.5, 0.5}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_11, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_11));
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+
+    // Q1 belongs to R12 (location of R1 doesn't matter)
+    Triangle tr_12{P_1, Point_3D{1.5, -1.0}, Point_3D{2.0, 0.0}};
+    EXPECT_FALSE (yLab::geometry::are_intersecting (tr_12, tr));
+    EXPECT_FALSE (yLab::geometry::are_intersecting (tr, tr_12));
+
+    // Q1 belongs to R13 (location of R1 doesn't matter)
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+    Triangle tr_13{P_1, Point_3D{0.5, 0.5}, Point_3D{0.0, 2.0}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_13, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_13));
+
+    Triangle tr_14{P_1, Point_3D{0.25, 0.25}, Point_3D{0.0, 2.0}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_14, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_14));
+
+    Triangle tr_15{P_1, Point_3D{-1.0, -1.0}, Point_3D{0.0, 2.0}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_15, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_15));
+
+    Triangle tr_16{P_1, Point_3D{1.0, -1.0}, Point_3D{2.0, 0.0}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_16, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_16));
+
+    Triangle tr_17{P_1, Point_3D{-1.0, 1.0}, Point_3D{0.0, 2.0}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_17, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_17));
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+
+    // Q1 belongs to R14
+    Point_3D Q_12{-1.0, 1.5};
+
+    Triangle tr_18{P_1, Q_12, Point_3D{-1.0, 0.25}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_18, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_18));
+
+    Triangle tr_19{P_1, Q_12, Point_3D{0.25, 0.25}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_19, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_19));
+
+    Triangle tr_20{P_1, Q_12, Point_3D{1.0, 0.25}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_20, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_20));
+
+    Triangle tr_21{P_1, Q_12, Point_3D{0.0, -1.0}};
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr_21, tr));
+    EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_21));
+
+    // ===================================================================== //
 }
