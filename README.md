@@ -4,7 +4,7 @@ This project is a task on course "Uses and applications of C++ language" by [K.I
 
 # Building
 ```bash
-cmake -B build
+cmake -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ctest --test-dir build
 ```
