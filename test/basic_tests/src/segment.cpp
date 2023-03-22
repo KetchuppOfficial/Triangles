@@ -18,22 +18,8 @@ TEST (Segments, Swap_Points)
 TEST (Segments, Is_Point)
 {
     Point_3D pt_1{1.0, 1.0, 1.0};
-
-    try
-    {
-        Segment seg_1{pt_1, pt_1};
-        EXPECT_TRUE (false);
-    }
-    catch (Segment_Is_Point &expt) { EXPECT_TRUE (true); }
-    catch (...) { EXPECT_TRUE (false); }
+    EXPECT_THROW ((Segment{pt_1, pt_1}), Segment_Is_Point);
 
     Point_3D pt_2{-1.0, -1.0, -1.0};
-
-    try
-    {
-        Segment seg_2{pt_1, pt_2};
-        EXPECT_TRUE (true);
-    }
-    catch (Segment_Is_Point &expt) { EXPECT_TRUE (false); }
-    catch (...) { EXPECT_TRUE (false); }
+    EXPECT_NO_THROW ((Segment{pt_1, pt_2}));
 }

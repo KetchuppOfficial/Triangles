@@ -45,37 +45,19 @@ TEST (Triangles, Is_Point)
 {
     Point_3D pt_1{743874.0, 9817498.19, -0.017847};
 
-    try
-    {
-        Triangle tr_1{pt_1, pt_1, pt_1};
-        EXPECT_TRUE (false);
-    }
-    catch (Triangle_Is_Point &expt) { EXPECT_TRUE (true); }
-    catch (...) { EXPECT_TRUE (false); }
+    EXPECT_THROW ((Triangle{pt_1, pt_1, pt_1}), Triangle_Is_Point);
 
     Point_3D pt_21{0.000000253201, 493193.712904, 238710.0830};
     Point_3D pt_22{0.000000253202, 493193.812904, 238710.1829};
     Point_3D pt_23{0.000000353200, 493193.912904, 238710.2831};
 
-    try
-    {
-        Triangle tr_2{pt_21, pt_22, pt_23};
-        EXPECT_TRUE (false);
-    }
-    catch (Triangle_Is_Point &expt) { EXPECT_TRUE (true); }
-    catch (...) { EXPECT_TRUE (false); }
+    EXPECT_THROW ((Triangle{pt_21, pt_22, pt_23}), Triangle_Is_Point);
 
     Point_3D pt_31{48752.0, -104581.25, 8502.1924};
     Point_3D pt_32{0.00014, -582.561,   523.154};
     Point_3D pt_33{671.1581, 0.0,       98714.051};
 
-    try
-    {
-        Triangle tr_3{pt_31, pt_32, pt_33};
-        EXPECT_TRUE (true);
-    }
-    catch (Triangle_Is_Point &expt) { EXPECT_TRUE (false); }
-    catch (...) { EXPECT_TRUE (false); }
+    EXPECT_NO_THROW ((Triangle{pt_31, pt_32, pt_33}));
 }
 
 TEST (Triangles, Is_Segment)
@@ -84,50 +66,18 @@ TEST (Triangles, Is_Segment)
     Point_3D pt_12{pt_11.x() / 2.0, pt_11.y() / 2.0, pt_11.z() / 2.0};
     Point_3D pt_31{pt_11.x() / 3.0, pt_11.y() / 3.0, pt_11.z() / 3.0};
 
-    try
-    {
-        Triangle tr_1{pt_11, pt_12, pt_31};
-        EXPECT_TRUE (false);
-    }
-    catch (Triangle_Is_Segment &expt) { EXPECT_TRUE (true); }
-    catch (...) { EXPECT_TRUE (false); }
+    EXPECT_THROW ((Triangle{pt_11, pt_12, pt_31}), Triangle_Is_Segment);
 
     Point_3D pt_21{-0.36742, 0.00043102, 16784.9891};
     Point_3D pt_22{87210.71, -0.000141485, 70134.1240};
 
-    try
-    {
-        Triangle tr_21{pt_21, pt_21, pt_31};
-        EXPECT_TRUE (false);
-    }
-    catch (Triangle_Is_Segment &expt) { EXPECT_TRUE (true); }
-    catch (...) { EXPECT_TRUE (false); }
-
-    try
-    {
-        Triangle tr_22{pt_21, pt_31, pt_21};
-        EXPECT_TRUE (false);
-    }
-    catch (Triangle_Is_Segment &expt) { EXPECT_TRUE (true); }
-    catch (...) { EXPECT_TRUE (false); }
-
-    try
-    {
-        Triangle tr_23{pt_31, pt_21, pt_21};
-        EXPECT_TRUE (false);
-    }
-    catch (Triangle_Is_Segment &expt) { EXPECT_TRUE (true); }
-    catch (...) { EXPECT_TRUE (false); }
+    EXPECT_THROW ((Triangle{pt_21, pt_21, pt_31}), Triangle_Is_Segment);
+    EXPECT_THROW ((Triangle{pt_21, pt_31, pt_21}), Triangle_Is_Segment);
+    EXPECT_THROW ((Triangle{pt_31, pt_21, pt_21}), Triangle_Is_Segment);
 
     Point_3D pt_41{12478.975, -0.7194, 0.00016624};
     Point_3D pt_42{766.24, 523652341.8902, -104.24};
     Point_3D pt_43{0.00001535, 0.124, 752.14556};
 
-    try
-    {
-        Triangle tr_4{pt_41, pt_42, pt_43};
-        EXPECT_TRUE (true);
-    }
-    catch (Triangle_Is_Segment &expt) { EXPECT_TRUE (false); }
-    catch (...) { EXPECT_TRUE (false); }
+    EXPECT_NO_THROW ((Triangle{pt_41, pt_42, pt_43}));
 }
