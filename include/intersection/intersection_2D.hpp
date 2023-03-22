@@ -39,7 +39,7 @@ bool test_intersection_R2 (const Segment<Point_2D<T>> &seg,
     {
         return  (magic_product (seg.P(), tr.P(), seg.Q()) != Loc_2D::Negative &&
                  magic_product (seg.P(), tr.Q(), seg.Q()) != Loc_2D::Positive &&
-                 magic_product (tr.Q(), tr.R(), seg.Q())  != Loc_2D::Negative);
+                 magic_product (tr.Q(),  tr.R(), seg.Q()) != Loc_2D::Negative);
     }
 }
 
@@ -59,10 +59,10 @@ bool test_intersection_R1 (const Triangle<Point_2D<T>> &tr_1,
     }
     else
     {
-        if (magic_product (tr_1.P(), tr_2.P(), tr_1.Q()) != Loc_2D::Negative) // Q1 belongs to R13
-            return true;
-        else if (magic_product (tr_1.P(), tr_2.R(), tr_1.Q()) == Loc_2D::Positive) // Q1 belongs to R12
+        if (magic_product (tr_1.P(), tr_2.R(), tr_1.Q()) == Loc_2D::Positive) // Q1 belongs to R12
             return false;
+        else if (magic_product (tr_1.P(), tr_2.P(), tr_1.Q()) != Loc_2D::Negative) // Q1 belongs to R13
+            return true;
         else // Q1 belongs to R14
             return ((magic_product (tr_1.P(), tr_2.P(), tr_1.R()) == Loc_2D::Positive) &&
                     (magic_product (tr_1.Q(), tr_2.P(), tr_1.R()) == Loc_2D::Negative));
