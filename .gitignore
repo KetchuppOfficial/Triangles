@@ -2,4 +2,6 @@ build/
 TODO
 *.test
 *.ans
+*.res
+*.info
 bin/
