@@ -19,6 +19,9 @@ using args = std::tuple<int, distance_type, distance_type, distance_type>;
 
 args cmd_line_args (int argc, char *argv[])
 {
+    if (argc != 5)
+        throw std::runtime_error{"Program requires exactly 4 arguments"};
+    
     auto n_shapes = std::atoi (argv[1]);
     if (n_shapes < 0)
         throw std::runtime_error{"The number of shapes has to be a positive integer"};
