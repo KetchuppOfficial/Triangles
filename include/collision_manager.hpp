@@ -7,7 +7,7 @@
 #include <array>
 #include <algorithm>
 #include <utility>
-#include <unordered_set>
+#include <set>
 
 #include "point_point.hpp"
 #include "point_segment.hpp"
@@ -38,7 +38,7 @@ private:
     
     Octree<distance_type> octree_;
     std::vector<node_type *> ancestor_stack_;
-    std::unordered_set<std::size_t> indexes_; // unique indexes are contained
+    std::set<std::size_t> indexes_; // unique sorted indexes are contained
 
 public:
 
@@ -48,7 +48,6 @@ public:
         auto n_shapes = octree_.size();
 
         ancestor_stack_.reserve (n_shapes);
-        indexes_.reserve (n_shapes);
     }
 
     void intersect_all () { intersect_all (std::addressof (octree_.root())); }
