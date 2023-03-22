@@ -56,7 +56,6 @@ def main ():
     triangles = construct_triangles (points)
     intersecting_indexes = intersect_all (triangles)
 
-    for i in intersecting_indexes:
-        print (i)
+    print (*intersecting_indexes)
 
 main()
