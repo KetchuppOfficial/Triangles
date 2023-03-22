@@ -43,8 +43,10 @@ def intersect_all (triangles):
     for i in range(len(triangles) - 1):
         for j in range(i + 1, len(triangles)):
             if geometry.intersection(triangles[i], triangles[j]):
-                intersecting_indexes.append(i)
-                intersecting_indexes.append(j)
+                if i not in intersecting_indexes:
+                    intersecting_indexes.append(i)
+                if j not in intersecting_indexes:
+                    intersecting_indexes.append(j)
 
     return intersecting_indexes
 
@@ -55,6 +57,7 @@ def main ():
     points = construct_points (numbers, n_triangles)
     triangles = construct_triangles (points)
     intersecting_indexes = intersect_all (triangles)
+    intersecting_indexes.sort()
 
     print (*intersecting_indexes)
 
