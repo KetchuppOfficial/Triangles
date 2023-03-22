@@ -37,11 +37,10 @@ function build_from_sources
 
 function generate_test
 {
-    local dim=$1
-    local n_shapes=$2
-    local world_halfwidth=$3
-    local min_bb_halfwidth=$4
-    local max_bb_halfwidth=$5
+    local n_shapes=$1
+    local world_halfwidth=$2
+    local min_bb_halfwidth=$3
+    local max_bb_halfwidth=$4
     
     mkdir -p ${data}
 
@@ -76,31 +75,24 @@ function run_test
     fi
 }
 
-if [ $# -ne 5 ]
+if [ $# -ne 4 ]
 then
-    echo "Testing script requires exactly 3 arguments"
+    echo "Testing script requires exactly 4 arguments"
 else
-    dim=$1
+    n_shapes=$1
 
-    if [ $dim != "2D" ] && [ $dim != "3D" ]
+    if [ $n_shapes -le 0 ]
     then
-        echo "There is no testing mode with name \"$1\""
+        echo "The number of trianges should be a positive integer number"
     else
-        n_shapes=$2
+        # Positivity of next variables is checked in the generator of tests
+        world_halfwidth=$2
+        min_bb_halfwidth=$3
+        max_bb_halfwidth=$4
 
-        if [ $n_shapes -le 0 ]
-        then
-            echo "The number of trianges should be a positive integer number"
-        else
-            # Positivity of next variables is checked in the generator of tests
-            world_halfwidth=$3
-            min_bb_halfwidth=$4
-            max_bb_halfwidth=$5
-
-            build_from_sources
-            generate_test $dim $n_shapes $world_halfwidth $min_bb_halfwidth $max_bb_halfwidth
-            generate_answer $n_shapes
-            run_test $n_shapes
-        fi
+        build_from_sources
+        generate_test $n_shapes $world_halfwidth $min_bb_halfwidth $max_bb_halfwidth
+        generate_answer $n_shapes
+        run_test $n_shapes
     fi
 fi
