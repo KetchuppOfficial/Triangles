@@ -19,7 +19,7 @@ test_driver="driver"
 
 function build_from_sources
 {
-    cmake ${top_dir} -B ${build_dir} -DCMAKE_BUILD_TYPE=Release
+    cmake ${top_dir} -B ${build_dir} -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=g++-11
 
     echo -en "\n"
     echo "Building test generator..."
