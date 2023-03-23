@@ -85,14 +85,18 @@ bool test_intersection_R2 (const Triangle<Point_2D<T>> &tr_1,
     }
     else if (magic_product (tr_2.Q(), tr_2.R(), tr_1.Q()) == Loc_2D::Negative) // Q1 in R22 or R25
     {
-        return (magic_product (tr_1.P(), tr_2.Q(), tr_1.Q()) != Loc_2D::Positive &&
-                magic_product (tr_2.Q(), tr_2.R(), tr_1.R()) != Loc_2D::Negative &&
-                magic_product (tr_1.Q(), tr_1.R(), tr_2.Q()) != Loc_2D::Negative);
+        if (magic_product (tr_1.P(), tr_2.Q(), tr_1.Q()) == Loc_2D::Negative) // Q1 in R25
+        {
+            return (magic_product (tr_2.Q(), tr_2.R(), tr_1.R()) != Loc_2D::Negative &&
+                    magic_product (tr_2.Q(), tr_1.Q(), tr_1.R()) != Loc_2D::Negative);
+        }
+        else
+            return false;
     }
     else if (magic_product (tr_1.P(), tr_2.P(), tr_1.Q()) == Loc_2D::Negative) // Q1 in R24
     {
         return (magic_product (tr_1.P(), tr_2.P(), tr_1.R()) != Loc_2D::Negative &&
-                magic_product (tr_2.R(), tr_2.P(), tr_1.R()) != Loc_2D::Negative);
+                magic_product (tr_1.Q(), tr_2.P(), tr_1.R()) != Loc_2D::Positive);
     }
     else
         return magic_product (tr_1.P(), tr_2.Q(), tr_1.Q()) != Loc_2D::Positive;
