@@ -64,8 +64,8 @@ bool test_intersection_R1 (const Triangle<Point_2D<T>> &tr_1,
         else if (magic_product (tr_1.P(), tr_2.P(), tr_1.Q()) != Loc_2D::Negative) // Q1 belongs to R13
             return true;
         else // Q1 belongs to R14
-            return ((magic_product (tr_1.P(), tr_2.P(), tr_1.R()) == Loc_2D::Positive) &&
-                    (magic_product (tr_1.Q(), tr_2.P(), tr_1.R()) == Loc_2D::Negative));
+            return ((magic_product (tr_1.P(), tr_2.P(), tr_1.R()) != Loc_2D::Negative) &&
+                    (magic_product (tr_1.Q(), tr_2.P(), tr_1.R()) != Loc_2D::Positive));      
     }
 }
 
