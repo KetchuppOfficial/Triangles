@@ -103,7 +103,7 @@ bool test_intersection_R2 (const Triangle<Point_2D<T>> &tr_1,
 }
 
 template<typename T, typename Primitive_T>
-bool are_intersecting_2D (Triangle<Point_2D<T>> &tr, Primitive_T &other)
+bool are_intersecting_2D (Primitive_T &other, Triangle<Point_2D<T>> &tr)
 {
     auto P1_wrt_P2Q2 = magic_product (tr.P(), tr.Q(), other.P());
     auto P1_wrt_Q2R2 = magic_product (tr.Q(), tr.R(), other.P());

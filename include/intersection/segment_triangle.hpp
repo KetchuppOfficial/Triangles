@@ -30,7 +30,7 @@ bool are_intersecting (const Segment<Point_3D<T>> &seg, const Triangle<Point_3D<
             if (magic_product (tr_2d.P(), tr_2d.Q(), tr_2d.R()) != Loc_2D::Positive)
                 tr_2d.swap_QR();
 
-            return detail::are_intersecting_2D (tr_2d, seg_2d);
+            return detail::are_intersecting_2D (seg_2d, tr_2d);
         }
         else
             return false;
