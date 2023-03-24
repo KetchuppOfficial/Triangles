@@ -34,7 +34,7 @@ constexpr bool are_equal (T first, T second, T zero_diff = cmp_precision<T>::eps
 template<typename T>
 constexpr bool is_zero (T value, T zero_diff = cmp_precision<T>::epsilon)
 {
-    return are_equal (value, T{}, zero_diff);
+    return std::abs (value) < zero_diff;
 }
 
 template<typename T>
