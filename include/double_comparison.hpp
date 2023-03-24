@@ -32,30 +32,37 @@ constexpr bool are_equal (T first, T second, T zero_diff = cmp_precision<T>::eps
 }
 
 template<typename T>
-constexpr bool is_zero (T value) { return are_equal (value, T{}); }
-
-template<typename T>
-constexpr bool less (T first, T second)
+constexpr bool is_zero (T value, T zero_diff = cmp_precision<T>::epsilon)
 {
-    return (first < second) && !are_equal (first, second);
+    return are_equal (value, T{}, zero_diff);
 }
 
 template<typename T>
-constexpr bool less_equal (T first, T second)
+constexpr bool less (T first, T second, T zero_diff = cmp_precision<T>::epsilon, 
+                                        T rel_diff  = cmp_precision<T>::epsilon)
 {
-    return (first < second) || are_equal (first, second);
+    return (first < second) && !are_equal (first, second, zero_diff, rel_diff);
 }
 
 template<typename T>
-constexpr bool greater (T first, T second)
+constexpr bool less_equal (T first, T second, T zero_diff = cmp_precision<T>::epsilon, 
+                                              T rel_diff  = cmp_precision<T>::epsilon)
 {
-    return (first > second) && !are_equal (first, second);
+    return (first < second) || are_equal (first, second, zero_diff, rel_diff);
 }
 
 template<typename T>
-constexpr bool greater_equal (T first, T second)
+constexpr bool greater (T first, T second, T zero_diff = cmp_precision<T>::epsilon, 
+                                           T rel_diff  = cmp_precision<T>::epsilon)
 {
-    return (first > second) || are_equal (first, second);
+    return (first > second) && !are_equal (first, second, zero_diff, rel_diff);
+}
+
+template<typename T>
+constexpr bool greater_equal (T first, T second, T zero_diff = cmp_precision<T>::epsilon, 
+                                                 T rel_diff  = cmp_precision<T>::epsilon)
+{
+    return (first > second) || are_equal (first, second, zero_diff, rel_diff);
 }
 
 } // namespace cmp
