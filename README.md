@@ -50,7 +50,7 @@ different, then this test is considered "failed". It is considered "passed" othe
 
 I wouldn't suggest running tests with **N > 500** as you will wait really long that way.
 
-P.s. checker.sh script simply forwards its arguments to **generator**. So, after the meaning of every argument is explained, it clear what exact triangles are generated.
+P.s. **checker.sh** script simply forwards its arguments to **generator**. So, after the meaning of every argument is explained, it becomes clear what exact triangles are generated.
 
 P.p.s. **driver** measures the time spend on actions such are reading from file, construction of octree, etc. This information is saved in **time.info** file.
 
