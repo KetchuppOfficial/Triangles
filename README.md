@@ -52,6 +52,6 @@ I wouldn't suggest running tests with **N > 500** as you will wait really long t
 
 P.s. **checker.sh** script simply forwards its arguments to **generator**. So, after the meaning of every argument is explained, it becomes clear what exact triangles are generated.
 
-P.p.s. **driver** measures the time spend on actions such are reading from file, construction of octree, etc. This information is saved in **time.info** file.
+P.p.s. **driver** measures the time spent on actions such as reading from file, construction of octree, etc. This information is saved in **time.info** file.
 
 ### I want to thank [Dany](https://github.com/BileyHarryCopter) and [Sergey](https://github.com/LegendaryHog) for their contribution to this project at its first stage
