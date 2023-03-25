@@ -100,11 +100,11 @@ public:
     template<std::input_iterator it>
     Octree (it first, it last)
     {
-        auto [center, halfwidth, height] = detail::calculate_octree_parameters (first, last);
-        if (height == 0)
+        if (first == last)
             throw Empty_Octree{};
-        else
-            height_ = height;
+        
+        auto [center, halfwidth, height] = detail::calculate_octree_parameters (first, last);
+        height_ = height;
 
         nodes_.reserve (max_size());
         build_subtree (center, halfwidth, height);
