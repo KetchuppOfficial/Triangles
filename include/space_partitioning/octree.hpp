@@ -76,7 +76,7 @@ auto calculate_octree_parameters (it first, it last)
 
 struct Empty_Octree final: public std::runtime_error
 {
-    Empty_Octree () : std::runtime_error{"Constructing octree of height 0 is forbidden"} {}
+    Empty_Octree () : std::runtime_error{"Octree can't be constructed if no shapes are provided"} {}
 };
 
 template<typename T, typename U = Indexed_Shape<T>>
