@@ -7,6 +7,7 @@
 #include <iterator>
 #include <utility>
 #include <tuple>
+#include <iostream>
 
 #include "shape.hpp"
 #include "node.hpp"
@@ -25,7 +26,7 @@ namespace detail
 
 inline std::size_t pseudo_optimal_height (std::size_t n_shapes)
 {
-    return static_cast<std::size_t>(std::log10 (1 + n_shapes));
+    return std::max (std::size_t(1), static_cast<std::size_t>(std::log10 (1 + n_shapes)));
 }
 
 template<std::input_iterator it>
