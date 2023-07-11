@@ -1,4 +1,4 @@
-# HW3D - triangles
+# HW3D. Level 1: triangles
 
 This project is a task on course "Uses and applications of C++ language" by [K.I.Vladimirov](https://github.com/tilir). The task was to intersect triangles in 3D.
 
@@ -10,13 +10,13 @@ The following applications have to be installed:
 
 ## How to install
 ```bash
-git clone git@github.com:KetchuppOfficial/Triangles_Intersection.git
-cd Triangles_Intersection
+git clone git@github.com:KetchuppOfficial/Triangles.git
+cd Triangles
 ```
 
 ## How to build
 
-### 0) Make sure you are in the root directory of the project (i.e. Triangles_Intersection/)
+### 0) Make sure you are in the root directory of the project (i.e. Triangles/)
 
 ### 1) Build the project
 ```bash
