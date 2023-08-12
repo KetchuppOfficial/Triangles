@@ -21,7 +21,7 @@ do                                                                              
 while (0)
 
 // P_loc == Loc_3D::Above
-// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~    
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 TEST (Transform_Triangle, P_Above__Q_Above__R_On)
 {
     Triangle tr_1 {Point_3D{-12.0, 13.0, 4.0},
@@ -77,7 +77,7 @@ TEST (Transform_Triangle, P_Above__Q_On__R_On)
                    Point_3D{ 18.0,  6.0, 0.0}};
 
     Triangle tr_2 {Point_3D{1.0, 0.0, 0.0},
-                   Point_3D{0.0, 1.0, 0.0},  
+                   Point_3D{0.0, 1.0, 0.0},
                    Point_3D{0.0, 0.0, 0.0}};
 
     Triangle new_tr_1 = tr_1;
@@ -104,7 +104,7 @@ TEST (Transform_Triangle, P_Above__Q_On__R_Below)
 
 TEST (Transform_Triangle, P_Above__Q_Below__R_Above)
 {
-    Triangle tr_1 {Point_3D{13.0, -24.0,  11.0}, 
+    Triangle tr_1 {Point_3D{13.0, -24.0,  11.0},
                    Point_3D{ 3.0, -46.0, -25.0},
                    Point_3D{ 9.0,  -4.0,   8.0}};
 

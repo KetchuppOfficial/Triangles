@@ -7,7 +7,7 @@ using namespace yLab::geometry;
 TEST (Intersection, Segment_Triangle)
 {
     Triangle tr{Point_3D{0.0, 1.0, 0.0}, Point_3D{1.0, 0.0, 0.0}, Point_3D{0.0, 0.0, 0.0}};
-    
+
     // segment and triangle aren't coplanar
     // ================================================================
 

@@ -60,19 +60,19 @@ Segment<Point_2D<T>> project_segment (const Segment<Point_3D<T>> &seg,
     {
         case Axes::x:
         {
-            return Segment{Point_2D{seg.P().y(), seg.P().z()}, 
+            return Segment{Point_2D{seg.P().y(), seg.P().z()},
                            Point_2D{seg.Q().y(), seg.Q().z()}};
         }
 
         case Axes::y:
         {
-            return Segment{Point_2D{seg.P().z(), seg.P().x()}, 
+            return Segment{Point_2D{seg.P().z(), seg.P().x()},
                            Point_2D{seg.Q().z(), seg.Q().x()}};
         }
 
         case Axes::z:
         {
-            return Segment{Point_2D{seg.P().x(), seg.P().y()}, 
+            return Segment{Point_2D{seg.P().x(), seg.P().y()},
                            Point_2D{seg.Q().x(), seg.Q().y()}};
         }
 
@@ -89,21 +89,21 @@ Triangle<Point_2D<T>> project_triangle (const Triangle<Point_3D<T>> &tr,
     {
         case Axes::x:
         {
-            return Triangle{Point_2D{tr.P().y(), tr.P().z()}, 
+            return Triangle{Point_2D{tr.P().y(), tr.P().z()},
                             Point_2D{tr.Q().y(), tr.Q().z()},
                             Point_2D{tr.R().y(), tr.R().z()}};
         }
 
         case Axes::y:
         {
-            return Triangle{Point_2D{tr.P().z(), tr.P().x()}, 
+            return Triangle{Point_2D{tr.P().z(), tr.P().x()},
                             Point_2D{tr.Q().z(), tr.Q().x()},
                             Point_2D{tr.R().z(), tr.R().x()}};
         }
 
         case Axes::z:
         {
-            return Triangle{Point_2D{tr.P().x(), tr.P().y()}, 
+            return Triangle{Point_2D{tr.P().x(), tr.P().y()},
                             Point_2D{tr.Q().x(), tr.Q().y()},
                             Point_2D{tr.R().x(), tr.R().y()}};
         }
@@ -119,7 +119,7 @@ auto space_transformation (const Point_3D<T> &pt, const Triangle<Point_3D<T>> &t
     using point_2d = Point_2D<T>;
     using triangle_2d = Triangle<point_2d>;
     using point_triangle_pair = std::pair<point_2d, triangle_2d>;
-    
+
     auto coordinate_to_set_zero = deduce_coordinate_to_set_zero (tr.norm());
 
     return point_triangle_pair{project_point (pt, coordinate_to_set_zero),

@@ -35,10 +35,10 @@ auto calculate_octree_parameters (it first, it last)
     using shape_type = typename std::iterator_traits<it>::value_type;
     using distance_type = typename shape_type::distance_type;
     using size_type = typename Octree<distance_type, shape_type>::size_type;
-    
+
     std::array<distance_type, 3> min{};
     std::array<distance_type, 3> max{};
-    
+
     std::size_t n_shapes = 0;
     for (; first != last; ++first, ++n_shapes)
     {
@@ -96,13 +96,13 @@ private:
     size_type height_;
 
 public:
-    
+
     template<std::input_iterator it>
     Octree (it first, it last)
     {
         if (first == last)
             throw Empty_Octree{};
-        
+
         auto [center, halfwidth, height] = detail::calculate_octree_parameters (first, last);
         height_ = height;
 
@@ -144,7 +144,7 @@ private:
     node_type *build_subtree (const point_type &center, distance_type halfwidth, unsigned stop_depth)
     {
         node_type &subroot = nodes_.emplace_back(center, halfwidth);
-        
+
         if (stop_depth > 1)
         {
             auto step = halfwidth * distance_type{0.5};

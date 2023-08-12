@@ -50,7 +50,7 @@ TEST (Intersection, Triangle_Triangle_3D)
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_8));
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr_8, tr));
 
-    // Segments belonging to the interiors of triangles coincide 
+    // Segments belonging to the interiors of triangles coincide
     Triangle tr_9{Point_3D{0.5, 0.0, -0.5}, Point_3D{0.5, 1.0, -0.5}, Point_3D{0.5, 0.0, 5.0}};
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_9));
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr_9, tr));
@@ -84,7 +84,7 @@ TEST (Intersection, Triangle_Triangle_3D)
 }
 
 TEST (Intersection, Triangle_Triangle_2D_Easy_Cases)
-{    
+{
     Triangle tr{Point_3D{0.0, 1.0}, Point_3D{0.0, 0.0}, Point_3D{1.0, 0.0}};
 
     // P1 belongs to the interior of T2
@@ -126,7 +126,7 @@ TEST (Intersection, Triangle_Triangle_2D_Easy_Cases)
 TEST (Intersection, Triangle_Triangle_2D_R1)
 {
     Triangle tr{Point_3D{0.0, 1.0}, Point_3D{0.0, 0.0}, Point_3D{1.0, 0.0}};
-    
+
     Point_3D P_1{1.0, 1.0}; // belongs to R1
 
     // Q1 belongs to R11
@@ -220,7 +220,7 @@ TEST (Intersection, Triangle_Triangle_2D_R1)
 TEST (Intersection, Triangle_Triangle_2D_R21)
 {
     Triangle tr{Point_3D{0.0, 1.0}, Point_3D{0.0, 0.0}, Point_3D{1.0, 0.0}};
-    
+
     Point_3D P_1{2.0, -0.5}; // belongs to R2
     Point_3D Q_1{2.0, -0.25}; // belongs to R21
 
@@ -359,15 +359,15 @@ TEST (Intersection, Triangle_Triangle_2D_R21)
 TEST (Intersection, Triangle_Triangle_2D_R22_or_R25)
 {
     Triangle tr{Point_3D{0.0, 1.0}, Point_3D{0.0, 0.0}, Point_3D{1.0, 0.0}};
-    
+
     Point_3D P_1{2.5, -1.0}; // belongs to R2
 
     Point_3D Q_11{0.0, -1.0}; // belongs to R22
     // location of R1 doesn't matter as far as points of T1 are counterclockwise oriented
-    Triangle tr_1{P_1, Q_11, Point_3D{0.0, -2.0}}; 
+    Triangle tr_1{P_1, Q_11, Point_3D{0.0, -2.0}};
     EXPECT_FALSE (yLab::geometry::are_intersecting (tr_1, tr));
     EXPECT_FALSE (yLab::geometry::are_intersecting (tr, tr_1));
-    
+
     // magic_product (tr_1.P(), tr_2.Q(), tr_1.Q()) == Loc_2D::Negative
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
     Point_3D Q_12{1.0, -0.25}; // belongs to R25
@@ -377,13 +377,13 @@ TEST (Intersection, Triangle_Triangle_2D_R22_or_R25)
     Triangle tr_2{P_1, Q_12, Point_3D{-0.25, 0.25}};
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr_2, tr));
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_2));
-    
+
     // magic_product (tr_2.Q(), tr_2.R(), tr_1.R()) == Loc_2D::Positive &&
     // magic_product (tr_2.Q(), tr_1.Q(), tr_1.R()) == Loc_2D::Neutral
     Triangle tr_3{P_1, Q_12, Point_3D{-1.0, 0.25}};
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr_3, tr));
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_3));
-    
+
     // magic_product (tr_2.Q(), tr_2.R(), tr_1.R()) == Loc_2D::Neutral &&
     // magic_product (tr_2.Q(), tr_1.Q(), tr_1.R()) == Loc_2D::Positive
     Triangle tr_4{P_1, Q_12, Point_3D{0.25, 0.0}};
@@ -413,7 +413,7 @@ TEST (Intersection, Triangle_Triangle_2D_R22_or_R25)
     Triangle tr_8{P_1, Q_12, Point_3D{0.5, -0.0625}};
     EXPECT_FALSE (yLab::geometry::are_intersecting (tr_8, tr));
     EXPECT_FALSE (yLab::geometry::are_intersecting (tr, tr_8));
-    
+
     // magic_product (tr_2.Q(), tr_2.R(), tr_1.R()) == Loc_2D::Neutral &&
     // magic_product (tr_2.Q(), tr_1.Q(), tr_1.R()) == Loc_2D::Negative
     Triangle tr_9{P_1, Q_12, Point_3D{-1.0, 0.0}};
@@ -431,7 +431,7 @@ TEST (Intersection, Triangle_Triangle_2D_R22_or_R25)
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
     Point_3D Q_13{0.625, -0.25}; // belongs to the boundary of R25
     // location of R1 doesn't matter as far as points of T1 are counterclockwise oriented
-    Triangle tr_11{P_1, Q_13, Point_3D{0.0, -2.0}}; 
+    Triangle tr_11{P_1, Q_13, Point_3D{0.0, -2.0}};
     EXPECT_FALSE (yLab::geometry::are_intersecting (tr_11, tr));
     EXPECT_FALSE (yLab::geometry::are_intersecting (tr, tr_11));
 }
@@ -439,7 +439,7 @@ TEST (Intersection, Triangle_Triangle_2D_R22_or_R25)
 TEST (Intersection, Triangle_Triangle_2D_R24)
 {
     Triangle tr{Point_3D{0.0, 1.0}, Point_3D{0.0, 0.0}, Point_3D{1.0, 0.0}};
-    
+
     Point_3D P_1{2.25, -0.25}; // belongs to R2
     Point_3D Q_1{-1.0, 1.75}; // belongs to R24
 
@@ -501,8 +501,8 @@ TEST (Intersection, Triangle_Triangle_2D_R24)
 TEST (Intersection, Triangle_Triangle_2D_R22_or_R23)
 {
     Triangle tr{Point_3D{0.0, 1.0}, Point_3D{0.0, 0.0}, Point_3D{1.0, 0.0}};
-    
-    Point_3D P_1{2.0, -0.5}; // belongs to R2   
+
+    Point_3D P_1{2.0, -0.5}; // belongs to R2
     Point_3D Q_11{-1.0, 1.0}; // belongs to R23
     Point_3D Q_12{-2.0, 0.25}; // belongs to R22
     // location of R_1 doesn't matter as far as points of T1 are counterclockwise oriented

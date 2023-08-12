@@ -14,11 +14,11 @@ template<typename T>
 bool are_intersecting (const Segment<Point_3D<T>> &seg_1, const Segment<Point_3D<T>> &seg_2)
 {
     using detail::magic_product;
-    
+
     Vector P1_Q1{seg_1.P(), seg_1.Q()};
     Vector P2_Q2{seg_2.P(), seg_2.Q()};
     Vector P1_Q2{seg_1.P(), seg_2.Q()};
-    
+
     if (!are_coplanar (P1_Q1, P2_Q2, P1_Q2))
         return false;
     else if (are_collinear (P1_Q1, P2_Q2))
@@ -26,7 +26,7 @@ bool are_intersecting (const Segment<Point_3D<T>> &seg_1, const Segment<Point_3D
         if (are_collinear (P1_Q1, P1_Q2))
         {
             Vector P2_Q1{seg_2.P(), seg_1.Q()};
-            
+
             if (are_codirectional (P1_Q1, P2_Q2))
                 return are_codirectional (P1_Q2, P2_Q1);
             else

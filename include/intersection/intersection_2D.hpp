@@ -19,7 +19,7 @@ namespace detail
 // Segment-triangle intersection
 
 template<typename T>
-bool test_intersection_R1 (const Segment<Point_2D<T>> &seg, 
+bool test_intersection_R1 (const Segment<Point_2D<T>> &seg,
                            const Triangle<Point_2D<T>> &tr)
 {
     if (magic_product (tr.R(), tr.P(), seg.Q()) == Loc_2D::Negative)
@@ -46,7 +46,7 @@ bool test_intersection_R2 (const Segment<Point_2D<T>> &seg,
 // Triangle-triangle intersection
 
 template<typename T>
-bool test_intersection_R1 (const Triangle<Point_2D<T>> &tr_1, 
+bool test_intersection_R1 (const Triangle<Point_2D<T>> &tr_1,
                            const Triangle<Point_2D<T>> &tr_2)
 {
     if (magic_product (tr_2.R(), tr_2.P(), tr_1.Q()) == Loc_2D::Negative) // Q1 belongs to R11
@@ -65,7 +65,7 @@ bool test_intersection_R1 (const Triangle<Point_2D<T>> &tr_1,
             return true;
         else // Q1 belongs to R14
             return (magic_product (tr_1.P(), tr_2.P(), tr_1.R()) != Loc_2D::Negative &&
-                    magic_product (tr_1.Q(), tr_2.P(), tr_1.R()) != Loc_2D::Positive);      
+                    magic_product (tr_1.Q(), tr_2.P(), tr_1.R()) != Loc_2D::Positive);
     }
 }
 
@@ -75,7 +75,7 @@ bool test_intersection_R2 (const Triangle<Point_2D<T>> &tr_1,
 {
     if (magic_product (tr_2.R(), tr_2.P(), tr_1.Q()) == Loc_2D::Negative) // Q1 in R21
     {
-        if (magic_product (tr_2.R(), tr_2.P(), tr_1.R()) == Loc_2D::Negative) // R1 in R21 
+        if (magic_product (tr_2.R(), tr_2.P(), tr_1.R()) == Loc_2D::Negative) // R1 in R21
             return false;
         else if (magic_product (tr_2.R(), tr_1.Q(), tr_1.R()) != Loc_2D::Negative)
             return magic_product (tr_1.P(), tr_2.P(), tr_1.R()) != Loc_2D::Negative;

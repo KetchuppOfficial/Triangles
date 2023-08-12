@@ -41,7 +41,7 @@ function generate_test
     local world_halfwidth=$2
     local min_bb_halfwidth=$3
     local max_bb_halfwidth=$4
-    
+
     mkdir -p ${data}
 
     echo "Generating test..."

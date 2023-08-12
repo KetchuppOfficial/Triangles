@@ -8,7 +8,7 @@ TEST (Segments, Swap_Points)
 {
     Point_3D P{1.0, 0.0, 0.0};
     Point_3D Q{0.0, 1.0, 0.0};
-    
+
     Segment seg{P, Q};
     seg.swap_points();
 

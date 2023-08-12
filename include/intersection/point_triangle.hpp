@@ -34,7 +34,7 @@ inline constexpr Pt_Wrt_Tr deduce_pt_location (Loc_2D loc_1, Loc_2D loc_2, Loc_2
     else
     {
         auto mult = static_cast<int>(loc_1) * static_cast<int>(loc_2) * static_cast<int>(loc_3);
-        
+
         if (mult < 0)
             return Pt_Wrt_Tr::In_R1;
         else if (mult > 0)
@@ -57,11 +57,11 @@ inline constexpr Pt_Wrt_Tr deduce_pt_location (Loc_2D loc_1, Loc_2D loc_2, Loc_2
 
 template<typename T>
 bool are_intersecting (const Point_3D<T> &pt, const Triangle<Point_3D<T>> &tr)
-{    
+{
     using detail::Loc_3D;
     using detail::Pt_Wrt_Tr;
     using detail::magic_product;
-    
+
     auto pt_loc = magic_product (tr.P(), tr.Q(), tr.R(), pt);
 
     if (pt_loc == Loc_3D::On)
@@ -73,7 +73,7 @@ bool are_intersecting (const Point_3D<T> &pt, const Triangle<Point_3D<T>> &tr)
         auto pt_wrt_RP = magic_product (tr_2d.R(), tr_2d.P(), pt_2d);
 
         auto pt_loc = detail::deduce_pt_location (pt_wrt_PQ, pt_wrt_QR, pt_wrt_RP);
-        
+
         return (pt_loc != Pt_Wrt_Tr::In_R1 && pt_loc != Pt_Wrt_Tr::In_R2);
     }
     else

@@ -34,8 +34,8 @@ public:
     using shape_type = U;
     using node_type = typename Octree<distance_type, shape_type>::node_type;
 
-private: 
-    
+private:
+
     Octree<distance_type> octree_;
     std::vector<node_type *> ancestor_stack_;
     std::set<std::size_t> indexes_; // unique sorted indexes are contained
@@ -78,7 +78,7 @@ private:
                     {
                         indexes_.emplace(shape_1.index());
                         indexes_.emplace(shape_2.index());
-                    }    
+                    }
                 }
             }
         }

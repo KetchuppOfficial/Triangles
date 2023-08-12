@@ -34,7 +34,7 @@ public:
 
     AABB (const point_type &pt_1, const point_type &pt_2)
          : center_{(pt_1.x() + pt_2.x()) * distance_type{0.5},
-                   (pt_1.y() + pt_2.y()) * distance_type{0.5}, 
+                   (pt_1.y() + pt_2.y()) * distance_type{0.5},
                    (pt_1.z() + pt_2.z()) * distance_type{0.5}},
            halfwidth_{std::abs (pt_1.x() - pt_2.x()) * distance_type{0.5},
                       std::abs (pt_1.y() - pt_2.y()) * distance_type{0.5},
@@ -63,14 +63,14 @@ private:
     static constexpr auto cmp_x_ = [](const point_type &P, const point_type &Q){ return cmp::less (P.x(), Q.x()); };
     static constexpr auto cmp_y_ = [](const point_type &P, const point_type &Q){ return cmp::less (P.y(), Q.y()); };
     static constexpr auto cmp_z_ = [](const point_type &P, const point_type &Q){ return cmp::less (P.z(), Q.z()); };
-};  
+};
 
 template<typename T>
 bool are_overlapping (const AABB<T> &first, const AABB<T> &second)
 {
     auto &center_1 = first.center();
     auto &center_2 = second.center();
-    
+
     if (cmp::greater (std::abs (center_1.x() - center_2.x()), (first.halfwidth_x() + second.halfwidth_x())) ||
         cmp::greater (std::abs (center_1.y() - center_2.y()), (first.halfwidth_y() + second.halfwidth_y())) ||
         cmp::greater (std::abs (center_1.z() - center_2.z()), (first.halfwidth_z() + second.halfwidth_z())))

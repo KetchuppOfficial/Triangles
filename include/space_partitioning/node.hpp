@@ -25,7 +25,7 @@ public:
     using vector_type = Vector<distance_type>;
     using shape_type = U;
     using point_type = typename Primitive_Traits<distance_type>::point_type;
-    
+
 private:
 
     std::array<Octree_Node *, 8> children_{};
@@ -74,7 +74,7 @@ void insert_shape (Octree_Node<T> *root, const typename Octree_Node<T>::shape_ty
             within_range = true;
             break;
         }
-        
+
         if (cmp::greater (delta, T{}))
             index |= (1 << i);
     }

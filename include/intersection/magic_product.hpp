@@ -29,7 +29,7 @@ template<typename T>
 Loc_2D magic_product (const Point_2D<T> &P, const Point_2D<T> &Q, const Point_2D<T> &M)
 {
     auto product = (P.x() - M.x()) * (Q.y() - M.y()) - (P.y() - M.y()) * (Q.x() - M.x());
-    
+
     if (cmp::is_zero (product))
         return Loc_2D::Neutral;
     else if (cmp::greater (product, T{}))
@@ -49,13 +49,13 @@ enum class Loc_3D
  * Let P, Q, R (in this very order) and M be points in R^3.
  *
  * Then magic_product(P, Q, R, M) is prcisely the sign of
- * triple product (v_PM, v_QM, v_RM), where 
- * v_PM is a vector with initial point P and terminal point M, 
+ * triple product (v_PM, v_QM, v_RM), where
+ * v_PM is a vector with initial point P and terminal point M,
  * v_QM is a vector with initial point Q and terminal point M,
  * v_RM is a vector with initial point R and terminal point M.
  */
 template<typename T>
-Loc_3D magic_product (const Point_3D<T> &P, const Point_3D<T> &Q, 
+Loc_3D magic_product (const Point_3D<T> &P, const Point_3D<T> &Q,
                       const Point_3D<T> &R, const Point_3D<T> &M)
 {
     auto elem_21 = M.x() - Q.x();

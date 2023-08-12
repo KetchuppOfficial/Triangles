@@ -29,7 +29,7 @@ std::tuple<Loc_3D, Loc_3D, Loc_3D> compute_relative_location (const Triangle<Poi
 
 // P2_loc doesn't change; Q2_loc and R2_loc don't change or they are swapped
 template<typename T>
-auto transform_triangles (Triangle<Point_3D<T>> &tr_1, Loc_3D P1_loc, Loc_3D Q1_loc, Loc_3D R1_loc, 
+auto transform_triangles (Triangle<Point_3D<T>> &tr_1, Loc_3D P1_loc, Loc_3D Q1_loc, Loc_3D R1_loc,
                           Triangle<Point_3D<T>> &tr_2)
 {
     switch (P1_loc)
@@ -91,7 +91,7 @@ auto transform_triangles (Triangle<Point_3D<T>> &tr_1, Loc_3D P1_loc, Loc_3D Q1_
 template<typename T>
 bool are_intersecting_3D (Triangle<Point_3D<T>> tr_1, Triangle<Point_3D<T>> tr_2,
                           Loc_3D P1_loc, Loc_3D Q1_loc, Loc_3D R1_loc)
-{   
+{
     auto [P2_loc, Q2_loc, R2_loc] = detail::compute_relative_location (tr_2, tr_1);
 
     if (P2_loc == Q2_loc && Q2_loc == R2_loc)
@@ -109,7 +109,7 @@ bool are_intersecting_3D (Triangle<Point_3D<T>> tr_1, Triangle<Point_3D<T>> tr_2
         if (P1_loc == Loc_3D::On && P2_loc == Loc_3D::On)
             return (tr_1.P() == tr_2.P());
         else
-        {   
+        {
             auto KJ_mut_pos = magic_product (tr_1.P(), tr_1.Q(), tr_2.P(), tr_2.Q());
             auto LI_mut_pos = magic_product (tr_1.P(), tr_1.R(), tr_2.P(), tr_2.R());
 
@@ -122,11 +122,11 @@ bool are_intersecting_3D (Triangle<Point_3D<T>> tr_1, Triangle<Point_3D<T>> tr_2
 
 template<typename T>
 bool are_intersecting (const Triangle<Point_3D<T>> &tr_1, const Triangle<Point_3D<T>> &tr_2)
-{    
+{
     using detail::Loc_2D;
     using detail::Loc_3D;
     using detail::magic_product;
-    
+
     auto [P1_loc, Q1_loc, R1_loc] = detail::compute_relative_location (tr_1, tr_2);
 
     if (P1_loc == Q1_loc && Q1_loc == R1_loc)
@@ -137,10 +137,10 @@ bool are_intersecting (const Triangle<Point_3D<T>> &tr_1, const Triangle<Point_3
 
             if (magic_product (tr_1_2d.P(), tr_1_2d.Q(), tr_1_2d.R()) != Loc_2D::Positive)
                 tr_1_2d.swap_QR();
-            
+
             if (magic_product (tr_2_2d.P(), tr_2_2d.Q(), tr_2_2d.R()) != Loc_2D::Positive)
                 tr_2_2d.swap_QR ();
-            
+
             return detail::are_intersecting_2D (tr_1_2d, tr_2_2d);
         }
         else

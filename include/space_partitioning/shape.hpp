@@ -57,17 +57,17 @@ public:
 
     using distance_type = T;
     using index_type = std::size_t;
-    
+
 private:
 
     index_type index_;
 
 public:
-    
+
     template<typename U>
     Indexed_Shape (const U &primitive, index_type index)
                   : Shape<distance_type>{primitive}, index_{index} {}
- 
+
     index_type index () const noexcept { return index_; }
 };
 

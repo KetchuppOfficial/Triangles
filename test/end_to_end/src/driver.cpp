@@ -27,7 +27,7 @@ std::vector<point_type> construct_points ()
     auto cin_end  = std::istream_iterator<float>{};
     auto n_points = static_cast<std::size_t>(*cin_iter) * 3;
     cin_iter++;
-    
+
     std::vector<point_type> points;
     points.reserve (n_points);
 
@@ -36,7 +36,7 @@ std::vector<point_type> construct_points ()
         auto x = *cin_iter++;
         auto y = *cin_iter++;
         auto z = *cin_iter++;
-        
+
         points.emplace_back (x, y, z);
     }
 
@@ -51,7 +51,7 @@ segment_type assemble_segment (const point_type &P, const point_type &Q, const p
     if (are_oppositely_directed (PR, QR))
         return segment_type{P, Q};
     else if (PR.norm() > QR.norm())
-        return segment_type{P, R};   
+        return segment_type{P, R};
     else
         return segment_type{Q, R};
 }
@@ -68,7 +68,7 @@ std::vector<shape_type> construct_shapes (it first, it last)
         auto &P = *first++;
         auto &Q = *first++;
         auto &R = *first++;
-        
+
         try
         {
             triangle_type tr{P, Q, R};

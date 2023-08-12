@@ -21,7 +21,7 @@ args cmd_line_args (int argc, char *argv[])
 {
     if (argc != 5)
         throw std::runtime_error{"Program requires exactly 4 arguments"};
-    
+
     auto n_shapes = std::atoi (argv[1]);
     if (n_shapes < 0)
         throw std::runtime_error{"The number of shapes has to be a positive integer"};
@@ -49,7 +49,7 @@ std::vector<point> generate_points (std::size_t n_shapes, distance_type world_si
                                                           distance_type max_shape_size)
 {
     using distribution = std::uniform_real_distribution<distance_type>;
-    
+
     std::vector<point> points;
     points.reserve (n_shapes * 3);
 
@@ -70,7 +70,7 @@ std::vector<point> generate_points (std::size_t n_shapes, distance_type world_si
             axes[i] = distribution{center[i] - halfwidth_arr[i], center[i] + halfwidth_arr[i]};
 
         for (auto i = 0; i != 3; ++i)
-            points.emplace_back (axes[0](gen), axes[1](gen), axes[2](gen));      
+            points.emplace_back (axes[0](gen), axes[1](gen), axes[2](gen));
     }
 
     return points;
@@ -110,7 +110,7 @@ int main (int argc, char *argv[])
     auto [n_shapes, world_size, min_shape_size, max_shape_size] = cmd_line_args (argc, argv);
 
     auto points = generate_points (n_shapes, world_size, min_shape_size, max_shape_size);
-    
+
     dump_points (points.begin(), points.end());
 
     return 0;

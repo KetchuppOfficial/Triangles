@@ -21,12 +21,12 @@ struct Degenerate_Triangle : public std::runtime_error
 
 struct Triangle_Is_Point : public Degenerate_Triangle
 {
-    Triangle_Is_Point () : Degenerate_Triangle{"The triangle has degenerate into a point"} {} 
+    Triangle_Is_Point () : Degenerate_Triangle{"The triangle has degenerate into a point"} {}
 };
 
 struct Triangle_Is_Segment : public Degenerate_Triangle
 {
-    Triangle_Is_Segment () : Degenerate_Triangle{"The triangle has degenerate into a segment"} {} 
+    Triangle_Is_Segment () : Degenerate_Triangle{"The triangle has degenerate into a segment"} {}
 };
 
 template<typename T> class Triangle final
@@ -39,7 +39,7 @@ public:
     using const_iterator = const point_type *;
 
 private:
-    
+
     point_type points_[3];
 
 public:
@@ -96,7 +96,7 @@ private:
     {
         Vector PQ{P(), Q()};
         Vector PR{P(), R()};
-        
+
         return are_collinear (PQ, PR);
     }
 };
@@ -104,7 +104,7 @@ private:
 template<typename T>
 bool operator== (const Triangle<T> &lhs, const Triangle<T> &rhs)
 {
-    return (lhs.P() == rhs.P() && lhs.Q() == rhs.Q() && lhs.R() == rhs.R());  
+    return (lhs.P() == rhs.P() && lhs.Q() == rhs.Q() && lhs.R() == rhs.R());
 }
 
 template<typename T>

@@ -22,7 +22,7 @@ public:
     using distance_type = T;
 
 private:
-    
+
     distance_type coordinates_[2];
 
 public:
