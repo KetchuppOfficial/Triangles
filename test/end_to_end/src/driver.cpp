@@ -26,7 +26,7 @@ std::vector<point_type> construct_points ()
     auto cin_iter = std::istream_iterator<float>{std::cin};
     auto cin_end  = std::istream_iterator<float>{};
     auto n_points = static_cast<std::size_t>(*cin_iter) * 3;
-    cin_iter++;
+    ++cin_iter;
 
     std::vector<point_type> points;
     points.reserve (n_points);
