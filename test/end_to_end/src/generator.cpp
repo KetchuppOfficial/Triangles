@@ -41,7 +41,7 @@ args cmd_line_args (int argc, char *argv[])
     if (yLab::cmp::greater_equal (min_shape_size, max_shape_size))
         throw std::runtime_error{"The minimal size of a shape has to be not greater than the maximal one"};
 
-    return std::make_tuple (n_shapes, world_size, min_shape_size, max_shape_size);
+    return std::tuple{n_shapes, world_size, min_shape_size, max_shape_size};
 }
 
 std::vector<point> generate_points (std::size_t n_shapes, distance_type world_size,

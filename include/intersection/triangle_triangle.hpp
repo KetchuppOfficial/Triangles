@@ -24,7 +24,7 @@ std::tuple<Loc_3D, Loc_3D, Loc_3D> compute_relative_location (const Triangle<Poi
     auto Q1_loc = magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.Q());
     auto R1_loc = magic_product (tr_2.P(), tr_2.Q(), tr_2.R(), tr_1.R());
 
-    return std::make_tuple (P1_loc, Q1_loc, R1_loc);
+    return std::tuple{P1_loc, Q1_loc, R1_loc};
 }
 
 // P2_loc doesn't change; Q2_loc and R2_loc don't change or they are swapped
