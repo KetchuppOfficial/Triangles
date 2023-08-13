@@ -17,7 +17,7 @@ bool are_intersecting (const Point_3D<T> &pt, const Segment<Point_3D<T>> &seg)
     if (are_collinear (PQ, PM))
     {
         Vector QM{seg.Q(), pt};
-        return are_oppositely_directed (PM, QM);
+        return are_antiparallel (PM, QM);
     }
     else
         return false;

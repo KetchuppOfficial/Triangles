@@ -48,7 +48,7 @@ segment_type assemble_segment (const point_type &P, const point_type &Q, const p
     vector PR{P, R};
     vector QR{Q, R};
 
-    if (are_oppositely_directed (PR, QR))
+    if (are_antiparallel (PR, QR))
         return segment_type{P, Q};
     else if (PR.norm() > QR.norm())
         return segment_type{P, R};

@@ -163,14 +163,14 @@ bool are_collinear (const Vector<T> &first, const Vector<T> &second)
 }
 
 template<typename T>
-bool are_codirectional (const Vector<T> &first, const Vector<T> &second)
+bool are_parallel (const Vector<T> &first, const Vector<T> &second)
 {
     auto sp = scalar_product (first, second);
     return cmp::are_equal (sp, first.module() * second.module());
 }
 
 template<typename T>
-bool are_oppositely_directed (const Vector<T> &first, const Vector<T> &second)
+bool are_antiparallel (const Vector<T> &first, const Vector<T> &second)
 {
     auto sp = scalar_product (first, second);
     return cmp::are_equal (-sp, first.module() * second.module());

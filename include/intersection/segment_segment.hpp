@@ -27,10 +27,10 @@ bool are_intersecting (const Segment<Point_3D<T>> &seg_1, const Segment<Point_3D
         {
             Vector P2_Q1{seg_2.P(), seg_1.Q()};
 
-            if (are_codirectional (P1_Q1, P2_Q2))
-                return are_codirectional (P1_Q2, P2_Q1);
+            if (are_parallel (P1_Q1, P2_Q2))
+                return are_parallel (P1_Q2, P2_Q1);
             else
-                return are_oppositely_directed (P1_Q2, P2_Q1);
+                return are_antiparallel (P1_Q2, P2_Q1);
         }
         else
             return false;
