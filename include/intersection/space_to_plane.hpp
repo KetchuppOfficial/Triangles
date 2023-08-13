@@ -1,5 +1,5 @@
-#ifndef INCLUDE_INTERSECION_SPACE_TO_PLANE_HPP
-#define INCLUDE_INTERSECION_SPACE_TO_PLANE_HPP
+#ifndef INCLUDE_INTERSECTION_SPACE_TO_PLANE_HPP
+#define INCLUDE_INTERSECTION_SPACE_TO_PLANE_HPP
 
 #include <utility>
 #include <algorithm>
@@ -180,4 +180,4 @@ auto space_transformation (const Triangle<Point_3D<T>> &tr_1, const Triangle<Poi
 
 } // namespace yLab::geometry
 
-#endif // INCLUDE_INTERSECION_SPACE_TO_PLANE_HPP
+#endif // INCLUDE_INTERSECTION_SPACE_TO_PLANE_HPP

@@ -20,7 +20,7 @@ struct Degenerate_Segment : public std::runtime_error
 
 struct Segment_Is_Point : public Degenerate_Segment
 {
-    Segment_Is_Point () : Degenerate_Segment{"The segment has degenerate into a point"} {} 
+    Segment_Is_Point () : Degenerate_Segment{"The segment has degenerate into a point"} {}
 };
 
 template<typename T>

@@ -134,7 +134,7 @@ TEST (Transform_Triangle, P_Above__Q_Below__R_On)
     COMMON_PART;
 }
 
-TEST (Transform_Triagle, P_Above__Q_Below__R_Below)
+TEST (Transform_Triangle, P_Above__Q_Below__R_Below)
 {
     Triangle tr_1 {Point_3D{  4.0,  14.0,  13.0},
                    Point_3D{ 71.0, -35.0, -15.0},
@@ -265,7 +265,7 @@ TEST (Transform_Triangle, P_On__Q_Below__R_On)
     COMMON_PART;
 }
 
-TEST (Transform_Triagle, P_On__Q_Below__R_Below)
+TEST (Transform_Triangle, P_On__Q_Below__R_Below)
 {
     Triangle tr_1 {Point_3D{24.0, -53.0,   0.0},
                    Point_3D{10.0,  35.0, -23.0},

@@ -51,7 +51,7 @@ bool test_intersection_R1 (const Triangle<Point_2D<T>> &tr_1,
 {
     if (magic_product (tr_2.R(), tr_2.P(), tr_1.Q()) == Loc_2D::Negative) // Q1 belongs to R11
     {
-        if (magic_product (tr_2.R(), tr_2.P(), tr_1.R()) == Loc_2D::Negative) // R1 belogs to R11
+        if (magic_product (tr_2.R(), tr_2.P(), tr_1.R()) == Loc_2D::Negative) // R1 belongs to R11
             return false;
         else
             return (magic_product (tr_1.Q(), tr_2.R(), tr_1.R()) != Loc_2D::Positive &&

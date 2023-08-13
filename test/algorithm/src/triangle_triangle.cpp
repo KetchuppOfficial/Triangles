@@ -35,17 +35,17 @@ TEST (Intersection, Triangle_Triangle_3D)
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_5));
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr_5, tr));
 
-    // R1 coinsides with R2 (Q1R1 intersects with Q2R2 by a point)
+    // R1 coincides with R2 (Q1R1 intersects with Q2R2 by a point)
     Triangle tr_6{Point_3D{0.0, 1.0, 0.0}, Point_3D{0.0, 2.0, 0.0}, Point_3D{0.0, 1.0, 1.0}};
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_6));
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr_6, tr));
 
-    // Q1 coinsides with Q2 (Q1R1 intersects with Q2R2 by a point)
+    // Q1 coincides with Q2 (Q1R1 intersects with Q2R2 by a point)
     Triangle tr_7{Point_3D{0.0, -1.0, 0.0}, Point_3D{0.0, 0.0, 0.0}, Point_3D{0.0, -1.0, 1.0}};
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_7));
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr_7, tr));
 
-    // P1 coinsides with P2
+    // P1 coincides with P2
     Triangle tr_8{Point_3D{1.0, 0.0, -1.0}, Point_3D{1.0, 1.0, -1.0}, Point_3D{1.0, 0.0, 0.0}};
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_8));
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr_8, tr));
@@ -107,7 +107,7 @@ TEST (Intersection, Triangle_Triangle_2D_Easy_Cases)
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_4));
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-    // P1 conincides with a vertex of T2
+    // P1 coincides with a vertex of T2
     // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
     Triangle tr_5{Point_3D{0.0, 1.0}, Point_3D{1.0, 1.0}, Point_3D{0.0, 2.0}};
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr_5, tr));
@@ -148,7 +148,7 @@ TEST (Intersection, Triangle_Triangle_2D_R1)
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr_3, tr));
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_3));
 
-    // R1 is somewhere outside T2 but the interseciton takes place
+    // R1 is somewhere outside T2 but the intersection takes place
     Triangle tr_4{P_1, Q_11, Point_3D{-0.5, 0.5}};
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr_4, tr));
     EXPECT_TRUE (yLab::geometry::are_intersecting (tr, tr_4));

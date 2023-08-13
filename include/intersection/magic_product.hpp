@@ -48,7 +48,7 @@ enum class Loc_3D
 /*
  * Let P, Q, R (in this very order) and M be points in R^3.
  *
- * Then magic_product(P, Q, R, M) is prcisely the sign of
+ * Then magic_product(P, Q, R, M) is precisely the sign of
  * triple product (v_PM, v_QM, v_RM), where
  * v_PM is a vector with initial point P and terminal point M,
  * v_QM is a vector with initial point Q and terminal point M,
