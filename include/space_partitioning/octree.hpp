@@ -5,9 +5,10 @@
 #include <cmath>
 #include <stdexcept>
 #include <iterator>
-#include <utility>
 #include <tuple>
 #include <iostream>
+#include <array>
+#include <memory>
 
 #include "shape.hpp"
 #include "node.hpp"
@@ -26,7 +27,7 @@ namespace detail
 
 inline std::size_t pseudo_optimal_height (std::size_t n_shapes)
 {
-    return std::max (std::size_t(1), static_cast<std::size_t>(std::log10 (1 + n_shapes)));
+    return std::max (std::size_t{1}, static_cast<std::size_t>(std::log10 (1 + n_shapes)));
 }
 
 template<std::input_iterator it>
@@ -129,7 +130,7 @@ public:
     }
 
     template<std::input_iterator it>
-    requires std::same_as<std::iter_value_t<it>, shape_type>
+    requires std::same_as<shape_type, typename std::iterator_traits<it>::value_type>
     void insert (it first, it last)
     {
         for (; first != last; ++first)

@@ -5,6 +5,7 @@
 #include <type_traits>
 #include <iterator>
 #include <algorithm>
+#include <concepts>
 
 #include "point.hpp"
 
@@ -41,7 +42,7 @@ public:
                       std::abs (pt_1.z() - pt_2.z()) * distance_type{0.5}} {}
 
     template<std::input_iterator it>
-    requires std::same_as<std::iter_value_t<it>, point_type>
+    requires std::same_as<point_type, typename std::iterator_traits<it>::value_type>
     AABB (it first, it last) : AABB{point_type{std::min_element (first, last, cmp_x_)->x(),
                                                std::min_element (first, last, cmp_y_)->y(),
                                                std::min_element (first, last, cmp_z_)->z()},

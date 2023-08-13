@@ -4,7 +4,6 @@
 #include <cmath>
 #include <array>
 #include <vector>
-#include <algorithm>
 
 #include "vector"
 #include "shape.hpp"

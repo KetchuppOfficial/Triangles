@@ -1,7 +1,6 @@
 #ifndef INCLUDE_INTERSECTION_3D_HPP
 #define INCLUDE_INTERSECTION_3D_HPP
 
-#include <utility>
 #include <tuple>
 
 #include "triangle.hpp"

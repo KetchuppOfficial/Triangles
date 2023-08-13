@@ -4,6 +4,7 @@
 #include <utility>
 #include <ostream>
 #include <stdexcept>
+#include <memory>
 
 #include "point.hpp"
 

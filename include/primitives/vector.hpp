@@ -2,6 +2,7 @@
 #define INCLUDE_PRIMITIVES_VECTOR_HPP
 
 #include <cmath>
+#include <type_traits>
 #include <ostream>
 
 #include "double_comparison.hpp"

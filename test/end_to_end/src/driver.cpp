@@ -1,6 +1,5 @@
 #include <iostream>
 #include <iterator>
-#include <variant>
 #include <vector>
 #include <chrono>
 #include <fstream>

@@ -1,9 +1,10 @@
 #ifndef INCLUDE_PRIMITIVES_TRIANGLE_HPP
 #define INCLUDE_PRIMITIVES_TRIANGLE_HPP
 
-#include <algorithm>
+#include <utility>
 #include <ostream>
 #include <stdexcept>
+#include <memory>
 
 #include "point.hpp"
 #include "vector.hpp"

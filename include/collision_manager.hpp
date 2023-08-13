@@ -4,10 +4,8 @@
 #include <iostream>
 #include <vector>
 #include <iterator>
-#include <array>
-#include <algorithm>
-#include <utility>
 #include <set>
+#include <memory>
 
 #include "point_point.hpp"
 #include "point_segment.hpp"

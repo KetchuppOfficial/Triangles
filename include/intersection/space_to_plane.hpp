@@ -2,8 +2,8 @@
 #define INCLUDE_INTERSECTION_SPACE_TO_PLANE_HPP
 
 #include <utility>
-#include <algorithm>
 #include <stdexcept>
+#include <cmath>
 
 #include "point.hpp"
 #include "segment.hpp"
@@ -48,7 +48,7 @@ Point_2D<T> project_point (const Point_3D<T> &pt, Axes coordinate_to_set_zero)
             return Point_2D{pt.x(), pt.y()};
 
         default:
-            throw std::runtime_error ("Unexpected value of coordinate_to_set_zero");
+            throw std::runtime_error{"Unexpected value of coordinate_to_set_zero"};
     }
 }
 
@@ -77,7 +77,7 @@ Segment<Point_2D<T>> project_segment (const Segment<Point_3D<T>> &seg,
         }
 
         default:
-            throw std::runtime_error ("Unexpected value of coordinate_to_set_zero");
+            throw std::runtime_error{"Unexpected value of coordinate_to_set_zero"};
     }
 }
 
@@ -109,7 +109,7 @@ Triangle<Point_2D<T>> project_triangle (const Triangle<Point_3D<T>> &tr,
         }
 
         default:
-            throw std::runtime_error ("Unexpected value of coordinate_to_set_zero");
+            throw std::runtime_error{"Unexpected value of coordinate_to_set_zero"};
     }
 }
 
