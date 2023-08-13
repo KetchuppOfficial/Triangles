@@ -1,7 +1,7 @@
 #ifndef INCLUDE_INTERSECTION_INTERSECTION_2D_HPP
 #define INCLUDE_INTERSECTION_INTERSECTION_2D_HPP
 
-#include <exception>
+#include <stdexcept>
 
 #include "point.hpp"
 #include "segment.hpp"

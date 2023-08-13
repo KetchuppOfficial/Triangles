@@ -3,7 +3,7 @@
 
 #include <algorithm>
 #include <ostream>
-#include <exception>
+#include <stdexcept>
 
 #include "point.hpp"
 #include "vector.hpp"

@@ -1,7 +1,7 @@
 #include <random>
 #include <vector>
 #include <cstdlib>
-#include <exception>
+#include <stdexcept>
 #include <iostream>
 #include <iterator>
 #include <array>

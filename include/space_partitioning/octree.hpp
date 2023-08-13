@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <cmath>
-#include <exception>
+#include <stdexcept>
 #include <iterator>
 #include <utility>
 #include <tuple>
