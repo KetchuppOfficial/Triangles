@@ -3,7 +3,7 @@
 
 #include <utility>
 #include <ostream>
-#include <exception>
+#include <stdexcept>
 
 #include "point.hpp"
 
