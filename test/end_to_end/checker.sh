@@ -1,10 +1,9 @@
 #!/bin/bash
 
-# argv[1]: space dimension ("2D" or "3D")
-# argv[2]: the number of triangles (counting degenerate cases)
-# argv[3]: the halfwidth of the world
-# argv[4]: the minimal halfwidth of any bounding box
-# argv[5]: the maximal halfwidht of any bounding box
+# argv[1]: the number of triangles (counting degenerate cases)
+# argv[2]: the halfwidth of the world
+# argv[3]: the minimal halfwidth of any bounding box
+# argv[4]: the maximal halfwidht of any bounding box
 
 green="\033[1;32m"
 red="\033[1;31m"
@@ -92,7 +91,7 @@ else
 
         build_from_sources
         generate_test $n_shapes $world_halfwidth $min_bb_halfwidth $max_bb_halfwidth
-        generate_answer $n_shapes
+        # generate_answer $n_shapes
         run_test $n_shapes
     fi
 fi
