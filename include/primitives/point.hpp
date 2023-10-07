@@ -36,7 +36,7 @@ public:
     distance_type operator[] (int i) const { return coordinates_[i]; }
     distance_type &operator[] (int i) { return coordinates_[i]; }
 
-    bool is_valid () const { return (x() == x() && y() == y()); }
+    bool is_valid () const { return !std::isnan(x()) && !std::isnan(y()); }
 };
 
 template<typename T>
@@ -96,7 +96,7 @@ public:
     distance_type operator[] (int i) const { return coordinates_[i]; }
     distance_type &operator[] (int i) { return coordinates_[i]; }
 
-    bool is_valid () const { return (x() == x() && y() == y() && z() == z()); }
+    bool is_valid () const { return !std::isnan(x()) && !std::isnan(y()) && !std::isnan(z()); }
 };
 
 template<typename T>
