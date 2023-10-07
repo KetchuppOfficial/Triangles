@@ -78,7 +78,7 @@ void insert_shape (Octree_Node<T> *root, const typename Octree_Node<T>::shape_ty
             index |= (1 << i);
     }
 
-    if (within_range == false && root->child (index) != nullptr)
+    if (!within_range && root->child (index))
         insert_shape (root->child (index), shape);
     else
         root->add_shape (shape);
