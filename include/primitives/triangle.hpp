@@ -54,13 +54,13 @@ public:
     }
 
     const point_type &P () const { return points_[0]; }
-    point_type &P () { return const_cast<point_type &>(static_cast<const Triangle &>(*this).P()); }
+    point_type &P () { return points_[0]; }
 
     const point_type &Q () const { return points_[1]; }
-    point_type &Q () { return const_cast<point_type &>(static_cast<const Triangle &>(*this).Q()); }
+    point_type &Q () { return points_[1]; }
 
     const point_type &R () const { return points_[2]; }
-    point_type &R () { return const_cast<point_type &>(static_cast<const Triangle &>(*this).R()); }
+    point_type &R () { return points_[2]; }
 
     void swap_QR () { std::swap (Q(), R()); }
 
