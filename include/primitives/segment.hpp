@@ -46,10 +46,10 @@ public:
     }
 
     const point_type &P () const { return points_[0]; }
-    point_type &P () { return const_cast<point_type &>(static_cast<const Segment &>(*this).P()); }
+    point_type &P () { return points_[0]; }
 
     const point_type &Q () const { return points_[1]; }
-    point_type &Q () { return const_cast<point_type &>(static_cast<const Segment &>(*this).Q()); }
+    point_type &Q () { return points_[1]; }
 
     void swap_points () { std::swap (P(), Q()); }
 
