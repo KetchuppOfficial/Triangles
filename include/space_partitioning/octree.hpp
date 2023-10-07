@@ -43,7 +43,7 @@ auto calculate_octree_parameters (it first, it last)
     std::size_t n_shapes = 0;
     for (; first != last; ++first, ++n_shapes)
     {
-        auto &bounding_volume = (*first).bounding_volume();
+        auto &bounding_volume = first->bounding_volume();
         auto &center = bounding_volume.center();
 
         for (auto i = 0; i != 3; ++i)
