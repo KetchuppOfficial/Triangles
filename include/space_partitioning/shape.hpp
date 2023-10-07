@@ -48,6 +48,16 @@ public:
 
     const AABB<distance_type> &bounding_volume () const { return aabb_; }
     AABB<distance_type> &bounding_volume () { return aabb_; }
+
+    distance_type left_bound (unsigned coord) const
+    {
+        return aabb_.center()[coord] - aabb_.halfwidth (coord);
+    }
+
+    distance_type right_bound (unsigned coord) const
+    {
+        return aabb_.center()[coord] + aabb_.halfwidth (coord);
+    }
 };
 
 template<typename T>

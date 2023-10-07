@@ -91,7 +91,7 @@ else
 
         build_from_sources
         generate_test $n_shapes $world_halfwidth $min_bb_halfwidth $max_bb_halfwidth
-        # generate_answer $n_shapes
+        generate_answer $n_shapes
         run_test $n_shapes
     fi
 fi
