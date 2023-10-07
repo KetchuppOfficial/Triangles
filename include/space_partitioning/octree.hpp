@@ -59,7 +59,7 @@ auto calculate_octree_parameters (it first, it last)
         }
     }
 
-    auto less = [](distance_type &first, distance_type &second){ return cmp::less(first, second); };
+    auto less = [](distance_type first, distance_type second){ return cmp::less(first, second); };
 
     auto min_elem = std::min_element (min.begin(), min.end(), less);
     auto max_elem = std::max_element (max.begin(), max.end(), less);
